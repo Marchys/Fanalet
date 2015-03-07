@@ -1,0 +1,157 @@
+fileFormatVersion: 2
+guid: 2b1a336cd76dad948a2e304e13bab45e
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: IdleLeft_6
+    21300002: IdleLeft_0
+    21300004: IdleLeft_1
+    21300006: IdleLeft_2
+    21300008: IdleLeft_3
+    21300010: IdleLeft_4
+    21300012: IdleLeft_5
+    21300014: IdleLeft_7
+    21300016: IdleLeft_8
+    21300018: IdleLeft_9
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: IdleLeft_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 482
+        width: 166
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: IdleLeft_1
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 482
+        width: 166
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: IdleLeft_2
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 482
+        width: 166
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: IdleLeft_3
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 482
+        width: 166
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: IdleLeft_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 300
+        width: 166
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: IdleLeft_5
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 300
+        width: 166
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: IdleLeft_6
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 300
+        width: 166
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: IdleLeft_7
+      rect:
+        serializedVersion: 2
+        x: 498
+        y: 300
+        width: 166
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: IdleLeft_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 118
+        width: 166
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: IdleLeft_9
+      rect:
+        serializedVersion: 2
+        x: 166
+        y: 118
+        width: 166
+        height: 182
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
