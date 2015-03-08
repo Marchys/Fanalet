@@ -6,6 +6,8 @@
 public abstract class ActionE : MonoBehaviourEx
 {
     private Animator _eAnimator;
+    protected bool firstTimeActivation = true;
+    protected bool waitingForResponse = false;
     
     protected void Start()
     {

@@ -36,4 +36,4 @@ public class CanvasShow : MonoBehaviourEx, IHandle<UpdateGuiMessage>
     //    }
        
     //}
-  }
+}
