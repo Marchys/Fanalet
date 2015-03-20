@@ -6,12 +6,11 @@ public class DialogSystem : MonoBehaviourEx, IHandle<DialogueStartMessage>
 {
 
     private Text dialogueBox;
-    private string text;
     
     // Use this for initialization
 	void Start () {
         dialogueBox = transform.Find("dialogText").GetComponent<Text>();
-	    dialogueBox.text ="hello";
+	    dialogueBox.text ="";
 	}
 
     public void Handle(DialogueStartMessage message)
@@ -20,19 +19,19 @@ public class DialogSystem : MonoBehaviourEx, IHandle<DialogueStartMessage>
         {
             child.gameObject.SetActive(true);
         }
-        text = message.DialogText;
+        StartCoroutine(TypeText(message.DialogText));
     }
 
-    IEnumerator TypeText()
+    IEnumerator TypeText(string[]text)
     {
-        foreach (char letter in text.ToCharArray())
+        for (int i=0;i<text.Length;i++)
         {
-            if (letter != '|')
+            foreach (char letter in text[i].ToCharArray())
             {
                 dialogueBox.text += letter;
-            }else  yield break;
-
-            yield return new WaitForSeconds(0.000001f);
+                yield return new WaitForSeconds(0.00001f);
+            }
         }
+       
     }
 }
