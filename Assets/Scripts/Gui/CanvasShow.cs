@@ -4,8 +4,9 @@ using UnityEngine.UI;
 
 public class CanvasShow : MonoBehaviourEx, IHandle<UpdateGuiMessage>
 {
-    private Text lifeText;
-    private Image fadeImage;
+    //stats gui
+    public Text lifeText;
+    public Image fadeImage;
 
     public void Start()
     {
@@ -14,11 +15,13 @@ public class CanvasShow : MonoBehaviourEx, IHandle<UpdateGuiMessage>
         fadeImage.color = new Color(0, 0, 0, 0);
     }
 
+    //message to update the gui
     public void Handle(UpdateGuiMessage message)
     {
         lifeText.text = "" + message.UpdatedProtaStats.OiLife + "/" + message.UpdatedProtaStats.MaxOiLife;
     }
-    
+
+
     //public void setFade(string fadecolor)
     //{
     //    StopCoroutine("fade");
