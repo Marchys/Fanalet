@@ -1,21 +1,23 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Vasey : ActionE
+public class Vasey : ActionE, IHandle<DialogueEndMessage>
 {
     private GameObject _lighthouse;
     public TextAsset TextFileDialogue1;
     public TextAsset TextFileDialogue2;
     private string[] _firstDialog;
     private string[] _secondDialog;
+    private bool Activated=false;
+    private int idMessage=0;
 
     // Use this for initialization
 	new void Start () {
 	    base.Start();
 	    if (TextFileDialogue1 != null && TextFileDialogue2 != null)
 	    {
-	        _firstDialog = (TextFileDialogue1.text.Split('\n'));
-	        _secondDialog = (TextFileDialogue2.text.Split('\n'));
+            _firstDialog = Utils.Lines(TextFileDialogue1.text);
+	        _secondDialog = Utils.Lines(TextFileDialogue2.text);
 	    }
 	    else
 	    {
@@ -28,8 +30,19 @@ public class Vasey : ActionE
     public override void ExecuteAction()
     {
         base.ExecuteAction();
-        waitingForResponse = true;
+        if (minotaurChasing) return;
         Messenger.Publish(new StopMessage());
-        Messenger.Publish(new DialogueStartMessage(firstTimeActivation ? _firstDialog : _secondDialog));
+        idMessage = GetInstanceID();
+        Messenger.Publish(new DialogueStartMessage(!Activated ? _firstDialog : _secondDialog, idMessage));
+    }
+
+
+    public void Handle(DialogueEndMessage message)
+    {
+        if (message.MessageId == idMessage)
+        {
+            Messenger.Publish(new ContinueMessage());
+            idMessage = 0;
+        }
     }
 }

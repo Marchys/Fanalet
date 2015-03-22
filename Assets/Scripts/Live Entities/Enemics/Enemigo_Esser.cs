@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, IDoAtack, IHandle<StopMessage>,IHandle<ContinueMessage>
+public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, IDoAtack
 {
 
 
@@ -79,9 +79,5 @@ public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, 
     {
         Debug.Log("faig");
     }
-
-    public virtual void Handle(StopMessage message) { }
-
-    public virtual void Handle(ContinueMessage message) { }
 
 }

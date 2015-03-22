@@ -6,6 +6,9 @@ public class DialogSystem : MonoBehaviourEx, IHandle<DialogueStartMessage>
 {
 
     private Text dialogueBox;
+    private string[] currentDialogLines;
+    private int currentLine;
+    private int _messageId;
     
     // Use this for initialization
 	void Start () {
@@ -19,19 +22,37 @@ public class DialogSystem : MonoBehaviourEx, IHandle<DialogueStartMessage>
         {
             child.gameObject.SetActive(true);
         }
-        StartCoroutine(TypeText(message.DialogText));
+        currentDialogLines = message.DialogText;
+        _messageId = message.MessageId;
+        currentLine = 0;
+        NextLine();
     }
 
-    IEnumerator TypeText(string[]text)
+    public void NextLine()
     {
-        for (int i=0;i<text.Length;i++)
+        if (currentDialogLines.Length > currentLine)
         {
-            foreach (char letter in text[i].ToCharArray())
+            dialogueBox.text = "";
+            StopCoroutine("TypeText");
+            StartCoroutine(TypeText(currentDialogLines, currentLine));
+        }
+        else
+        {
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(false);
+            }
+            Messenger.Publish(new DialogueEndMessage(_messageId));
+        }
+        currentLine++;
+    }
+
+    IEnumerator TypeText(string[]text, int line)
+    {
+            foreach (char letter in text[line].ToCharArray())
             {
                 dialogueBox.text += letter;
-                yield return new WaitForSeconds(0.00001f);
+                yield return new WaitForSeconds(0.01f);
             }
-        }
-       
     }
 }

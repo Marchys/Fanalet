@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 
-public class Enemigo_Minotauro : Enemigo_Esser
+public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<ContinueMessage>
 {
 
     #region variables
@@ -64,6 +64,7 @@ public class Enemigo_Minotauro : Enemigo_Esser
                 currentState = Attack;
                 break;
             case State.Chase:
+                Messenger.Publish(new MinotaurChaseMessage());
                 gestor = 0;
                 variableSpeed = 0;
                 currentState = Chase;
@@ -375,13 +376,13 @@ public class Enemigo_Minotauro : Enemigo_Esser
     #endregion
 
     #region Messages
-    public override void Handle(StopMessage message)
+    public void Handle(StopMessage message)
     {
         setState(State.Sleep);
         ownRigidbody2D.velocity = Vector2.zero;
     }
 
-    public override void Handle(ContinueMessage message)
+    public void Handle(ContinueMessage message)
     {
         setState(State.Patroll);
     }
