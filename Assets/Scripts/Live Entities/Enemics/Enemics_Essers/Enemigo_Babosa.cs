@@ -53,40 +53,48 @@ public class Enemigo_Babosa : Enemigo_Esser
     public void setState(State state)
     {
         stateExit(currentStateName);
-        currentStateName = state;
-        switch (state)
+        if (state == State.Patroll && currentStateName == State.Chase)
         {
-            case State.Patroll:
-                pathListExists = false;
-                variableSpeed = 0;
-                last_Position = new Vector2(0, 0);
-                currentState = Patroll;
-                break;
-            case State.Sleep:
-                anim.SetInteger("Anim", 3);
-                ownRigidbody2D.velocity = new Vector2(0, 0);
-                currentState = () => { };
-                break;
-            case State.Attack:
-                pathListExists = false;
-                anim.SetInteger("Anim", 2);
-                ownRigidbody2D.mass = 200000000;
-                currentState = Attack;
-                break;
-            case State.Chase:
-                anim.SetInteger("Anim", 2);
-                variableSpeed = 0;
-                currentState = Chase;
-                break;
-            case State.Knocked:
-                anim.SetInteger("Anim", 4);
-                variableSpeed = 0;
-                currentState = Knocked;
-                break;
-            default:
-                Debug.Log("unrecognized state");
-                break;
+            Debug.Log("not possible, blocked change of state");
         }
+        else
+        {
+            currentStateName = state;
+            switch (state)
+            {
+                case State.Patroll:
+                    pathListExists = false;
+                    variableSpeed = 0;
+                    last_Position = new Vector2(0, 0);
+                    currentState = Patroll;
+                    break;
+                case State.Sleep:
+                    anim.SetInteger("Anim", 3);
+                    ownRigidbody2D.velocity = new Vector2(0, 0);
+                    currentState = () => { };
+                    break;
+                case State.Attack:
+                    pathListExists = false;
+                    anim.SetInteger("Anim", 2);
+                    ownRigidbody2D.mass = 200000000;
+                    currentState = Attack;
+                    break;
+                case State.Chase:
+                    anim.SetInteger("Anim", 2);
+                    variableSpeed = 0;
+                    currentState = Chase;
+                    break;
+                case State.Knocked:
+                    anim.SetInteger("Anim", 4);
+                    variableSpeed = 0;
+                    currentState = Knocked;
+                    break;
+                default:
+                    Debug.Log("unrecognized state");
+                    break;
+            } 
+        }
+        
     }
 
     public void stateExit(State state)
@@ -94,8 +102,11 @@ public class Enemigo_Babosa : Enemigo_Esser
         switch (state)
         {
             case State.Patroll:
-                patrullant_sub = false;
-                StopCoroutine("Temps_patrulla");
+                if (patrullant_sub)
+                {
+                    StopCoroutine("Temps_patrulla");
+                    patrullant_sub = false;
+                }
                 break;
             case State.Sleep:
                 break;
@@ -117,11 +128,18 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     private void Patroll()
     {
-        if (new Vector2(ownTransform.position.x, ownTransform.position.y) == last_Position) patrullant_sub = false;
+        if (new Vector2(ownTransform.position.x, ownTransform.position.y) == last_Position)
+        {
+            if (patrullant_sub)
+            {
+                StopCoroutine("Temps_patrulla");
+                patrullant_sub = false;
+            }
+           
+        }
         last_Position = ownTransform.position;
         if (!patrullant_sub)
-        {
-            StopCoroutine("Temps_patrulla");
+        { 
             StartCoroutine("Temps_patrulla");
         }
         ownRigidbody2D.velocity = random_dir * character.BaseSpeed;
