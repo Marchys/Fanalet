@@ -48,7 +48,12 @@ public class Control_sala : MonoBehaviour
         }
         else
         {
-            if (!minotaurInArea && playerInArea) BroadcastMessage("WakeUp", SendMessageOptions.DontRequireReceiver);
+            if (!minotaurInArea && playerInArea)
+            {
+                Debug.Log("boom");
+            BroadcastMessage("WakeUp", SendMessageOptions.DontRequireReceiver);
+
+            }
         }
 
     }

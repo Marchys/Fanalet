@@ -18,6 +18,7 @@ public class Enemigo_Babosa : Enemigo_Esser
     bool pathListExists = false;
     int cont_llis = 1;
     Vector2 prota_pos;
+    private Vector2 _lastPosition;
     bool closeToPlayer = false;
     // variables knockback
     Vector2 knockDirection;
@@ -26,7 +27,6 @@ public class Enemigo_Babosa : Enemigo_Esser
     Vector2 targetDirection;
     Vector2 targetHeading;
     float variableSpeed;
-    Vector2 last_Position;
     //state variables bool
     bool playerSeen = false;
     //distancia check position
@@ -63,9 +63,9 @@ public class Enemigo_Babosa : Enemigo_Esser
             switch (state)
             {
                 case State.Patroll:
+                    _lastPosition = new Vector2(0,0);
                     pathListExists = false;
                     variableSpeed = 0;
-                    last_Position = new Vector2(0, 0);
                     currentState = Patroll;
                     break;
                 case State.Sleep:
@@ -128,24 +128,16 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     private void Patroll()
     {
-        if (new Vector2(ownTransform.position.x, ownTransform.position.y) == last_Position)
-        {
-            if (patrullant_sub)
-            {
-                StopCoroutine("Temps_patrulla");
-                patrullant_sub = false;
-            }
-           
-        }
-        last_Position = ownTransform.position;
-        if (!patrullant_sub)
+        if (!patrullant_sub || new Vector2(ownTransform.position.x, ownTransform.position.y) == _lastPosition)
         { 
+            StopCoroutine("Temps_patrulla");
             StartCoroutine("Temps_patrulla");
         }
         ownRigidbody2D.velocity = random_dir * character.BaseSpeed;
         if (ownRigidbody2D.velocity.x > 0 && !mirant_dreta) gir();
         else if (ownRigidbody2D.velocity.x < 0 && mirant_dreta) gir();
     }
+
     private void Attack()
     {
         ownRigidbody2D.velocity = new Vector2(0, 0);
