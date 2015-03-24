@@ -53,48 +53,43 @@ public class Enemigo_Babosa : Enemigo_Esser
     public void setState(State state)
     {
         stateExit(currentStateName);
-        if (state == State.Patroll && currentStateName == State.Chase)
+        currentStateName = state;
+        switch (state)
         {
-            Debug.Log("not possible, blocked change of state");
+            case State.Patroll:
+                _lastPosition = new Vector2(0, 0);
+                pathListExists = false;
+                variableSpeed = 0;
+                StartCoroutine("Temps_patrulla");
+                currentState = Patroll;
+                break;
+            case State.Sleep:
+                anim.SetInteger("Anim", 3);
+                ownRigidbody2D.velocity = new Vector2(0, 0);
+                currentState = () => { };
+                break;
+            case State.Attack:
+                pathListExists = false;
+                anim.SetInteger("Anim", 2);
+                ownRigidbody2D.mass = 200000000;
+                currentState = Attack;
+                break;
+            case State.Chase:
+                anim.SetInteger("Anim", 2);
+                variableSpeed = 0;
+                currentState = Chase;
+                break;
+            case State.Knocked:
+                anim.SetInteger("Anim", 4);
+                variableSpeed = 0;
+                currentState = Knocked;
+                break;
+            default:
+                Debug.Log("unrecognized state");
+                break;
+
         }
-        else
-        {
-            currentStateName = state;
-            switch (state)
-            {
-                case State.Patroll:
-                    _lastPosition = new Vector2(0,0);
-                    pathListExists = false;
-                    variableSpeed = 0;
-                    currentState = Patroll;
-                    break;
-                case State.Sleep:
-                    anim.SetInteger("Anim", 3);
-                    ownRigidbody2D.velocity = new Vector2(0, 0);
-                    currentState = () => { };
-                    break;
-                case State.Attack:
-                    pathListExists = false;
-                    anim.SetInteger("Anim", 2);
-                    ownRigidbody2D.mass = 200000000;
-                    currentState = Attack;
-                    break;
-                case State.Chase:
-                    anim.SetInteger("Anim", 2);
-                    variableSpeed = 0;
-                    currentState = Chase;
-                    break;
-                case State.Knocked:
-                    anim.SetInteger("Anim", 4);
-                    variableSpeed = 0;
-                    currentState = Knocked;
-                    break;
-                default:
-                    Debug.Log("unrecognized state");
-                    break;
-            } 
-        }
-        
+
     }
 
     public void stateExit(State state)
@@ -102,11 +97,7 @@ public class Enemigo_Babosa : Enemigo_Esser
         switch (state)
         {
             case State.Patroll:
-                if (patrullant_sub)
-                {
                     StopCoroutine("Temps_patrulla");
-                    patrullant_sub = false;
-                }
                 break;
             case State.Sleep:
                 break;
@@ -128,11 +119,14 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     private void Patroll()
     {
-        if (!patrullant_sub || new Vector2(ownTransform.position.x, ownTransform.position.y) == _lastPosition)
-        { 
-            StopCoroutine("Temps_patrulla");
-            StartCoroutine("Temps_patrulla");
+        if (patrullant_sub)
+        {
+            random_dir = new Vector2(0, 0);
+        }else if (new Vector2(ownTransform.position.x, ownTransform.position.y) == _lastPosition)
+        {
+            Random_dir();
         }
+        _lastPosition = ownTransform.position;
         ownRigidbody2D.velocity = random_dir * character.BaseSpeed;
         if (ownRigidbody2D.velocity.x > 0 && !mirant_dreta) gir();
         else if (ownRigidbody2D.velocity.x < 0 && mirant_dreta) gir();
@@ -189,14 +183,16 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     IEnumerator Temps_patrulla()
     {
-        patrullant_sub = true;
-        anim.SetInteger("Anim", 1);
-        Random_dir();
-        yield return new WaitForSeconds(Random.Range(6, 10));
-        random_dir = new Vector2(0, 0);
-        anim.SetInteger("Anim", 0);
-        yield return new WaitForSeconds(2);
-        patrullant_sub = false;
+        while (true)
+        {
+            patrullant_sub = true;
+            anim.SetInteger("Anim", 0);
+            yield return new WaitForSeconds(Random.Range(2, 3));
+            patrullant_sub = false;
+            anim.SetInteger("Anim", 1);
+            yield return new WaitForSeconds(Random.Range(3, 6));
+        }
+      
     }
 
     void gir()
@@ -238,24 +234,11 @@ public class Enemigo_Babosa : Enemigo_Esser
     {
         if (currentStateName != State.Sleep)
         {
-            if (other.gameObject.tag == "Escenari_coll" && currentStateName == State.Patroll)
-            {
-                if (patrullant_sub)
-                {
-                    StopCoroutine("Temps_patrulla");
-                    patrullant_sub = false;
-                }
-            }
-            else if (other.gameObject.tag == "Prota" && currentStateName == State.Chase)
+             if (other.gameObject.tag == "Prota" && currentStateName == State.Chase)
             {
                 setState(State.Attack);
             }
-
-
-            //else if (state == Estat.Movent && other.gameObject.tag == "Enemigo")
-            //{
-
-            //}    
+ 
         }
     }
 
@@ -326,7 +309,7 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     public void Sleep()
     {
-        if (seeker.pathCallback != null)seeker.pathCallback -= OnPathComplete;
+        if (seeker.pathCallback != null) seeker.pathCallback -= OnPathComplete;
         setState(State.Sleep);
         playerSeen = false;
     }
@@ -373,7 +356,7 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     public void OnDisable()
     {
-        if (seeker.pathCallback != null)seeker.pathCallback -= OnPathComplete;
+        if (seeker.pathCallback != null) seeker.pathCallback -= OnPathComplete;
     }
 
     public override void FerMal()
