@@ -19,9 +19,10 @@ public class Control_sala : MonoBehaviour
         setRoomState(false);
     }
 
+    //dirty solution to child triggers parent (only check in and out player)
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Prota")
+        if (other.gameObject.tag == "Prota" && !playerInArea)
         {
             playerInArea = true;
             BroadcastMessage("switchZOrder", true, SendMessageOptions.DontRequireReceiver);
@@ -31,7 +32,7 @@ public class Control_sala : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Prota")
+        if (other.gameObject.tag == "Prota" && playerInArea)
         {
             playerInArea = false;
             BroadcastMessage("switchZOrder", false, SendMessageOptions.DontRequireReceiver);
@@ -48,7 +49,10 @@ public class Control_sala : MonoBehaviour
         }
         else
         {
-            if (!minotaurInArea && playerInArea) BroadcastMessage("WakeUp", SendMessageOptions.DontRequireReceiver);
+            if (!minotaurInArea && playerInArea)
+            {
+            BroadcastMessage("WakeUp", SendMessageOptions.DontRequireReceiver);
+            }
         }
 
     }

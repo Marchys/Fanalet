@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.Remoting;
 using UnityEngine;
 
 public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IMort, IHandle<StopMessage>, IHandle<ContinueMessage>
@@ -68,8 +69,14 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IMort, IHandle
         Destroy(gameObject);
     }
 
-    public virtual void Handle(StopMessage message){}
+    public virtual void Handle(StopMessage message)
+    {
+        Activat = false;
+    }
 
-    public virtual void Handle(ContinueMessage message){}
+    public virtual void Handle(ContinueMessage message)
+    {
+        Activat = true;
+    }
    
 }

@@ -616,12 +616,16 @@ public class Po : Protas
     #region Messages
     public override void Handle(StopMessage message)
     {
-        Activat = false;
+        _inputHoritzontal = 0;
+        _inputVertical = 0;
+        base.Handle(new StopMessage());
     }
 
     public override void Handle(ContinueMessage message)
     {
-        Activat = true;
+        base.Handle(new ContinueMessage());
+        _verCheck = 0;
+        _horCheck = 0;
     }
     #endregion
 }

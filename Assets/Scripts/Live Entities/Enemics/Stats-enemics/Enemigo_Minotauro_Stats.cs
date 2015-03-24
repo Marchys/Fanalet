@@ -6,7 +6,7 @@
         EntityDescription = "El Guardián inmortal del Tártaro";
         Attack = 10;
         Life = 666;
-        BaseSpeed = BaseSpeed * 0.8f;
+        BaseSpeed = BaseSpeed * 1f;
         AttackCadence = 500;
         Mass = 200;
         Immortal = true;

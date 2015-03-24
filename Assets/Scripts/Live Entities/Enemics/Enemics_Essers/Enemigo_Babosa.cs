@@ -18,6 +18,7 @@ public class Enemigo_Babosa : Enemigo_Esser
     bool pathListExists = false;
     int cont_llis = 1;
     Vector2 prota_pos;
+    private Vector2 _lastPosition;
     bool closeToPlayer = false;
     // variables knockback
     Vector2 knockDirection;
@@ -26,7 +27,6 @@ public class Enemigo_Babosa : Enemigo_Esser
     Vector2 targetDirection;
     Vector2 targetHeading;
     float variableSpeed;
-    Vector2 last_Position;
     //state variables bool
     bool playerSeen = false;
     //distancia check position
@@ -57,9 +57,10 @@ public class Enemigo_Babosa : Enemigo_Esser
         switch (state)
         {
             case State.Patroll:
+                _lastPosition = new Vector2(0, 0);
                 pathListExists = false;
                 variableSpeed = 0;
-                last_Position = new Vector2(0, 0);
+                StartCoroutine("Temps_patrulla");
                 currentState = Patroll;
                 break;
             case State.Sleep:
@@ -86,7 +87,9 @@ public class Enemigo_Babosa : Enemigo_Esser
             default:
                 Debug.Log("unrecognized state");
                 break;
+
         }
+
     }
 
     public void stateExit(State state)
@@ -94,8 +97,7 @@ public class Enemigo_Babosa : Enemigo_Esser
         switch (state)
         {
             case State.Patroll:
-                patrullant_sub = false;
-                StopCoroutine("Temps_patrulla");
+                    StopCoroutine("Temps_patrulla");
                 break;
             case State.Sleep:
                 break;
@@ -117,17 +119,19 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     private void Patroll()
     {
-        if (new Vector2(ownTransform.position.x, ownTransform.position.y) == last_Position) patrullant_sub = false;
-        last_Position = ownTransform.position;
-        if (!patrullant_sub)
+        if (patrullant_sub)
         {
-            StopCoroutine("Temps_patrulla");
-            StartCoroutine("Temps_patrulla");
+            random_dir = new Vector2(0, 0);
+        }else if (new Vector2(ownTransform.position.x, ownTransform.position.y) == _lastPosition)
+        {
+            Random_dir();
         }
+        _lastPosition = ownTransform.position;
         ownRigidbody2D.velocity = random_dir * character.BaseSpeed;
         if (ownRigidbody2D.velocity.x > 0 && !mirant_dreta) gir();
         else if (ownRigidbody2D.velocity.x < 0 && mirant_dreta) gir();
     }
+
     private void Attack()
     {
         ownRigidbody2D.velocity = new Vector2(0, 0);
@@ -179,14 +183,16 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     IEnumerator Temps_patrulla()
     {
-        patrullant_sub = true;
-        anim.SetInteger("Anim", 1);
-        Random_dir();
-        yield return new WaitForSeconds(Random.Range(6, 10));
-        random_dir = new Vector2(0, 0);
-        anim.SetInteger("Anim", 0);
-        yield return new WaitForSeconds(2);
-        patrullant_sub = false;
+        while (true)
+        {
+            patrullant_sub = true;
+            anim.SetInteger("Anim", 0);
+            yield return new WaitForSeconds(Random.Range(2, 3));
+            patrullant_sub = false;
+            anim.SetInteger("Anim", 1);
+            yield return new WaitForSeconds(Random.Range(3, 6));
+        }
+      
     }
 
     void gir()
@@ -228,24 +234,11 @@ public class Enemigo_Babosa : Enemigo_Esser
     {
         if (currentStateName != State.Sleep)
         {
-            if (other.gameObject.tag == "Escenari_coll" && currentStateName == State.Patroll)
-            {
-                if (patrullant_sub)
-                {
-                    StopCoroutine("Temps_patrulla");
-                    patrullant_sub = false;
-                }
-            }
-            else if (other.gameObject.tag == "Prota" && currentStateName == State.Chase)
+             if (other.gameObject.tag == "Prota" && currentStateName == State.Chase)
             {
                 setState(State.Attack);
             }
-
-
-            //else if (state == Estat.Movent && other.gameObject.tag == "Enemigo")
-            //{
-
-            //}    
+ 
         }
     }
 
@@ -316,7 +309,7 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     public void Sleep()
     {
-        if (seeker.pathCallback != null)seeker.pathCallback -= OnPathComplete;
+        if (seeker.pathCallback != null) seeker.pathCallback -= OnPathComplete;
         setState(State.Sleep);
         playerSeen = false;
     }
@@ -363,7 +356,7 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     public void OnDisable()
     {
-        if (seeker.pathCallback != null)seeker.pathCallback -= OnPathComplete;
+        if (seeker.pathCallback != null) seeker.pathCallback -= OnPathComplete;
     }
 
     public override void FerMal()
