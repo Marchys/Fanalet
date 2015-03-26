@@ -23,4 +23,11 @@
     protected float AttackCadence { get; set; }
 
     protected float ResKnockback { get; set; }
+
+    //items quantity
+
+    public int YellowHearts { get; set; }
+    public int RedHearts { get; set; }
+    public int BlueHearts { get; set; }
+
 }
