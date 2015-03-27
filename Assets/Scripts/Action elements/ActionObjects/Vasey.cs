@@ -1,15 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Vasey : ActionE, IHandle<DialogueEndMessage>
+public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLighthouseMessage>
 {
     private GameObject _lighthouse;
     public TextAsset TextFileDialogue1;
     public TextAsset TextFileDialogue2;
+    private BaseCaracterStats Stats;
     private string[] _firstDialog;
     private string[] _secondDialog;
     private bool Activated=false;
     private int idMessage=0;
+    private int oilActivationPrice = 20;
 
     // Use this for initialization
 	new void Start () {
@@ -27,9 +29,10 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>
 	    _lighthouse = transform.parent.parent.gameObject;
 	}
 
-    public override void ExecuteAction()
+    public override void ExecuteAction(BaseCaracterStats stats)
     {
-        base.ExecuteAction();
+        Stats = stats;
+        base.ExecuteAction(stats);
         if (minotaurChasing) return;
         Messenger.Publish(new StopMessage());
         idMessage = GetInstanceID();
@@ -39,10 +42,15 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>
 
     public void Handle(DialogueEndMessage message)
     {
-        if (message.MessageId == idMessage)
+        if (message.MessageId == idMessage && !Activated)
         {
-            Messenger.Publish(new ContinueMessage());
-            idMessage = 0;
+            Messenger.Publish(new StartPayLighthouseMessage(Stats, oilActivationPrice, idMessage));
+            //Messenger.Publish(new ContinueMessage());
+            //idMessage = 0;
+        }
+        else
+        {
+            oilActivationPrice *= 2;
         }
     }
 }

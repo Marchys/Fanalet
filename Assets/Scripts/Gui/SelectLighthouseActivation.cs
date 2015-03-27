@@ -2,22 +2,19 @@
 using System.Collections;
 using UnityEngine.UI;
 
-public class SelectLighthouseActivation : MonoBehaviour
+public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLighthouseMessage>
 {
 
     //pay for lighthouse activation
     public Button redChoiseButton;
     public Button blueChoiseButon;
     public Button yellowChoiseButton;
-
-    void Start()
-    {
-        BaseCaracterStats statstest = new BasePoStats();
-        messageActivator(statstest);
-    }
+    public Button payButton;
+    private StartPayLighthouseMessage Message;
 
     public void ClickedChoiseButton(Button clickedButton)
     {
+        payButton.interactable=true;
         switch (clickedButton.name)
         {
             case "red":
@@ -40,12 +37,26 @@ public class SelectLighthouseActivation : MonoBehaviour
         }
     }
 
-    public void messageActivator(BaseCaracterStats stats)
+    public void payPrice()
     {
-        if (stats.BlueHearts == 0)redChoiseButton.interactable=false;
-        if (stats.RedHearts == 0)blueChoiseButon.interactable=false;
-        if (stats.YellowHearts == 0)yellowChoiseButton.interactable=false;
+        Message.Stats.OiLife -= Message.OilToPay;
+        Messenger.Publish(new UpdateGuiMessage(Message.Stats));
+        Messenger.Publish(new EndPayLighthouseMessage());
     }
+
+    public void Handle(StartPayLighthouseMessage message)
+    {
+        Message = message;
+        if (message.Stats.BlueHearts == 0) redChoiseButton.interactable = false;
+        if (message.Stats.RedHearts == 0) blueChoiseButon.interactable = false;
+        if (message.Stats.YellowHearts == 0) yellowChoiseButton.interactable = false;
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+        
+    }
+   
 
 
 

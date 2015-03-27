@@ -187,7 +187,7 @@ public class Enemigo_Babosa : Enemigo_Esser
         {
             patrullant_sub = true;
             anim.SetInteger("Anim", 0);
-            yield return new WaitForSeconds(Random.Range(2, 3));
+            yield return new WaitForSeconds(Random.Range(0, 4));
             patrullant_sub = false;
             anim.SetInteger("Anim", 1);
             yield return new WaitForSeconds(Random.Range(3, 6));

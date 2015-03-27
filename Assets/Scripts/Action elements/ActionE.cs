@@ -29,7 +29,7 @@ public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>
         }
     }
 
-    public virtual void ExecuteAction()
+    public virtual void ExecuteAction(BaseCaracterStats stats)
     {
         _eAnimator.SetInteger("animationState", 0);
     }

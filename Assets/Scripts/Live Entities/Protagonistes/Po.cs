@@ -355,7 +355,7 @@ public class Po : Protas
 
         if (Input.GetButtonDown("accio"))
         {
-            if (_potActuar) _actionGameObject.GetComponent<ActionE>().ExecuteAction();
+            if (_potActuar) _actionGameObject.GetComponent<ActionE>().ExecuteAction(Character);
         }
         //input_horitzontal=Input.GetAxis("Horizontal");
         //input_vertical = Input.GetAxis("Vertical");
