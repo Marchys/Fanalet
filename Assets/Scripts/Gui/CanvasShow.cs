@@ -7,18 +7,22 @@ public class CanvasShow : MonoBehaviourEx, IHandle<UpdateGuiMessage>
     //stats gui
     public Text lifeText;
     public Image fadeImage;
+    public Text RedHeartText;
+    public Text BlueHeartText;
+    public Text YellowHeartText;
 
-    public void Start()
-    {
-        lifeText = transform.Find("StatGroup/life").GetComponent<Text>();
-        fadeImage = transform.Find("StatGroup/fade").GetComponent<Image>();
-        fadeImage.color = new Color(0, 0, 0, 0);
-    }
+    //public void Start()
+    //{
+    //    fadeImage.color = new Color(0, 0, 0, 0);
+    //}
 
     //message to update the gui
     public void Handle(UpdateGuiMessage message)
     {
         lifeText.text = "" + message.UpdatedProtaStats.OiLife + "/" + message.UpdatedProtaStats.MaxOiLife;
+        RedHeartText.text = "" + message.UpdatedProtaStats.RedHearts;
+        BlueHeartText.text = "" + message.UpdatedProtaStats.BlueHearts;
+        YellowHeartText.text = "" + message.UpdatedProtaStats.YellowHearts;
     }
 
 
@@ -37,6 +41,6 @@ public class CanvasShow : MonoBehaviourEx, IHandle<UpdateGuiMessage>
     //        fadeImage.color = fadeFrom;
     //        yield return null;
     //    }
-       
+
     //}
 }

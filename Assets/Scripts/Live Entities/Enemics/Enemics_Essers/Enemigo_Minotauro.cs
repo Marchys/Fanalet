@@ -140,6 +140,7 @@ public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<Con
         tempMinRender.sortingLayerName = "Movim";
         tempMinRender.sortingOrder = 0;
         tempMinColl.enabled = true;
+        Messenger.Publish(new CameraShakeMessage());
         var explosion = Instantiate(crashGround, new Vector3(ownTransform.position.x, ownTransform.position.y, -2f), Quaternion.identity) as GameObject;
         var explosionScript = explosion.GetComponent<explosionDamage>();
         explosionScript.protaG = ProtaG;
