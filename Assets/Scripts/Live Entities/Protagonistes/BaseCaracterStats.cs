@@ -1,33 +1,52 @@
-﻿public class BaseCaracterStats {
-   
-    private float _baseSpeed = 5.5f;
+﻿public class BaseCaracterStats : MonoBehaviourEx
+{
+    public BaseCaracterStats()
+    {
+        EntityName = "";
+        EntityDescription = "";
+        Attack = 0;
+        OiLife = 0;
+        MaxOiLife = 0;
+        BaseSpeed = 0;
+        AttackCadence = 0;
+        RedHearts = 0;
+        BlueHearts = 0;
+        YellowHearts = 0;
+    }
 
-    protected string EntityName { get; set; }
+    //Entity Data
+    public string EntityName { get; set; }
 
-    protected string EntityDescription { get; set; }
+    public string EntityDescription { get; set; }
 
-    protected int Attack { get; set; }
+    //Entity propieties
+    public int Attack { get; set; }
 
     public int OiLife { get; set; }
 
     public int MaxOiLife { get; set; }
 
-    public float BaseSpeed
-    {
-        get { return _baseSpeed; }
-        set { _baseSpeed = value; }
-    }
+    public float BaseSpeed { get; set; }
 
-    public int Agility { get; set; }
-
-    protected float AttackCadence { get; set; }
-
-    protected float ResKnockback { get; set; }
+    public float AttackCadence { get; set; }
 
     //items quantity
 
     public int YellowHearts { get; set; }
     public int RedHearts { get; set; }
     public int BlueHearts { get; set; }
+
+    public virtual void UpdateStats(BaseCaracterStats statData)
+    {
+        Attack += statData.Attack;
+        OiLife += statData.OiLife;
+        MaxOiLife += statData.MaxOiLife;
+        BaseSpeed += statData.BaseSpeed;
+        AttackCadence += statData.AttackCadence;
+        RedHearts += statData.RedHearts;
+        BlueHearts += statData.BlueHearts;
+        YellowHearts += statData.YellowHearts;
+        Messenger.Publish(new UpdateGuiMessage(this));
+    }
 
 }

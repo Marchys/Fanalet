@@ -7,12 +7,11 @@
         Attack = 2;
         OiLife = 100;
         MaxOiLife = 100;
-        // Defecte Vel_Base = 5.5f;
-        Agility = 0;
-        AttackCadence = 33;
-        ResKnockback = 1;
+        BaseSpeed = 5.5f;
+        AttackCadence = 0.6f;
 	    RedHearts = 1;
 	    BlueHearts = 0;
-        YellowHearts =1;
+        YellowHearts = 0;
     }
+   
 }

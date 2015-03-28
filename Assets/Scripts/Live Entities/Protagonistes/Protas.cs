@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Runtime.Remoting;
+using Pathfinding;
 using UnityEngine;
 
 public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IMort, IHandle<StopMessage>, IHandle<ContinueMessage>
@@ -24,14 +25,17 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IMort, IHandle
         Messenger.Publish(new UpdateGuiMessage(Character));
     }
 
-    public void Mal(int mals)
+    public virtual void Mal(int damageAmount)
     {
         if (_immune) return;
         StopCoroutine("Flash_red");
         StartCoroutine(Flash_red());
         StartCoroutine(Knocked());
-        Character.OiLife = Character.OiLife - mals;
-        Messenger.Publish(new UpdateGuiMessage(Character));
+        var modifiedStats = new BaseCaracterStats();
+        modifiedStats.OiLife -= damageAmount;
+        Character.UpdateStats(modifiedStats);
+        //Character.OiLife -= damageAmount;
+      
         if (Character.OiLife <= 0) Mort();
     }
 

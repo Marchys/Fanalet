@@ -1,10 +1,12 @@
 ﻿
 public class EndPayLighthouseMessage
 {
-    public string ActivationType { get; set; }
-    public EndPayLighthouseMessage()
+    public BaseCaracterStats ActivationType { get; set; }
+    public int MessageId { get; set; }
+    public EndPayLighthouseMessage(BaseCaracterStats activationType,int messageId)
     {
-       
+        ActivationType = activationType;
+        MessageId = messageId;
     }
 }
 

@@ -45,12 +45,20 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
         if (message.MessageId == idMessage && !Activated)
         {
             Messenger.Publish(new StartPayLighthouseMessage(Stats, oilActivationPrice, idMessage));
-            //Messenger.Publish(new ContinueMessage());
-            //idMessage = 0;
         }
         else
         {
             oilActivationPrice *= 2;
+        }
+    }
+
+    public void Handle(EndPayLighthouseMessage message)
+    {
+        if (message.MessageId == idMessage && !Activated)
+        {
+            if(message.ActivationType.RedHearts != 0 || message.ActivationType.BlueHearts != 0 || message.ActivationType.YellowHearts != 0) Debug.Log("Activating lighthouse...");
+            Messenger.Publish(new ContinueMessage());
+            idMessage = 0;
         }
     }
 }

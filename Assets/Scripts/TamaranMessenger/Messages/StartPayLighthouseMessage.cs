@@ -6,7 +6,7 @@
     public StartPayLighthouseMessage(BaseCaracterStats stats, int oilToPay, int messageID)
     {
         Stats = stats;
-        OilToPay = OilToPay;
+        OilToPay = oilToPay;
         MessageId = messageID;
     }
 }

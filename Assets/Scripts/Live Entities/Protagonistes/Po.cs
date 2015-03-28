@@ -8,14 +8,12 @@ public class Po : Protas
     #region variables
 
     //Moviments
-    private float _velCaminar;
     private const float FactCanvi = 6f;
     private float _inputHoritzontal;
     private float _inputVertical;
     //private float sprintSpeed;
     //variables dash
     private const bool DashUnlocked = true;
-    private float _dashSpeed;
     private bool _dash = false;
     private bool _enDash = false;
     private bool _dashCooldown = false;
@@ -42,9 +40,6 @@ public class Po : Protas
     private bool _disparant = false;
     private bool _onCooldownShot = false;
     private const float BolaSpeed = 15;
-    private const float TempDispar = 0.6f;
-    private const float TempCooldownDispar = 0.3f;
-    private bool _whaitShoot = false;
     private Vector2 _objectiuDis;
     private PolygonCollider2D _colDret;
     private BoxCollider2D _colEsq;
@@ -88,9 +83,10 @@ public class Po : Protas
             case State.Shoot:
                 _disparant = true;
                 _animatorPer.SetInteger("estat_anim", 2);
-                _velCaminar += 0.3f;
-                Character.OiLife -= 1;
-                Messenger.Publish(new UpdateGuiMessage(Character));
+                 Character.BaseSpeed += 0.3f;
+                 var modifiedStats = new BaseCaracterStats();
+                 modifiedStats.OiLife -= 1;
+                 Character.UpdateStats(modifiedStats);
                 var bola =
                     Instantiate(BolaFoc, new Vector3(OwnTransform.position.x, OwnTransform.position.y, -0.85f),
                         Quaternion.identity) as GameObject;
@@ -136,16 +132,16 @@ public class Po : Protas
 
     private void Shoot()
     {
-        if (_whaitShoot) return;
-        _velCaminar -= 0.3f;
+        if (_onCooldownShot) return;
+        Character.BaseSpeed -= 0.3f;
         _disparant = false;
         SetState(State.Idl);
     }
 
     private void Dash()
     {
-        _inputHoritzontal = _dashDir.x*_dashSpeed;
-        _inputVertical = _dashDir.y*_dashSpeed;
+        _inputHoritzontal = _dashDir.x*Character.BaseSpeed;
+        _inputVertical = _dashDir.y*Character.BaseSpeed;
         if (_enDash) return;
         SetState(State.Idl);
         _inputVertical = 0;
@@ -163,18 +159,10 @@ public class Po : Protas
         base.Start();
         _animatorPer = gameObject.GetComponent<Animator>();
         SetState(State.Idl);
-        //Obtenir la velocitat_base i agilitat        
-        _velCaminar = Character.BaseSpeed + (Character.Agility/3);
-        _dashSpeed = Character.BaseSpeed;
-        // Fer que el Flux_dades capti les dades
-        // central = GameObject.FindWithTag("Central");
-        //fluxe = central.GetComponent<Flux_dades>();
-        //fluxe.Captar("prota");       
         _colDret = GetComponent<PolygonCollider2D>();
         _colEsq = GetComponent<BoxCollider2D>();
         _darkMist = OwnTransform.Find("blackMist").GetComponent<ParticleSystem>();
         _darkMist.enableEmission = false;
-        //sprintSpeed = vel_caminar + (vel_caminar / 2);      
     }
 
     #endregion
@@ -452,12 +440,7 @@ public class Po : Protas
 
     #region funcions secundàries
 
-    public void Actualitzar_velocitats()
-    {
-        _velCaminar = (Character.BaseSpeed + (Character.Agility/3));
-    }
-
-    private IEnumerator Esperar_dash()
+   private IEnumerator Esperar_dash()
     {
         _enDash = true;
         yield return new WaitForSeconds(TempDash);
@@ -469,11 +452,8 @@ public class Po : Protas
 
     private IEnumerator ShootCooldown()
     {
-        _whaitShoot = true;
-        yield return new WaitForSeconds(TempDispar);
-        _whaitShoot = false;
         _onCooldownShot = true;
-        yield return new WaitForSeconds(TempCooldownDispar);
+        yield return new WaitForSeconds(Character.AttackCadence);
         _onCooldownShot = false;
     }
 
@@ -608,7 +588,7 @@ public class Po : Protas
         // Move senteces
         //rigidbody2D.velocity = new Vector2(Mathf.Lerp(0, input_horitzontal * vel_caminar, 0.8f),
         //Mathf.Lerp(0, input_vertical * vel_caminar, 0.8f)); 
-        OwnRigidbody2D.velocity = new Vector2(_inputHoritzontal*_velCaminar, _inputVertical*_velCaminar);
+        OwnRigidbody2D.velocity = new Vector2(_inputHoritzontal*Character.BaseSpeed, _inputVertical*Character.BaseSpeed);
     }
 
     #endregion

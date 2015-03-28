@@ -7,7 +7,6 @@
         Attack = 10;
         Life = 666;
         BaseSpeed = BaseSpeed * 1f;
-        AttackCadence = 500;
         Mass = 200;
         Immortal = true;
     }
