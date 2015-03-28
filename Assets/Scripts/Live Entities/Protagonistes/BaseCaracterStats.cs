@@ -1,4 +1,4 @@
-﻿public class BaseCaracterStats : MonoBehaviourEx
+﻿public class BaseCaracterStats 
 {
     public BaseCaracterStats()
     {
@@ -36,7 +36,7 @@
     public int RedHearts { get; set; }
     public int BlueHearts { get; set; }
 
-    public virtual void UpdateStats(BaseCaracterStats statData)
+    public virtual void UpdateStats(BaseCaracterStats statData, IEventAggregator messenger)
     {
         Attack += statData.Attack;
         OiLife += statData.OiLife;
@@ -46,7 +46,7 @@
         RedHearts += statData.RedHearts;
         BlueHearts += statData.BlueHearts;
         YellowHearts += statData.YellowHearts;
-        Messenger.Publish(new UpdateGuiMessage(this));
+        messenger.Publish(new UpdateGuiMessage(this));
     }
 
 }

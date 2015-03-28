@@ -86,7 +86,7 @@ public class Po : Protas
                  Character.BaseSpeed += 0.3f;
                  var modifiedStats = new BaseCaracterStats();
                  modifiedStats.OiLife -= 1;
-                 Character.UpdateStats(modifiedStats);
+                 Character.UpdateStats(modifiedStats,Messenger);
                 var bola =
                     Instantiate(BolaFoc, new Vector3(OwnTransform.position.x, OwnTransform.position.y, -0.85f),
                         Quaternion.identity) as GameObject;

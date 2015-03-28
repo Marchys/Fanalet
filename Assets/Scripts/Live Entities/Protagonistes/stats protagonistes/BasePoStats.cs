@@ -11,7 +11,7 @@
         AttackCadence = 0.6f;
 	    RedHearts = 1;
 	    BlueHearts = 0;
-        YellowHearts = 0;
+        YellowHearts = 1;
     }
    
 }

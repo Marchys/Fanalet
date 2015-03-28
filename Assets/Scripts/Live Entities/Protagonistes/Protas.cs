@@ -33,7 +33,7 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IMort, IHandle
         StartCoroutine(Knocked());
         var modifiedStats = new BaseCaracterStats();
         modifiedStats.OiLife -= damageAmount;
-        Character.UpdateStats(modifiedStats);
+        Character.UpdateStats(modifiedStats,Messenger);
         //Character.OiLife -= damageAmount;
       
         if (Character.OiLife <= 0) Mort();
