@@ -7,7 +7,7 @@ public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLight
 
     //pay for lighthouse activation
     public Button redChoiseButton;
-    public Button blueChoiseButon;
+    public Button blueChoiseButton;
     public Button yellowChoiseButton;
     public Button payButton;
     public Text ActivationPriceText;
@@ -20,23 +20,26 @@ public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLight
         switch (clickedButton.name)
         {
             case "red":
-                redChoiseButton.image.color = Color.red;
-                blueChoiseButon.image.color = new Color(118, 227, 225);
-                yellowChoiseButton.image.color = new Color(253, 255, 141);
+                redChoiseButton.image.color = new Color32(212,154,154,255);
+                blueChoiseButton.image.color = Color.white;
+                yellowChoiseButton.image.color = Color.white;
+
                 modifiedStats = new BaseCaracterStats();
                 modifiedStats.RedHearts -= 1; 
                 break;
             case "blue":
-                blueChoiseButon.image.color = Color.blue;
-                redChoiseButton.image.color = new Color(255, 156, 156);
-                yellowChoiseButton.image.color = new Color(253, 255, 141);
+                redChoiseButton.image.color = Color.white;
+                blueChoiseButton.image.color = new Color32(161, 202, 212, 255);
+                yellowChoiseButton.image.color = Color.white;
+
                 modifiedStats = new BaseCaracterStats();
                 modifiedStats.BlueHearts -= 1; 
                 break;
             case "yellow":
-                yellowChoiseButton.image.color = Color.yellow;
-                blueChoiseButon.image.color = new Color(118, 227, 225);
-                redChoiseButton.image.color = new Color(255, 156, 156);
+                redChoiseButton.image.color = Color.white;
+                blueChoiseButton.image.color = Color.white;
+                yellowChoiseButton.image.color = new Color32(239, 231, 94, 255);
+
                 modifiedStats = new BaseCaracterStats();
                 modifiedStats.YellowHearts -= 1; 
                 break;
@@ -70,13 +73,13 @@ public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLight
     {
         Message = message;
         //Initialize Values
-        ActivationPriceText.text = "And " + message.OilToPay + " Oil";
+        ActivationPriceText.text = "Choose (" + message.OilToPay + ")";
         //Reset colors
         yellowChoiseButton.image.color = Color.white;
         redChoiseButton.image.color = Color.white;
-        blueChoiseButon.image.color = Color.white;
+        blueChoiseButton.image.color = Color.white;
         //Set which buttons should be acivated
-        blueChoiseButon.interactable = message.Stats.BlueHearts != 0;
+        blueChoiseButton.interactable = message.Stats.BlueHearts != 0;
         redChoiseButton.interactable = message.Stats.RedHearts != 0;
         yellowChoiseButton.interactable = message.Stats.YellowHearts != 0;
         //Show all the activation interface
