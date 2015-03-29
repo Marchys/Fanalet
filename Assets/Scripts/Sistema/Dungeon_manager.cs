@@ -53,7 +53,7 @@ public class Dungeon_manager : MonoBehaviour {
         if (pri_niv)
         {
             ins_prota = Instantiate(prota, new Vector3(re_supergenerador.ProtaPosition.x, re_supergenerador.ProtaPosition.y, prota.transform.position.z), Quaternion.identity) as GameObject;
-            ins_camera_prota = Instantiate(per_came, re_supergenerador.ProtaPosition, Quaternion.identity) as GameObject;            
+            ins_camera_prota = Instantiate(per_came, new Vector3(re_supergenerador.ProtaPosition.x, re_supergenerador.ProtaPosition.y, 15), Quaternion.identity) as GameObject;            
             ins_camera_prota.SetActive(false);            
             ins_camera_prota.GetComponent<Smooth_follow>().target = ins_prota.transform;
             ins_camera_prota.GetComponent<ProceduralGridMover2D>().target = ins_prota.transform;
