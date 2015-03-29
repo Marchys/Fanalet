@@ -1,10 +1,15 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections;
+using UnityEditor;
+using UnityEditorInternal;
 
 public class LighthouseStructure : MonoBehaviourEx
 {
 
+    private Boolean _activated = false;
     private Animator ownAnimator;
+    public GameObject LighthouseInterior;
     public Light LeftEyeLight;
     public Light RightEyeLight;
 
@@ -33,5 +38,17 @@ public class LighthouseStructure : MonoBehaviourEx
         }
         ownAnimator.SetBool("Activated", true);
         Messenger.Publish(new CameraShakeMessage());
+        _activated = true;
     }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (_activated && other.CompareTag("Prota"))
+        {
+            Vector2 targetLocation = new Vector2(LighthouseInterior.transform.position.x + 11.75f, LighthouseInterior.transform.position.y - 2.75f); ;
+            Camera.main.transform.position = targetLocation;
+            other.transform.position = targetLocation;
+        }
+    }
+
 }

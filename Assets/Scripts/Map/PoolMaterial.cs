@@ -12,7 +12,8 @@ namespace Gen_mapa
         private readonly List<GameObject> _salesIn;
         private readonly List<GameObject> _salesNor;
         private readonly List<GameObject> _passa;
-        private readonly List<GameObject> _lighthouse;
+        private readonly List<GameObject> _lighthouseExterior;
+        private readonly List<GameObject> _lighthouseInterior;
         private readonly GameObject _constructMapa;
 
         public PoolMaterial(int lvl)
@@ -66,10 +67,10 @@ namespace Gen_mapa
             _passa = tempPassaArray.ToList();
             var tempNeedArray = Resources.LoadAll("Random_gen/necesita_sala_sempre/Construct_mapa", typeof(GameObject)).Cast<GameObject>().ToArray();
             _constructMapa = tempNeedArray[0];
-            var tempLighthouse = Resources.LoadAll("Random_gen/lighthouse/nivell_" + lvl, typeof(GameObject)).Cast<GameObject>().ToArray();
-            _lighthouse = tempLighthouse.ToList();
-
-
+            var tempLighthouseExterior = Resources.LoadAll("Random_gen/lighthouse/Exterior/nivell_" + lvl, typeof(GameObject)).Cast<GameObject>().ToArray();
+            _lighthouseExterior = tempLighthouseExterior.ToList();
+            var tempLighthouseInterior = Resources.LoadAll("Random_gen/lighthouse/Interior/nivell_" + lvl, typeof(GameObject)).Cast<GameObject>().ToArray();
+            _lighthouseInterior = tempLighthouseInterior.ToList();
         }
 
         public GameObject SalesIn
@@ -104,17 +105,27 @@ namespace Gen_mapa
             return os == _passa[0].name ? _passa[0] : _passa[1];
         }
 
-        public GameObject Lighthouse
+        public GameObject LighthouseExterior
         {
             get
             {
-                var tempRandom = Random.Range(0, _lighthouse.Count);
-                var tempConserv = _lighthouse[tempRandom];
+                var tempRandom = Random.Range(0, _lighthouseExterior.Count);
+                var tempConserv = _lighthouseExterior[tempRandom];
                 //sales_in.RemoveAt(temp_random);
                 return tempConserv;
             }
         }
-        
+
+        public GameObject LighthouseInterior
+        {
+            get
+            {
+                var tempRandom = Random.Range(0, _lighthouseInterior.Count);
+                var tempConserv = _lighthouseInterior[tempRandom];
+                //sales_in.RemoveAt(temp_random);
+                return tempConserv;
+            }
+        }
         public GameObject ConstructMapa
         {
             get { return _constructMapa;}

@@ -36,7 +36,7 @@ public class Supergenerador : MonoBehaviour
     public Vector2 MinoPosition;
     private int _quadrantProta;
     public Vector2 PosZero;
-
+    private readonly Punt2d[] _lighthouseInteriorLocations = { new Punt2d(-3, 0), new Punt2d(-5, 0), new Punt2d(-7, 0), new Punt2d(-9, 0) };
     #endregion
 
     #region Funcions Inici
@@ -516,6 +516,7 @@ public class Supergenerador : MonoBehaviour
 
     IEnumerator Colocar_al_mon()
     {
+        var lighthousesSpawned = 0;
         var w = _map.Width;
         var h = _map.Height;
         var total = h * w;
@@ -566,13 +567,19 @@ public class Supergenerador : MonoBehaviour
                         tempTriggIn.transform.parent = tempCambraIn.transform;
                         break;
                     case Nligthouse:
-                        var templighthouse = Instantiate(_poolMaterial.Lighthouse, new Vector2(TransformPosition(x, 1), TransformPosition(y, 0)), Quaternion.identity) as GameObject;
-                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), templighthouse);
-                        templighthouse.transform.parent = _contenidorInst.transform;
+                        var templighthouseExterior = Instantiate(_poolMaterial.LighthouseExterior, new Vector2(TransformPosition(x, 1), TransformPosition(y, 0)), Quaternion.identity) as GameObject;
+                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), templighthouseExterior);
+                        templighthouseExterior.transform.parent = _contenidorInst.transform;
 
                         var tempTriggLh = Instantiate(_poolMaterial.TriggEle[2], new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempTriggLh.GetComponent<Trigg_ele>().coor = new Punt2d(x, y);
-                        tempTriggLh.transform.parent = templighthouse.transform;
+                        tempTriggLh.transform.parent = templighthouseExterior.transform;
+
+                        var templighthouseInterior = Instantiate(_poolMaterial.LighthouseInterior, new Vector2(Traduir_pos(_lighthouseInteriorLocations[lighthousesSpawned].X, 1), Traduir_pos(_lighthouseInteriorLocations[lighthousesSpawned].Y, 0)), Quaternion.identity) as GameObject;
+                        templighthouseInterior.transform.parent = templighthouseExterior.transform;
+                        templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseInterior = templighthouseInterior;
+                        templighthouseInterior.GetComponent<LighthouseInterior>().LighthouseRoom = templighthouseExterior;
+                        lighthousesSpawned++;
                         break;
                     default:
                         //Debug.Log("this shoulden't be here see the supergenerator");
