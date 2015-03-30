@@ -1,11 +1,11 @@
 ﻿public class StartPayLighthouseMessage
 {
     public int OilToPay{ get; set; }
-    public BaseCaracterStats Stats { get; set; }
+    public BaseCaracterStats StatsProtagonist { get; set; }
     public int MessageId { get; set; }
-    public StartPayLighthouseMessage(BaseCaracterStats stats, int oilToPay, int messageID)
+    public StartPayLighthouseMessage(BaseCaracterStats statsProtagonist, int oilToPay, int messageID)
     {
-        Stats = stats;
+        StatsProtagonist = statsProtagonist;
         OilToPay = oilToPay;
         MessageId = messageID;
     }

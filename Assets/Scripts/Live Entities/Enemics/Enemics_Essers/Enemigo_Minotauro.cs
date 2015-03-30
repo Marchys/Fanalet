@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 
-public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<ContinueMessage>
+public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<ContinueMessage>, IHandle<ForceMinotaurPatrollMessage>
 {
 
     #region variables
@@ -389,5 +389,8 @@ public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<Con
     }
     #endregion
 
-
+    public void Handle(ForceMinotaurPatrollMessage message)
+    {
+        setState(State.Patroll);
+    }
 }

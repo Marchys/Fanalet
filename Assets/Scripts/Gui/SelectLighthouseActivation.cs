@@ -52,7 +52,7 @@ public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLight
     {
         payButton.interactable = false;
         modifiedStats.OiLife -= Message.OilToPay;
-        Message.Stats.UpdateStats(modifiedStats,Messenger);
+        Message.StatsProtagonist.UpdateStats(modifiedStats,Messenger);
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
@@ -79,9 +79,9 @@ public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLight
         redChoiseButton.image.color = Color.white;
         blueChoiseButton.image.color = Color.white;
         //Set which buttons should be acivated
-        blueChoiseButton.interactable = message.Stats.BlueHearts != 0;
-        redChoiseButton.interactable = message.Stats.RedHearts != 0;
-        yellowChoiseButton.interactable = message.Stats.YellowHearts != 0;
+        blueChoiseButton.interactable = message.StatsProtagonist.BlueHearts != 0;
+        redChoiseButton.interactable = message.StatsProtagonist.RedHearts != 0;
+        yellowChoiseButton.interactable = message.StatsProtagonist.YellowHearts != 0;
         //Show all the activation interface
         foreach (Transform child in transform)
         {
