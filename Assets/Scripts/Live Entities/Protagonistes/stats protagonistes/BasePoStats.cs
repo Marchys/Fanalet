@@ -9,7 +9,7 @@
         MaxOiLife = 100;
         BaseSpeed = 5.5f;
         AttackCadence = 0.6f;
-	    RedHearts = 1;
+	    RedHearts = 60;
 	    BlueHearts = 0;
         YellowHearts = 1;
     }
