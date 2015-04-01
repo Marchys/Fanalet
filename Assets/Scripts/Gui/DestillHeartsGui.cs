@@ -39,38 +39,6 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
         AcceptButton.interactable = _currentHearts > 0;
     }
 
-    public void Handle(StartGuiDestilationMessage message)
-    {
-        Message = message;
-        //Reset Values
-        AcceptButton.interactable = false;
-        //Set heart value
-        switch (message.ActivationType)
-        {
-            case "red":
-                _maxHeartValue = message.StatsProtagonist.RedHearts;
-                HeartActivated.sprite = RedHeartSprite;
-                break;
-            case "blue":
-                _maxHeartValue = message.StatsProtagonist.BlueHearts;
-                HeartActivated.sprite = BlueHeartSprite;
-                break;
-            case "yellow":
-                _maxHeartValue = message.StatsProtagonist.YellowHearts;
-                HeartActivated.sprite = YellowHeartSprite;
-                break;
-
-        }
-        //Set digit values
-        _currentHearts = 0;
-        HeartQuantityText.text = _currentHearts / 10 + " " + _currentHearts % 10;
-        //Show all the destillation interface
-        foreach (Transform child in transform)
-        {
-            child.gameObject.SetActive(true);
-        }
-    }
-
     public void IntroduceHearts()
     {
         AcceptButton.interactable = false;
@@ -107,5 +75,36 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
         Messenger.Publish(new EndGuiDestilationMessage(Message.MessageId,new BaseCaracterStats()));
     }
 
+    public void Handle(StartGuiDestilationMessage message)
+    {
+        Message = message;
+        //Reset Values
+        AcceptButton.interactable = false;
+        //Set heart value
+        switch (message.ActivationType)
+        {
+            case "red":
+                _maxHeartValue = message.StatsProtagonist.RedHearts;
+                HeartActivated.sprite = RedHeartSprite;
+                break;
+            case "blue":
+                _maxHeartValue = message.StatsProtagonist.BlueHearts;
+                HeartActivated.sprite = BlueHeartSprite;
+                break;
+            case "yellow":
+                _maxHeartValue = message.StatsProtagonist.YellowHearts;
+                HeartActivated.sprite = YellowHeartSprite;
+                break;
+
+        }
+        //Set digit values
+        _currentHearts = 0;
+        HeartQuantityText.text = _currentHearts / 10 + " " + _currentHearts % 10;
+        //Show all the destillation interface
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+    }
 
 }

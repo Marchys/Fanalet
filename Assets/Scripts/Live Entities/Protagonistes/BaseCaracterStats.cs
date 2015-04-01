@@ -39,8 +39,9 @@
     public virtual void UpdateStats(BaseCaracterStats statData, IEventAggregator messenger)
     {
         Attack += statData.Attack;
-        OiLife += statData.OiLife;
         MaxOiLife += statData.MaxOiLife;
+        OiLife += statData.OiLife;
+        if (MaxOiLife < OiLife) OiLife = MaxOiLife;
         BaseSpeed += statData.BaseSpeed;
         AttackCadence += statData.AttackCadence;
         RedHearts += statData.RedHearts;

@@ -1,24 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>
+public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndTakeOil>
 {
 
     private string _activationType;
-    private int idMessage = 0;
+    private int _idMessage = 0;
+    private bool _destilating = false;
+    private CountDown _countdown;
 
-    void Start()
-    {
-        new CountDown();
-    }
-    
-    
     public void SetLighthousetype(BaseCaracterStats ActivationStats)
     {
-         if (ActivationStats.RedHearts != 0)
-         {
-             _activationType = "red";
-         }
+        if (ActivationStats.RedHearts != 0)
+        {
+            _activationType = "red";
+        }
         else if (ActivationStats.BlueHearts != 0)
         {
             _activationType = "blue";
@@ -28,25 +24,72 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>
             _activationType = "yellow";
         }
     }
-    
+
     public override void ExecuteAction(BaseCaracterStats stats)
     {
         base.ExecuteAction(stats);
         Messenger.Publish(new StopMessage());
-        idMessage = GetInstanceID();
-        Messenger.Publish(new StartGuiDestilationMessage(_activationType, stats,idMessage));
+        _idMessage = GetInstanceID();
+        if (!_destilating)
+        {
+            Messenger.Publish(new StartGuiDestilationMessage(_activationType, stats, _idMessage));
+        }
+        else
+        {
+            int oilDestilated;
+            if(_countdown.isFinished) oilDestilated = (int)_countdown.life;
+            else oilDestilated = (int) _countdown.elapsed;
+            Messenger.Publish(new StartTakeOil(stats,_activationType, oilDestilated, _idMessage));
+        }
+       
+    }
+  
+
+    private void StartDestilation(BaseCaracterStats modifiedStats)
+    {
+        float processTime;
+        switch (_activationType)
+        {
+
+            case "red":
+                processTime = -2 * modifiedStats.RedHearts;
+                break;
+            case "blue":
+                processTime = -4 * modifiedStats.BlueHearts;
+                break;
+            case "yellow":
+                processTime = -8 * modifiedStats.YellowHearts;
+                break;
+            default:
+                processTime = 0;
+                break;
+        }
+       
+        _countdown = new CountDown(processTime);
+        _countdown.Start();
+        _destilating = true;
     }
 
     public void Handle(EndGuiDestilationMessage message)
     {
-        if (message.MessageId != idMessage) return;
+        if (message.MessageId != _idMessage) return;
         if (message.ModifiedStats.RedHearts != 0 || message.ModifiedStats.BlueHearts != 0 ||
             message.ModifiedStats.YellowHearts != 0)
         {
-              Debug.Log("processing...");  
+            StartDestilation(message.ModifiedStats);
         }
         Messenger.Publish(new ContinueMessage());
-        idMessage = 0;
+        _idMessage = 0;
+    }
+
+    public void Handle(EndTakeOil message)
+    {
+        if (message.MessageId != _idMessage) return;
+        if (message.IsOilCollected)
+        {
+            _destilating = false;
+        }
+        Messenger.Publish(new ContinueMessage());
     }
 }
 
