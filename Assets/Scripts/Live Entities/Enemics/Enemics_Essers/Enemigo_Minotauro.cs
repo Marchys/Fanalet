@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 
-public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<ContinueMessage>, IHandle<ProtaEntersLighthouseMessage>
+public class Enemigo_Minotauro : Enemigo_Esser, IHandle<ContinueMessage>, IHandle<ProtaEntersLighthouseMessage>, IHandle<PlayerDeathMessage>
 {
 
     #region variables
@@ -377,10 +377,9 @@ public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<Con
     #endregion
 
     #region Messages
-    public void Handle(StopMessage message)
+    public override void Handle(StopMessage message)
     {
         setState(State.Sleep);
-        ownRigidbody2D.velocity = Vector2.zero;
     }
 
     public void Handle(ContinueMessage message)
@@ -392,5 +391,11 @@ public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<Con
     public void Handle(ProtaEntersLighthouseMessage message)
     {
         setState(State.Patroll);
+    }
+
+    public void Handle(PlayerDeathMessage message)
+    {
+        ownRigidbody2D.velocity = Vector2.zero;
+        enabled = false;
     }
 }

@@ -566,7 +566,7 @@ public class Po : Protas
         if (other.CompareTag("Item"))
         {
             Character.UpdateStats(other.GetComponent<Item>().itemStatsModified,Messenger);
-            Destroy(other.gameObject.transform.parent.gameObject);
+           other.gameObject.GetComponent<Item>().Collected();
         }
     }
 

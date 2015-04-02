@@ -42,6 +42,12 @@
         MaxOiLife += statData.MaxOiLife;
         OiLife += statData.OiLife;
         if (MaxOiLife < OiLife) OiLife = MaxOiLife;
+        if (OiLife <= 0)
+        {
+            OiLife = 0;
+            messenger.Publish(new StopMessage());
+            messenger.Publish(new PlayerDeathMessage());
+        }
         BaseSpeed += statData.BaseSpeed;
         AttackCadence += statData.AttackCadence;
         RedHearts += statData.RedHearts;

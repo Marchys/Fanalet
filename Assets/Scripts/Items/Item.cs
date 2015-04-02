@@ -6,6 +6,7 @@ public class Item : MonoBehaviour
 {
 
     public BaseCaracterStats itemStatsModified;
+    public GameObject collectedParticles;
   
     //Define Enum
     public enum ItemTypes
@@ -32,5 +33,11 @@ public class Item : MonoBehaviour
                 itemStatsModified = new YellowHeartStats();
                 break;
         }
+    }
+
+    public void Collected()
+    {
+        Instantiate(collectedParticles, new Vector3(transform.position.x, transform.position.y, Random.Range(0.000001F, 0.0001F)), Quaternion.identity);
+        Destroy(transform.parent.gameObject);
     }
 }

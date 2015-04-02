@@ -5,7 +5,7 @@
         EntityName = "Po";
         EntityDescription = "Te mola po";
         Attack = 2;
-        OiLife = 100;
+        OiLife = 20;
         MaxOiLife = 100;
         BaseSpeed = 5.5f;
         AttackCadence = 0.6f;

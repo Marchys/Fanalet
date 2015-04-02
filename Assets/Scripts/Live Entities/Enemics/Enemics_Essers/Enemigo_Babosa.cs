@@ -370,6 +370,11 @@ public class Enemigo_Babosa : Enemigo_Esser
        base.Mort();
     }
 
+    public override void Handle(StopMessage message)
+    {
+        setState(State.Sleep);
+        ownRigidbody2D.velocity = Vector2.zero;
+    }
     #endregion
 
 

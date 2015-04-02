@@ -3,7 +3,7 @@ using System.Collections;
 using Pathfinding;
 using UnityEngine;
 
-public class ProceduralGridMover2D : MonoBehaviour
+public class ProceduralGridMover2D : MonoBehaviourEx, IHandle<PlayerDeathMessage>
 {
 
     public float updateDistance = 5;
@@ -260,5 +260,11 @@ public class ProceduralGridMover2D : MonoBehaviour
             // not doing this can cause pathfinding to fail
             AstarPath.active.QueueWorkItemFloodFill();
         }
+    }
+
+    //Deactivates on player death
+    public void Handle(PlayerDeathMessage message)
+    {
+        enabled = false;
     }
 }

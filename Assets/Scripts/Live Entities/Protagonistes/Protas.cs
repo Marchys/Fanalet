@@ -3,7 +3,7 @@ using System.Runtime.Remoting;
 using Pathfinding;
 using UnityEngine;
 
-public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IMort, IHandle<StopMessage>, IHandle<ContinueMessage>
+public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMessage>, IHandle<ContinueMessage>, IHandle<PlayerDeathMessage>
 {
     protected BaseCaracterStats Character;
     private SpriteRenderer _spriteRend;
@@ -34,11 +34,8 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IMort, IHandle
         var modifiedStats = new BaseCaracterStats();
         modifiedStats.OiLife -= damageAmount;
         Character.UpdateStats(modifiedStats,Messenger);
-        //Character.OiLife -= damageAmount;
-      
-        if (Character.OiLife <= 0) Mort();
     }
-
+    
     IEnumerator Flash_red()
     {
         var alCol = 0.2f;
@@ -68,11 +65,6 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IMort, IHandle
         _immune = false;
     }
 
-    public void Mort()
-    {
-        Destroy(gameObject);
-    }
-
     public virtual void Handle(StopMessage message)
     {
         Activat = false;
@@ -82,5 +74,10 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IMort, IHandle
     {
         Activat = true;
     }
-   
+
+
+    public void Handle(PlayerDeathMessage message)
+    {
+        Destroy(gameObject);
+    }
 }
