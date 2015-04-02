@@ -70,7 +70,7 @@ public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, 
 
     }
 
-    public void Mort()
+    public virtual void Mort()
     {
         Destroy(gameObject);
     }

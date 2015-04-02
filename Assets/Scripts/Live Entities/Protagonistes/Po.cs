@@ -563,6 +563,11 @@ public class Po : Protas
             _darkMist.enableEmission = true;
             //guiReference.setFade("black");
         }
+        if (other.CompareTag("Item"))
+        {
+            Character.UpdateStats(other.GetComponent<Item>().itemStatsModified,Messenger);
+            Destroy(other.gameObject.transform.parent.gameObject);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)

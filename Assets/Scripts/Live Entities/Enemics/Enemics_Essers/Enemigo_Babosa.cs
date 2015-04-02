@@ -363,6 +363,13 @@ public class Enemigo_Babosa : Enemigo_Esser
     {
         if (currentStateName == State.Attack) ProtaG.Mal(character.Attack);
     }
+
+    public override void Mort()
+    {
+       Instantiate(ItemDictionary.Generar["RedHeart"], new Vector3(transform.position.x, transform.position.y, Random.Range(0.000001F, 0.0001F)), Quaternion.identity);
+       base.Mort();
+    }
+
     #endregion
 
 
