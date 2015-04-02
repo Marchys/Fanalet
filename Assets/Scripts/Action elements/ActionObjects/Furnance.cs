@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndTakeOil>
+public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndTakeOil>, IHandle<ProtaEntersLighthouseMessage>, IHandle<ProtaExitsLighthouseMessage>
 {
 
     private string _activationType;
@@ -67,6 +67,7 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
        
         _countdown = new CountDown(processTime);
         _countdown.Start();
+        _countdown.PauseToggle();
         _destilating = true;
     }
 
@@ -90,6 +91,23 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
             _destilating = false;
         }
         Messenger.Publish(new ContinueMessage());
+    }
+
+    public void Handle(ProtaEntersLighthouseMessage message)
+    {
+        if (_destilating)
+        {
+            _countdown.PauseToggle();
+        }
+       
+    }
+
+    public void Handle(ProtaExitsLighthouseMessage message)
+    {
+        if (_destilating)
+        {
+            _countdown.PauseToggle();
+        } 
     }
 }
 

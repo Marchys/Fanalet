@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class LighthouseInterior : MonoBehaviour {
+public class LighthouseInterior : MonoBehaviourEx {
 
     public GameObject LighthouseRoom;
     
@@ -12,6 +12,7 @@ public class LighthouseInterior : MonoBehaviour {
             Vector2 targetLocation = new Vector2(LighthouseRoom.transform.position.x + 12, LighthouseRoom.transform.position.y-9.25f); 
             Camera.main.transform.position = targetLocation;
             other.transform.position = targetLocation;
+            Messenger.Publish(new ProtaExitsLighthouseMessage());
         }
     }
 }

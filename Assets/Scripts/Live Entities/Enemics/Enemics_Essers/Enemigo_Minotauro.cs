@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Pathfinding;
 using UnityEngine;
 
-public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<ContinueMessage>, IHandle<ForceMinotaurPatrollMessage>
+public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<ContinueMessage>, IHandle<ProtaEntersLighthouseMessage>
 {
 
     #region variables
@@ -389,7 +389,7 @@ public class Enemigo_Minotauro : Enemigo_Esser, IHandle<StopMessage>,IHandle<Con
     }
     #endregion
 
-    public void Handle(ForceMinotaurPatrollMessage message)
+    public void Handle(ProtaEntersLighthouseMessage message)
     {
         setState(State.Patroll);
     }
