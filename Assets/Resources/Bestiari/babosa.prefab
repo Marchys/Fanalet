@@ -294,6 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a008223fa63fa31469cf3785cf4ed12f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ParticleDeath: {fileID: 177214, guid: b16fc31c35dd646498b69b7480d1d066, type: 2}
   currentStateName: 0
 --- !u!114 &11400010
 MonoBehaviour:

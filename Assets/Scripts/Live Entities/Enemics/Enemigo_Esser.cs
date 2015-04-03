@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, IDoAtack, IHandle<StopMessage>
 {
 
-
+    public GameObject ParticleDeath;
     protected Enemigo_Esser_Stats character;
     protected bool estat_stop = false;
     protected Transform ownTransform;
@@ -72,6 +72,7 @@ public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, 
 
     public virtual void Mort()
     {
+        Instantiate(ParticleDeath,new Vector2(transform.position.x,transform.position.y), Quaternion.identity);
         Destroy(gameObject);
     }
 
