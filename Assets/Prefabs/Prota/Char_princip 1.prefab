@@ -25,6 +25,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 453802}
   - 108: {fileID: 10853800}
+  - 114: {fileID: 11481662}
   m_Layer: 14
   m_Name: Point light
   m_TagString: Untagged
@@ -270,8 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a7ac7ca08ec23040a0390798a8229be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activat: 0
-  DashUnlocked: 1
+  Activat: 0
   BolaFoc: {fileID: 100000, guid: 46c40ed47605ecf4599fe6cdcb43d6ab, type: 2}
   CurrentStateName: 1
 --- !u!114 &11453804
@@ -298,6 +298,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sortingOrder: 50
+--- !u!114 &11481662
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 041fc83af5c757541ac25f2bf954b573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minIntensity: 1.60000002
+  maxIntensity: 2.20000005
 --- !u!198 &19853800
 ParticleSystem:
   m_ObjectHideFlags: 1

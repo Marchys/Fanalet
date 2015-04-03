@@ -25,6 +25,7 @@ TagManager:
   - sub_mino
   - Minotaure
   - Item
+  - Canvas
   layers:
   - Default
   - TransparentFX
