@@ -6,7 +6,7 @@ public class DialogSystem : MonoBehaviourEx, IHandle<DialogueStartMessage>
 {
 
     private Text dialogueBox;
-    public Text showAvailabeAction;
+    public Image showAvailabeAction;
     private string[] currentDialogLines;
     private int currentLine;
     private int _messageId;

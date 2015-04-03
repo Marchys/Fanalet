@@ -341,7 +341,7 @@ public class Enemigo_Minotauro : Enemigo_Esser, IHandle<ContinueMessage>, IHandl
 
     public void a_patrullar()
     {
-        setState(State.Chase);
+        setState(State.Patroll);
     }
 
     void gir()
