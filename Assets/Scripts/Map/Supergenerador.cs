@@ -36,7 +36,7 @@ public class Supergenerador : MonoBehaviour
     public Vector2 MinoPosition;
     private int _quadrantProta;
     public Vector2 PosZero;
-    private readonly Punt2d[] _lighthouseInteriorLocations = { new Punt2d(-3, 0), new Punt2d(-5, 0), new Punt2d(-7, 0), new Punt2d(-9, 0) };
+    private readonly Punt2d[] _lighthouseInteriorLocations = { new Punt2d(-10, 0), new Punt2d(-20, 0), new Punt2d(-30, 0), new Punt2d(-40, 0) };
     #endregion
 
     #region Funcions Inici
