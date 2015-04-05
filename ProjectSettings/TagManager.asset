@@ -26,6 +26,7 @@ TagManager:
   - Minotaure
   - Item
   - Canvas
+  - LighthouseArea
   layers:
   - Default
   - TransparentFX

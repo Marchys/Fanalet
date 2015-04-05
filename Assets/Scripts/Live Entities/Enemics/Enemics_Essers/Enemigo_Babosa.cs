@@ -372,6 +372,11 @@ public class Enemigo_Babosa : Enemigo_Esser
 
     public override void Handle(StopMessage message)
     {
+        
+    }
+   
+    public override void Handle(PlayerDeathMessage message)
+    {
         setState(State.Sleep);
         ownRigidbody2D.velocity = Vector2.zero;
     }

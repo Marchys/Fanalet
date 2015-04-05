@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, IDoAtack, IHandle<StopMessage>
+public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, IDoAtack, IHandle<StopMessage>, IHandle<PlayerDeathMessage>
 {
 
     public GameObject ParticleDeath;
@@ -83,6 +83,11 @@ public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, 
 
 
     public virtual void Handle(StopMessage message)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public virtual void Handle(PlayerDeathMessage message)
     {
         throw new System.NotImplementedException();
     }

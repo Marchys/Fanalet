@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Policy;
 using Pathfinding;
 using UnityEngine;
 
@@ -370,6 +371,18 @@ public class Enemigo_Minotauro : Enemigo_Esser, IHandle<ContinueMessage>, IHandl
         if (other.gameObject.tag == "Prota" && currentStateName == State.Patroll)
         {
             setState(State.Chase);
+        }
+        if (other.CompareTag("LighthouseArea"))
+        {
+            Messenger.Publish(new MinotaurEnterLighthouseAreaMessage(int.Parse(other.name)));
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("LighthouseArea"))
+        {
+            Messenger.Publish(new MinotaurExitLighthouseAreaMessage(int.Parse(other.name)));
         }
     }
 

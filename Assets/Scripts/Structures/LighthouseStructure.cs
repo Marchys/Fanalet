@@ -10,7 +10,7 @@ public class LighthouseStructure : MonoBehaviourEx
     public GameObject LighthouseInterior;
     public Light LeftEyeLight;
     public Light RightEyeLight;
-
+    public int LighthouseNumber = 0;
 
     private void Start()
     {
@@ -34,6 +34,7 @@ public class LighthouseStructure : MonoBehaviourEx
             LeftEyeLight.color = Color.yellow;
             RightEyeLight.color = Color.yellow;
         }
+        Messenger.Publish(new LighthouseActivatedMessage(LighthouseNumber));
         LighthouseInterior.GetComponentInChildren<Furnance>().SetLighthousetype(typeActivation);
         ownAnimator.SetBool("Activated", true);
         Messenger.Publish(new CameraShakeMessage());

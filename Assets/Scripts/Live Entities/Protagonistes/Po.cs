@@ -557,6 +557,7 @@ public class Po : Protas
         if (other.gameObject.tag == "Trigg" && Activat)
         {
             Coor = other.GetComponent<Trigg_ele>().coor;
+            Messenger.Publish(new EnterAreaMessage(Coor));
         }
         if (other.gameObject.tag == "sub_mino")
         {

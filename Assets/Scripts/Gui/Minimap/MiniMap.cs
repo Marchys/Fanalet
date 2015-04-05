@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MiniMap : MonoBehaviour
+public class MiniMap : MonoBehaviourEx, IHandle<PlayerDeathMessage>
 {
 
     public Transform Target;
@@ -14,4 +14,11 @@ public class MiniMap : MonoBehaviour
         newPosition*=ZoomLevel;
         return newPosition;
     }
+
+    public void Handle(PlayerDeathMessage message)
+    {
+        enabled = false;
+    }
+
+
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MapPoint : MonoBehaviour
+public class MapPoint : MonoBehaviourEx, IHandle<PlayerDeathMessage>
 {
 
     public Transform Target;
@@ -19,5 +19,10 @@ public class MapPoint : MonoBehaviour
     {
         Vector2 newPosition = _map.TransformPosition(Target.position);
         _myRectTransform.localPosition = newPosition;
+    }
+
+    public void Handle(PlayerDeathMessage message)
+    {
+        enabled = false;
     }
 }

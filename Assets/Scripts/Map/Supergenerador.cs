@@ -420,7 +420,7 @@ public class Supergenerador : MonoBehaviour
             }
         }
 
-//        Debug.Log(direccionsDis.Count);
+        //        Debug.Log(direccionsDis.Count);
         var dir = direccionsDis[Random.Range(0, direccionsDis.Count)];
         switch (dir)
         {
@@ -494,14 +494,14 @@ public class Supergenerador : MonoBehaviour
         {
             // 13 vertical
             case 0:
-                return (valor * 13)+8;
+                return (valor * 13) + 8;
             // 17 horitzontal
             case 1:
-                return (valor * 17)-12;
+                return (valor * 17) - 12;
         }
         return 0;
     }
-   
+
     void Error_fatal(string cosa)
     {
         Debug.Log("Error_Catastrofic");
@@ -570,7 +570,16 @@ public class Supergenerador : MonoBehaviour
                         var templighthouseExterior = Instantiate(_poolMaterial.LighthouseExterior, new Vector2(TransformPosition(x, 1), TransformPosition(y, 0)), Quaternion.identity) as GameObject;
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), templighthouseExterior);
                         templighthouseExterior.transform.parent = _contenidorInst.transform;
+                        templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseNumber = Quin_Quadrant(new Punt2d(x, y));
 
+                        Quadrant tempQuadrant = AreaQuadrant(Quin_Quadrant(new Punt2d(x, y)), 3);
+                        var areaLighthouse = new GameObject(Quin_Quadrant(new Punt2d(x, y)).ToString());
+                        areaLighthouse.tag = "LighthouseArea";
+                        areaLighthouse.transform.localPosition = new Vector2(tempQuadrant.Center.X*17,tempQuadrant.Center.Y*13);
+                        areaLighthouse.AddComponent<BoxCollider2D>().isTrigger = true;
+                        areaLighthouse.GetComponent<BoxCollider2D>().size = new Vector2(90, 70);
+                        areaLighthouse.transform.parent = _contenidorInst.transform;
+                        
                         var tempTriggLh = Instantiate(_poolMaterial.TriggEle[2], new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempTriggLh.GetComponent<Trigg_ele>().coor = new Punt2d(x, y);
                         tempTriggLh.transform.parent = templighthouseExterior.transform;
@@ -602,19 +611,19 @@ public class Supergenerador : MonoBehaviour
             switch (bloquejat)
             {
                 case 0:
-                    var tempBlock0 = Instantiate(_poolMaterial.Blocks[0], new Vector2(sala.transform.position.x + 12, sala.transform.position.y-8), Quaternion.identity) as GameObject;
+                    var tempBlock0 = Instantiate(_poolMaterial.Blocks[0], new Vector2(sala.transform.position.x + 12, sala.transform.position.y - 8), Quaternion.identity) as GameObject;
                     tempBlock0.transform.parent = sala.transform;
                     break;
                 case 1:
-                    var tempBlock1 = Instantiate(_poolMaterial.Blocks[1], new Vector2(sala.transform.position.x + 12, sala.transform.position.y-8), Quaternion.identity) as GameObject;
+                    var tempBlock1 = Instantiate(_poolMaterial.Blocks[1], new Vector2(sala.transform.position.x + 12, sala.transform.position.y - 8), Quaternion.identity) as GameObject;
                     tempBlock1.transform.parent = sala.transform;
                     break;
                 case 2:
-                    var tempBlock2 = Instantiate(_poolMaterial.Blocks[2], new Vector2(sala.transform.position.x + 12, sala.transform.position.y-8), Quaternion.identity) as GameObject;
+                    var tempBlock2 = Instantiate(_poolMaterial.Blocks[2], new Vector2(sala.transform.position.x + 12, sala.transform.position.y - 8), Quaternion.identity) as GameObject;
                     tempBlock2.transform.parent = sala.transform;
                     break;
                 case 3:
-                    var tempBlock3 = Instantiate(_poolMaterial.Blocks[3], new Vector2(sala.transform.position.x + 12, sala.transform.position.y-8), Quaternion.identity) as GameObject;
+                    var tempBlock3 = Instantiate(_poolMaterial.Blocks[3], new Vector2(sala.transform.position.x + 12, sala.transform.position.y - 8), Quaternion.identity) as GameObject;
                     tempBlock3.transform.parent = sala.transform;
                     break;
             }

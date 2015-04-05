@@ -38,7 +38,7 @@ public class Dungeon_manager : MonoBehaviour {
         re_supergenerador = GetComponent<Supergenerador>();       
         generatedMap = re_supergenerador.Generar_mapa(15, 15, 1, 64);
         _mapContainer = GameObject.Find("Map");
-        Minimap.GetComponentInChildren<MiniMapGenerator>().GenerateMiniMap(generatedMap);
+        Minimap.GetComponentInChildren<MiniMapLayout>().GenerateLayout(generatedMap);
         Crear_prota_mino();
         //StartCoroutine(Joc());           
 	}
