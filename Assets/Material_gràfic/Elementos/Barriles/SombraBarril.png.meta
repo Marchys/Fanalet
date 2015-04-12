@@ -1,11 +1,12 @@
 fileFormatVersion: 2
-guid: 4eaeb90e79ed5b2498d229ac2d3eedb3
+guid: e3090dbace34e744ead8ac254dd0bb15
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: SombraBarril
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0

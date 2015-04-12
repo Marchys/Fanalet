@@ -1,11 +1,12 @@
 fileFormatVersion: 2
-guid: 018ed1ed664420e4797038fcc7c2a5aa
+guid: b7235961253a1cd4b8b76e4d8a3ce2e7
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: Barril1
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
-    enableMipMap: 1
+    enableMipMap: 0
     linearTexture: 0
     correctGamma: 0
     fadeOut: 0

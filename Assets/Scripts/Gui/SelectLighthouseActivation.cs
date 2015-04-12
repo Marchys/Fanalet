@@ -5,65 +5,97 @@ using UnityEngine.UI;
 public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLighthouseMessage>
 {
 
+    //Octopus
+    public GameObject OctopusGameObject;
     //pay for lighthouse activation
-    public Button redChoiseButton;
-    public Button blueChoiseButton;
-    public Button yellowChoiseButton;
-    public Button payButton;
-    public Text ActivationPriceText;
+    //Dialogue1
+    public GameObject Dialogue1GameObject;
+    public Button RedChoiseButton;
+    public Button BlueChoiseButton;
+    public Button YellowChoiseButton;
+    public Button SelectButton;
+    //Dialogue2
+    public GameObject Dialogue2GameObject;
+    public Text PriceBodyText;
+    public Text PriceButtonText;
     private StartPayLighthouseMessage Message;
     BaseCaracterStats modifiedStats;
 
     public void ClickedChoiseButton(Button clickedButton)
     {
-        payButton.interactable=true;
+        SelectButton.interactable = true;
         switch (clickedButton.name)
         {
             case "red":
-                redChoiseButton.image.color = new Color32(212,154,154,255);
-                blueChoiseButton.image.color = Color.white;
-                yellowChoiseButton.image.color = Color.white;
+                RedChoiseButton.image.color = new Color32(212, 154, 154, 255);
+                BlueChoiseButton.image.color = Color.white;
+                YellowChoiseButton.image.color = Color.white;
 
                 modifiedStats = new BaseCaracterStats();
-                modifiedStats.RedHearts -= 1; 
+                modifiedStats.RedHearts -= 1;
                 break;
             case "blue":
-                redChoiseButton.image.color = Color.white;
-                blueChoiseButton.image.color = new Color32(161, 202, 212, 255);
-                yellowChoiseButton.image.color = Color.white;
+                RedChoiseButton.image.color = Color.white;
+                BlueChoiseButton.image.color = new Color32(161, 202, 212, 255);
+                YellowChoiseButton.image.color = Color.white;
 
                 modifiedStats = new BaseCaracterStats();
-                modifiedStats.BlueHearts -= 1; 
+                modifiedStats.BlueHearts -= 1;
                 break;
             case "yellow":
-                redChoiseButton.image.color = Color.white;
-                blueChoiseButton.image.color = Color.white;
-                yellowChoiseButton.image.color = new Color32(239, 231, 94, 255);
+                RedChoiseButton.image.color = Color.white;
+                BlueChoiseButton.image.color = Color.white;
+                YellowChoiseButton.image.color = new Color32(239, 231, 94, 255);
 
                 modifiedStats = new BaseCaracterStats();
-                modifiedStats.YellowHearts -= 1; 
+                modifiedStats.YellowHearts -= 1;
                 break;
             default:
                 break;
         }
     }
 
-    public void payPrice()
+
+    public void SelectHeart()
     {
-        payButton.interactable = false;
+        SelectButton.interactable = false;
         modifiedStats.OiLife -= Message.OilToPay;
-        Message.StatsProtagonist.UpdateStats(modifiedStats,Messenger);
-        foreach (Transform child in transform)
+        foreach (Transform child in Dialogue1GameObject.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+        PriceBodyText.text = Message.OilToPay+" flames.";
+        PriceButtonText.text = Message.OilToPay.ToString();
+        foreach (Transform child in Dialogue2GameObject.transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+    }
+
+    public void PayPrice()
+    {
+        Message.StatsProtagonist.UpdateStats(modifiedStats, Messenger);
+        OctopusGameObject.SetActive(false);
+        foreach (Transform child in Dialogue1GameObject.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+        foreach (Transform child in Dialogue2GameObject.transform)
         {
             child.gameObject.SetActive(false);
         }
         Messenger.Publish(new BlurMessage(false));
-        Messenger.Publish(new EndPayLighthouseMessage(modifiedStats,Message.MessageId));
+        Messenger.Publish(new EndPayLighthouseMessage(modifiedStats, Message.MessageId));
     }
 
-    public void cancelActivation()
+    public void CancelActivation()
     {
-        foreach (Transform child in transform)
+        OctopusGameObject.SetActive(false);
+        foreach (Transform child in Dialogue1GameObject.transform)
+        {
+            child.gameObject.SetActive(false);
+        }
+        foreach (Transform child in Dialogue2GameObject.transform)
         {
             child.gameObject.SetActive(false);
         }
@@ -75,24 +107,25 @@ public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLight
     {
         Messenger.Publish(new BlurMessage(true));
         Message = message;
-        //Initialize Values
-        ActivationPriceText.text = "Choose (" + message.OilToPay + ")";
+        //set button to default
+        SelectButton.interactable = false;
         //Reset colors
-        yellowChoiseButton.image.color = Color.white;
-        redChoiseButton.image.color = Color.white;
-        blueChoiseButton.image.color = Color.white;
+        YellowChoiseButton.image.color = Color.white;
+        RedChoiseButton.image.color = Color.white;
+        BlueChoiseButton.image.color = Color.white;
         //Set which buttons should be acivated
-        blueChoiseButton.interactable = message.StatsProtagonist.BlueHearts != 0;
-        redChoiseButton.interactable = message.StatsProtagonist.RedHearts != 0;
-        yellowChoiseButton.interactable = message.StatsProtagonist.YellowHearts != 0;
+        BlueChoiseButton.interactable = message.StatsProtagonist.BlueHearts != 0;
+        RedChoiseButton.interactable = message.StatsProtagonist.RedHearts != 0;
+        YellowChoiseButton.interactable = message.StatsProtagonist.YellowHearts != 0;
         //Show all the activation interface
-        foreach (Transform child in transform)
+        OctopusGameObject.SetActive(true);
+        foreach (Transform child in Dialogue1GameObject.transform)
         {
             child.gameObject.SetActive(true);
         }
-        
+
     }
-   
+
 
 
 

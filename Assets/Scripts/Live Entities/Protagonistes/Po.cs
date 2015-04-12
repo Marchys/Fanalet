@@ -94,8 +94,7 @@ public class Po : Protas
                 tempDir.Normalize();
                 if (bola != null)
                 {
-                    bola.GetComponent<bola>().dir = tempDir;
-                    bola.GetComponent<Rigidbody2D>().AddForce(tempDir*BolaSpeed, ForceMode2D.Impulse);
+                    bola.GetComponent<bola>().Shoot(tempDir,Character.Attack,4f,BolaSpeed);
                 }
                 else
                 {

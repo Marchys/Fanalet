@@ -4,13 +4,12 @@ using UnityEngine;
 public class bola : MonoBehaviour
 {
     public GameObject rastre;
-    public Vector2 dir;
     public Impacte en_xoc;
 
-    void Start()
+    public void Shoot(Vector2 direction,int damage, float impactSpeed, float ballSpeed)
     {
-        en_xoc = new Impacte(dir, 2, 4f);
-
+        en_xoc = new Impacte(direction, damage, impactSpeed);
+        gameObject.GetComponent<Rigidbody2D>().AddForce(direction * ballSpeed, ForceMode2D.Impulse);
     }
 
     void OnTriggerEnter2D(Collider2D col)

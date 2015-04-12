@@ -5,7 +5,8 @@ using UnityEngine;
 
 public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMessage>, IHandle<ContinueMessage>, IHandle<PlayerDeathMessage>
 {
-    protected BaseCaracterStats Character;
+    // Character public temoraly so cheats can se it
+    public BaseCaracterStats Character;
     private SpriteRenderer _spriteRend;
     protected bool knocked = false;
     private bool _immune = false;

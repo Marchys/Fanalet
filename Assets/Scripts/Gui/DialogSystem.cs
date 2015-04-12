@@ -20,7 +20,6 @@ public class DialogSystem : MonoBehaviourEx, IHandle<DialogueStartMessage>
 
     public void Handle(DialogueStartMessage message)
     {
-        Messenger.Publish(new BlurMessage(true));
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(true);
@@ -49,7 +48,6 @@ public class DialogSystem : MonoBehaviourEx, IHandle<DialogueStartMessage>
             {
                 child.gameObject.SetActive(false);
             }
-            Messenger.Publish(new BlurMessage(false));
             Messenger.Publish(new DialogueEndMessage(_messageId));
         }
         currentLine++;
