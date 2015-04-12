@@ -10,6 +10,7 @@ public class CollectOilGui : MonoBehaviourEx, IHandle<StartTakeOil>
 
     public void Handle(StartTakeOil message)
     {
+        Messenger.Publish(new BlurMessage(true));
         _message = message;
         oilText.text = message.OilDestilated.ToString();
         //Show all the destillation interface
@@ -36,19 +37,21 @@ public class CollectOilGui : MonoBehaviourEx, IHandle<StartTakeOil>
                 break;
         }
         _message.StatsProtagonist.UpdateStats(modifiedStats, Messenger);
-        Messenger.Publish(new EndTakeOil(_message.MessageId, true));
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
+        Messenger.Publish(new EndTakeOil(_message.MessageId, true));
+        Messenger.Publish(new BlurMessage(false));
     }
 
     public void Cancel()
     {
-        Messenger.Publish(new EndTakeOil(_message.MessageId, false));
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
+        Messenger.Publish(new EndTakeOil(_message.MessageId, false));
+        Messenger.Publish(new BlurMessage(false));
     }
 }

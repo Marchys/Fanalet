@@ -57,12 +57,12 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
                 break;
         }
         Message.StatsProtagonist.UpdateStats(modifiedStats, Messenger);
-        Messenger.Publish(new EndGuiDestilationMessage(Message.MessageId,modifiedStats));
         foreach (Transform child in transform)
         {
             child.gameObject.SetActive(false);
         }
-
+        Messenger.Publish(new BlurMessage(false));
+        Messenger.Publish(new EndGuiDestilationMessage(Message.MessageId,modifiedStats));
     }
 
     public void Cancel()
@@ -72,11 +72,13 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
         {
             child.gameObject.SetActive(false);
         }
+        Messenger.Publish(new BlurMessage(false));
         Messenger.Publish(new EndGuiDestilationMessage(Message.MessageId,new BaseCaracterStats()));
     }
 
     public void Handle(StartGuiDestilationMessage message)
     {
+        Messenger.Publish(new BlurMessage(true));
         Message = message;
         //Reset Values
         AcceptButton.interactable = false;

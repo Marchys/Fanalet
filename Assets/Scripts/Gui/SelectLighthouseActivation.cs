@@ -57,6 +57,7 @@ public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLight
         {
             child.gameObject.SetActive(false);
         }
+        Messenger.Publish(new BlurMessage(false));
         Messenger.Publish(new EndPayLighthouseMessage(modifiedStats,Message.MessageId));
     }
 
@@ -66,11 +67,13 @@ public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLight
         {
             child.gameObject.SetActive(false);
         }
+        Messenger.Publish(new BlurMessage(false));
         Messenger.Publish(new EndPayLighthouseMessage(new BaseCaracterStats(), Message.MessageId));
     }
 
     public void Handle(StartPayLighthouseMessage message)
     {
+        Messenger.Publish(new BlurMessage(true));
         Message = message;
         //Initialize Values
         ActivationPriceText.text = "Choose (" + message.OilToPay + ")";
