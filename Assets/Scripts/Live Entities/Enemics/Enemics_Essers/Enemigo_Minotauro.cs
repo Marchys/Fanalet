@@ -5,7 +5,7 @@ using System.Security.Policy;
 using Pathfinding;
 using UnityEngine;
 
-public class Enemigo_Minotauro : Enemigo_Esser, IHandle<ContinueMessage>, IHandle<ProtaEntersLighthouseMessage>, IHandle<PlayerDeathMessage>
+public class Enemigo_Minotauro : Enemigo_Esser, IHandle<ContinueMessage>, IHandle<ProtaEntersLighthouseMessage>
 {
 
     #region variables
@@ -399,16 +399,17 @@ public class Enemigo_Minotauro : Enemigo_Esser, IHandle<ContinueMessage>, IHandl
     {
         setState(State.Patroll);
     }
-    #endregion
+   
 
     public void Handle(ProtaEntersLighthouseMessage message)
     {
         setState(State.Patroll);
     }
 
-    public void Handle(PlayerDeathMessage message)
+    public override void Handle(PlayerDeathMessage message)
     {
         ownRigidbody2D.velocity = Vector2.zero;
         enabled = false;
     }
+    #endregion
 }
