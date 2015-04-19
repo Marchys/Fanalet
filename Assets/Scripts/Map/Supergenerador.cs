@@ -51,8 +51,7 @@ public class Supergenerador : MonoBehaviour
         _maxSales = maxSa;
         _contenidorInst = new GameObject { name = "Map" };
         Crear_dungeon();
-        //Debug.Log("he pogut: "+cont_puc);
-        //Debug.Log("no he pogut: " + no_cont_puc);
+        StartCoroutine(Colocar_al_mon());
         return _map;
     }
 
@@ -169,7 +168,6 @@ public class Supergenerador : MonoBehaviour
             var lighthouseLocation = possibleLighthouseLocations[Random.Range(0, possibleLighthouseLocations.Count)];
             PopulateWith(Nligthouse, lighthouseLocation);
         }
-        StartCoroutine(Colocar_al_mon());
 
     }
 
