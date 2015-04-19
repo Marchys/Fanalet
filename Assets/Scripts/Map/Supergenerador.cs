@@ -17,13 +17,14 @@ public class Supergenerador : MonoBehaviour
     private GameObject _contenidorInst;
     //the adjescent directions and the far directions north, south, east and  west
     readonly Punt2d[] _closeDirections = { new Punt2d(0, 1), new Punt2d(0, -1), new Punt2d(1, 0), new Punt2d(-1, 0) };
-    //identifyiers type of map element  
+    //identifiers basic type of map element  
     const int Ncambra = 1;
     const int NcambraIn = 2;
     const int NpassaV = 3;
     const int NpassaH = 4;
-    const int Nligthouse = 5;
     const int NPassa = 1111;
+    //identifiers after basic construction
+    const int Nligthouse = 5;
     //Chance
     // chance to connect rooms with ha corridor
     private const int ChanceAcceptBuild = 5;
@@ -45,7 +46,7 @@ public class Supergenerador : MonoBehaviour
     {
         Reset_valors();
         _map = new Map(x, y);
-        ProtaPosition = new Vector2(Traduir_pos(_map.Pointer.X, 1), Traduir_pos(_map.Pointer.Y, 0));
+        ProtaPosition = ToRealWorldPosition(_map.Pointer.X, _map.Pointer.Y);
         _quadrantProta = Quin_Quadrant(_map.Pointer);
         _poolMaterial = new PoolMaterial(niv);
         _maxSales = maxSa;
@@ -154,11 +155,11 @@ public class Supergenerador : MonoBehaviour
         //Localització del minotaure 
         var quadrantMinId = Quadrant_Oposat(_quadrantProta);
         var quadrantCant = Quadrant_cant_ex(quadrantMinId);
-        if (_map[quadrantCant.X, quadrantCant.Y] == Ncambra) MinoPosition = new Vector2(Traduir_pos(quadrantCant.X, 1), Traduir_pos(quadrantCant.Y, 0));
+        if (_map[quadrantCant.X, quadrantCant.Y] == Ncambra) MinoPosition = ToRealWorldPosition(quadrantCant.X, quadrantCant.Y);
         else
         {
             var tempPunt = Super_mino(quadrantCant);
-            MinoPosition = new Vector2(Traduir_pos(tempPunt.X, 1), Traduir_pos(tempPunt.Y, 0));
+            MinoPosition = ToRealWorldPosition(tempPunt.X, tempPunt.Y);
         }
         //Tercera fase map
         //Localització dels fars
@@ -472,32 +473,14 @@ public class Supergenerador : MonoBehaviour
         return direccionsDis;
     }
 
-    float Traduir_pos(float valor, int or)
+    Vector2 ToRealWorldPosition(int x, int y)
     {
-        switch (or)
-        {
-            // 13 vertical
-            case 0:
-                return valor * 13;
-            // 17 horitzontal
-            case 1:
-                return valor * 17;
-        }
-        return 0;
+        return new Vector2(x*17, y*13);
     }
 
-    float TransformPosition(float valor, int or)
+    Vector2 ToRealWorldPositionModified(int x, int y)
     {
-        switch (or)
-        {
-            // 13 vertical
-            case 0:
-                return (valor * 13) + 8;
-            // 17 horitzontal
-            case 1:
-                return (valor * 17) - 12;
-        }
-        return 0;
+        return new Vector2((x*17)-12,(y*13)+8);
     }
 
     void Error_fatal(string cosa)
@@ -526,48 +509,43 @@ public class Supergenerador : MonoBehaviour
                 switch (_map[x, y])
                 {
                     case Ncambra:
-                        var tempCambra = Instantiate(_poolMaterial.SalesNor, new Vector2(TransformPosition(x, 1), TransformPosition(y, 0)), Quaternion.identity) as GameObject;
-                        var tempContenidor = Instantiate(_poolMaterial.ConstructMapa, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
+                        var tempCambra = Instantiate(_poolMaterial.SalesNor, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
+                        var tempContenidor = Instantiate(_poolMaterial.ConstructMapa, ToRealWorldPosition(x,y), Quaternion.identity) as GameObject;
 
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambra);
                         tempCambra.transform.parent = tempContenidor.transform;
-                        tempContenidor.transform.parent = _contenidorInst.transform;
+                        tempContenidor.transform.SetParent(_contenidorInst.transform,true);
 
-                        var tempTrigg = Instantiate(_poolMaterial.TriggEle[2], new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
-                        tempTrigg.GetComponent<Trigg_ele>().coor = new Punt2d(x, y);
-                        tempTrigg.transform.parent = tempCambra.transform;
+                        InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambra.transform, new Punt2d(x, y));
 
                         tempCambra.BroadcastMessage("Crear_Besties", SendMessageOptions.DontRequireReceiver);
                         break;
                     case NpassaV:
-                        var passV = Instantiate(_poolMaterial.Pass("pass_V"), new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
-                        passV.transform.parent = _contenidorInst.transform;
+                        var passV = Instantiate(_poolMaterial.Pass("pass_V"), ToRealWorldPosition(x,y), Quaternion.identity) as GameObject;
+                        passV.transform.SetParent(_contenidorInst.transform,true);
 
-                        var tempTriggV = Instantiate(_poolMaterial.TriggEle[1], new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
-                        tempTriggV.GetComponent<Trigg_ele>().coor = new Punt2d(x, y);
-                        tempTriggV.transform.parent = passV.transform;
+                        InstantiateTrigger(_poolMaterial.TriggEle[1], passV.transform, new Punt2d(x, y));
+
                         break;
                     case NpassaH:
-                        var passH = Instantiate(_poolMaterial.Pass("pass_H"), new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0) - 2), Quaternion.identity) as GameObject;
-                        passH.transform.parent = _contenidorInst.transform;
+                        var passH = Instantiate(_poolMaterial.Pass("pass_H"), ToRealWorldPosition(x,y), Quaternion.identity) as GameObject;
+                        passH.transform.SetParent(_contenidorInst.transform,true);
 
-                        var tempTriggH = Instantiate(_poolMaterial.TriggEle[0], new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
-                        tempTriggH.GetComponent<Trigg_ele>().coor = new Punt2d(x, y);
-                        tempTriggH.transform.parent = passH.transform;
+                        InstantiateTrigger(_poolMaterial.TriggEle[0], passH.transform, new Punt2d(x, y));
+
                         break;
                     case NcambraIn:
-                        var tempCambraIn = Instantiate(_poolMaterial.SalesIn, new Vector2(TransformPosition(x, 1), TransformPosition(y, 0)), Quaternion.identity) as GameObject;
+                        var tempCambraIn = Instantiate(_poolMaterial.SalesIn, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambraIn);
-                        tempCambraIn.transform.parent = _contenidorInst.transform;
+                        tempCambraIn.transform.SetParent(_contenidorInst.transform,true);
 
-                        var tempTriggIn = Instantiate(_poolMaterial.TriggEle[2], new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
-                        tempTriggIn.GetComponent<Trigg_ele>().coor = new Punt2d(x, y);
-                        tempTriggIn.transform.parent = tempCambraIn.transform;
+                        InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambraIn.transform, new Punt2d(x, y));
+
                         break;
                     case Nligthouse:
-                        var templighthouseExterior = Instantiate(_poolMaterial.LighthouseExterior, new Vector2(TransformPosition(x, 1), TransformPosition(y, 0)), Quaternion.identity) as GameObject;
+                        var templighthouseExterior = Instantiate(_poolMaterial.LighthouseExterior, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), templighthouseExterior);
-                        templighthouseExterior.transform.parent = _contenidorInst.transform;
+                        templighthouseExterior.transform.SetParent(_contenidorInst.transform,true);
                         templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseNumber = Quin_Quadrant(new Punt2d(x, y));
 
                         Quadrant tempQuadrant = AreaQuadrant(Quin_Quadrant(new Punt2d(x, y)), 3);
@@ -576,20 +554,18 @@ public class Supergenerador : MonoBehaviour
                         areaLighthouse.transform.localPosition = new Vector2(tempQuadrant.Center.X*17,tempQuadrant.Center.Y*13);
                         areaLighthouse.AddComponent<BoxCollider2D>().isTrigger = true;
                         areaLighthouse.GetComponent<BoxCollider2D>().size = new Vector2(90, 70);
-                        areaLighthouse.transform.parent = _contenidorInst.transform;
-                        
-                        var tempTriggLh = Instantiate(_poolMaterial.TriggEle[2], new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
-                        tempTriggLh.GetComponent<Trigg_ele>().coor = new Punt2d(x, y);
-                        tempTriggLh.transform.parent = templighthouseExterior.transform;
+                        areaLighthouse.transform.SetParent(_contenidorInst.transform,true);
 
-                        var templighthouseInterior = Instantiate(_poolMaterial.LighthouseInterior, new Vector2(Traduir_pos(_lighthouseInteriorLocations[lighthousesSpawned].X, 1), Traduir_pos(_lighthouseInteriorLocations[lighthousesSpawned].Y, 0)), Quaternion.identity) as GameObject;
+                        InstantiateTrigger(_poolMaterial.TriggEle[2], templighthouseExterior.transform, new Punt2d(x, y));
+
+                        var templighthouseInterior = Instantiate(_poolMaterial.LighthouseInterior, ToRealWorldPosition(_lighthouseInteriorLocations[lighthousesSpawned].X, _lighthouseInteriorLocations[lighthousesSpawned].Y), Quaternion.identity) as GameObject;
                         templighthouseInterior.transform.parent = templighthouseExterior.transform;
                         templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseInterior = templighthouseInterior;
                         templighthouseInterior.GetComponent<LighthouseInterior>().LighthouseRoom = templighthouseExterior;
                         lighthousesSpawned++;
                         break;
                     default:
-                        //Debug.Log("this shoulden't be here see the supergenerator");
+                        //Debug.Log("Number not recognized");
                         break;
                 }
                 LoadingBarProgress += un;
@@ -630,6 +606,12 @@ public class Supergenerador : MonoBehaviour
 
     }
 
+    private void InstantiateTrigger(GameObject trigger,Transform parent, Punt2d position)
+    {
+        var temptrigger = Instantiate(trigger, ToRealWorldPosition(position.X,position.Y), Quaternion.identity) as GameObject;
+        temptrigger.GetComponent<Trigg_ele>().coor = position;
+        temptrigger.transform.SetParent(parent, true);
+    }
     #endregion
 
 }
