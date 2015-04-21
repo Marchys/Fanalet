@@ -27,14 +27,21 @@ public class Supergenerador : MonoBehaviour
     const int LighthouseRoomId = 10;
     const int ExitRoomId = 11;
     const int BlackMarketRoomId = 12;
-    const int NPCRoomId = 13;
+    const int NpcRoomId = 13;
     // identifiers enemy rooms
     const int StandardEnemyRoomId = 20;
     const int RedEnemyRoomId = 21;
     const int BlueEnemyRoomId = 22;
     const int YellowEnemyRoomId = 23;
     const int AllEnemyRoomId = 24;
-    const int BossEnemyRoomId = 25;    
+    const int BossEnemyRoomId = 25;
+    // number of enemy rooms by type
+    private const int StandardEnemyRoomQuantity = 5;
+    private const int RedEnemyRoomQuantity = 10;
+    private const int BlueEnemyRoomQuantity = 6;
+    private const int YellowEnemyRoomQuantity = 5;
+    private const int AllEnemyRoomQuantity = 10;
+    private const int BossEnemyRoomQuantity = 1;
     //Chance
     // chance to connect rooms with ha corridor
     private const int ChanceAcceptBuild = 5;
@@ -179,7 +186,40 @@ public class Supergenerador : MonoBehaviour
             var lighthouseLocation = possibleLighthouseLocations[Random.Range(0, possibleLighthouseLocations.Count)];
             PopulateWith(LighthouseRoomId, lighthouseLocation);
         }
+        //Quarta fase
+        //Localització de Mercat Negre
 
+        //Quinta fase
+        //Localització de Sortida
+
+        //Sexta fase
+        //Sales enemics (Sempre va l'últim!)
+        List<Punt2d> allEmptyRooms = new List<Punt2d>();
+
+        for (var x = 0; x < _map.Width; ++x)
+        {
+            for (var y = 0; y < _map.Height; ++y)
+            {
+                if (_map[x, y] == EmptyRoomId)
+                {
+                    allEmptyRooms.Add(new Punt2d(x,y));
+                }
+            }
+        }
+        const int totalTheorycalRooms = StandardEnemyRoomQuantity + RedEnemyRoomQuantity + BlueEnemyRoomQuantity + YellowEnemyRoomQuantity + AllEnemyRoomQuantity + BossEnemyRoomQuantity;
+        if (allEmptyRooms.Count < totalTheorycalRooms)
+        {
+            var surpass = totalTheorycalRooms - allEmptyRooms.Count;
+            Error_fatal("Masses sales d'enemics, et passes per " + surpass);
+            return;
+        }
+
+        SetEnemyRooms(StandardEnemyRoomId, StandardEnemyRoomQuantity, allEmptyRooms);
+        SetEnemyRooms(RedEnemyRoomId, RedEnemyRoomQuantity, allEmptyRooms);
+        SetEnemyRooms(BlueEnemyRoomId, BlueEnemyRoomQuantity, allEmptyRooms);
+        SetEnemyRooms(YellowEnemyRoomId, YellowEnemyRoomQuantity, allEmptyRooms);
+        SetEnemyRooms(AllEnemyRoomId, AllEnemyRoomQuantity, allEmptyRooms);
+        SetEnemyRooms(BossEnemyRoomId, BossEnemyRoomQuantity, allEmptyRooms);
     }
 
     #endregion
@@ -485,12 +525,12 @@ public class Supergenerador : MonoBehaviour
 
     Vector2 ToRealWorldPosition(int x, int y)
     {
-        return new Vector2(x*17, y*13);
+        return new Vector2(x * 17, y * 13);
     }
 
     Vector2 ToRealWorldPositionModified(int x, int y)
     {
-        return new Vector2((x*17)-12,(y*13)+8);
+        return new Vector2((x * 17) - 12, (y * 13) + 8);
     }
 
     void Error_fatal(string cosa)
@@ -520,26 +560,26 @@ public class Supergenerador : MonoBehaviour
                 {
                     case EmptyRoomId:
                         var tempCambra = Instantiate(_poolMaterial.SalesNor, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
-                        var tempContenidor = Instantiate(_poolMaterial.ConstructMapa, ToRealWorldPosition(x,y), Quaternion.identity) as GameObject;
+                        var tempContenidor = Instantiate(_poolMaterial.ConstructMapa, ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
 
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambra);
                         tempCambra.transform.parent = tempContenidor.transform;
-                        tempContenidor.transform.SetParent(_contenidorInst.transform,true);
+                        tempContenidor.transform.SetParent(_contenidorInst.transform, true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambra.transform, new Punt2d(x, y));
 
                         tempCambra.BroadcastMessage("Crear_Besties", SendMessageOptions.DontRequireReceiver);
                         break;
                     case VerticalCorridorId:
-                        var passV = Instantiate(_poolMaterial.Pass("pass_V"), ToRealWorldPosition(x,y), Quaternion.identity) as GameObject;
-                        passV.transform.SetParent(_contenidorInst.transform,true);
+                        var passV = Instantiate(_poolMaterial.Pass("pass_V"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
+                        passV.transform.SetParent(_contenidorInst.transform, true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[1], passV.transform, new Punt2d(x, y));
 
                         break;
                     case HorizontalCorridorId:
-                        var passH = Instantiate(_poolMaterial.Pass("pass_H"), ToRealWorldPosition(x,y), Quaternion.identity) as GameObject;
-                        passH.transform.SetParent(_contenidorInst.transform,true);
+                        var passH = Instantiate(_poolMaterial.Pass("pass_H"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
+                        passH.transform.SetParent(_contenidorInst.transform, true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[0], passH.transform, new Punt2d(x, y));
 
@@ -547,7 +587,7 @@ public class Supergenerador : MonoBehaviour
                     case InitalRoomId:
                         var tempCambraIn = Instantiate(_poolMaterial.SalesIn, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambraIn);
-                        tempCambraIn.transform.SetParent(_contenidorInst.transform,true);
+                        tempCambraIn.transform.SetParent(_contenidorInst.transform, true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambraIn.transform, new Punt2d(x, y));
 
@@ -555,16 +595,16 @@ public class Supergenerador : MonoBehaviour
                     case LighthouseRoomId:
                         var templighthouseExterior = Instantiate(_poolMaterial.LighthouseExterior, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), templighthouseExterior);
-                        templighthouseExterior.transform.SetParent(_contenidorInst.transform,true);
+                        templighthouseExterior.transform.SetParent(_contenidorInst.transform, true);
                         templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseNumber = Quin_Quadrant(new Punt2d(x, y));
 
                         Quadrant tempQuadrant = AreaQuadrant(Quin_Quadrant(new Punt2d(x, y)), 3);
                         var areaLighthouse = new GameObject(Quin_Quadrant(new Punt2d(x, y)).ToString());
                         areaLighthouse.tag = "LighthouseArea";
-                        areaLighthouse.transform.localPosition = new Vector2(tempQuadrant.Center.X*17,tempQuadrant.Center.Y*13);
+                        areaLighthouse.transform.localPosition = new Vector2(tempQuadrant.Center.X * 17, tempQuadrant.Center.Y * 13);
                         areaLighthouse.AddComponent<BoxCollider2D>().isTrigger = true;
                         areaLighthouse.GetComponent<BoxCollider2D>().size = new Vector2(90, 70);
-                        areaLighthouse.transform.SetParent(_contenidorInst.transform,true);
+                        areaLighthouse.transform.SetParent(_contenidorInst.transform, true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[2], templighthouseExterior.transform, new Punt2d(x, y));
 
@@ -575,7 +615,7 @@ public class Supergenerador : MonoBehaviour
                         lighthousesSpawned++;
                         break;
                     default:
-                        //Debug.Log("Number not recognized");
+                        Debug.Log("Number not recognized");
                         break;
                 }
                 LoadingBarProgress += un;
@@ -616,11 +656,21 @@ public class Supergenerador : MonoBehaviour
 
     }
 
-    private void InstantiateTrigger(GameObject trigger,Transform parent, Punt2d position)
+    private void InstantiateTrigger(GameObject trigger, Transform parent, Punt2d position)
     {
-        var temptrigger = Instantiate(trigger, ToRealWorldPosition(position.X,position.Y), Quaternion.identity) as GameObject;
+        var temptrigger = Instantiate(trigger, ToRealWorldPosition(position.X, position.Y), Quaternion.identity) as GameObject;
         temptrigger.GetComponent<Trigg_ele>().coor = position;
         temptrigger.transform.SetParent(parent, true);
+    }
+
+    private void SetEnemyRooms(int roomtype, int roomnumber, List<Punt2d> emptyroomsleft)
+    {
+        for (var i = 0; i < roomnumber; i++)
+        {
+            var tempRandom = Random.Range(0, emptyroomsleft.Count);
+            _map[emptyroomsleft[tempRandom].X,emptyroomsleft[tempRandom].Y] = roomtype;
+            emptyroomsleft.RemoveAt(tempRandom);
+        }
     }
     #endregion
 
