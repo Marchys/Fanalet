@@ -15,12 +15,23 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
 
     readonly Punt2d[] _closeDirections = { new Punt2d(0, 1), new Punt2d(0, -1), new Punt2d(1, 0), new Punt2d(-1, 0) };
 
-    //identifyiers type of map element  
-    const int Ncambra = 1;
-    const int NcambraIn = 2;
-    const int Nligthouse = 5;
-    const int NpassaV = 3;
-    const int NpassaH = 4;
+    //identifiers basic map elements  
+    const int EmptyRoomId = 1;
+    const int InitalRoomId = 2;
+    const int VerticalCorridorId = 3;
+    const int HorizontalCorridorId = 4;
+    //identifiers complex map elements
+    const int LighthouseRoomId = 10;
+    const int ExitRoomId = 11;
+    const int BlackMarketRoomId = 12;
+    const int NPCRoomId = 13;
+    // identifiers enemy rooms
+    const int StandardEnemyRoomId = 20;
+    const int RedEnemyRoomId = 21;
+    const int BlueEnemyRoomId = 22;
+    const int YellowEnemyRoomId = 23;
+    const int AllEnemyRoomId = 24;
+    const int BossEnemyRoomId = 25;    
 
     void Start()
     {
@@ -40,7 +51,7 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
 
                 switch (map[x, y])
                 {
-                    case NcambraIn:
+                    case InitalRoomId:
                         var tempRoomIn = Instantiate(RoomGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempRoomIn.transform.localScale = new Vector2(0.02f, 0.02f);
                         tempRoomIn.transform.SetParent(transform, true);
@@ -48,28 +59,28 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
                         miniMapLayout[x, y] = tempRoomIn;
                         inRoomCoor = new Punt2d(x,y);
                         break;
-                    case Ncambra:
+                    case EmptyRoomId:
                         var tempRoom = Instantiate(RoomGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempRoom.transform.localScale = new Vector2(0.02f, 0.02f);
                         tempRoom.transform.SetParent(transform, true);
                         tempRoom.SetActive(false);
                         miniMapLayout[x, y] = tempRoom;
                         break;
-                    case NpassaV:
+                    case VerticalCorridorId:
                         var tempVerticalCorridor = Instantiate(VerticalCorridorGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempVerticalCorridor.transform.localScale = new Vector2(0.02f, 0.02f);
                         tempVerticalCorridor.transform.SetParent(transform, true);
                         tempVerticalCorridor.SetActive(false);
                         miniMapLayout[x, y] = tempVerticalCorridor;
                         break;
-                    case NpassaH:
+                    case HorizontalCorridorId:
                         var tempHorizontalCorridor = Instantiate(HorizontalCorridorGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempHorizontalCorridor.transform.localScale = new Vector3(0.02f, 0.02f);
                         tempHorizontalCorridor.transform.SetParent(transform, true);
                         tempHorizontalCorridor.SetActive(false);
                         miniMapLayout[x, y] = tempHorizontalCorridor;
                         break;
-                    case Nligthouse:
+                    case LighthouseRoomId:
                         var tempLighthouseRoom = Instantiate(LightHouseRoomGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempLighthouseRoom.transform.localScale = new Vector2(0.02f, 0.02f);
                         tempLighthouseRoom.transform.SetParent(transform, true);

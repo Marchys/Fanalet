@@ -17,14 +17,24 @@ public class Supergenerador : MonoBehaviour
     private GameObject _contenidorInst;
     //the adjescent directions and the far directions north, south, east and  west
     readonly Punt2d[] _closeDirections = { new Punt2d(0, 1), new Punt2d(0, -1), new Punt2d(1, 0), new Punt2d(-1, 0) };
-    //identifiers basic type of map element  
-    const int Ncambra = 1;
-    const int NcambraIn = 2;
-    const int NpassaV = 3;
-    const int NpassaH = 4;
-    const int NPassa = 1111;
-    //identifiers after basic construction
-    const int Nligthouse = 5;
+    //identifiers basic map elements  
+    const int EmptyRoomId = 1;
+    const int InitalRoomId = 2;
+    const int CorridorId = 1111;
+    const int VerticalCorridorId = 3;
+    const int HorizontalCorridorId = 4;
+    //identifiers complex map elements
+    const int LighthouseRoomId = 10;
+    const int ExitRoomId = 11;
+    const int BlackMarketRoomId = 12;
+    const int NPCRoomId = 13;
+    // identifiers enemy rooms
+    const int StandardEnemyRoomId = 20;
+    const int RedEnemyRoomId = 21;
+    const int BlueEnemyRoomId = 22;
+    const int YellowEnemyRoomId = 23;
+    const int AllEnemyRoomId = 24;
+    const int BossEnemyRoomId = 25;    
     //Chance
     // chance to connect rooms with ha corridor
     private const int ChanceAcceptBuild = 5;
@@ -76,7 +86,7 @@ public class Supergenerador : MonoBehaviour
             {
                 //primera sala
                 primeraSala = false;
-                PopulateWith(NcambraIn, new Punt2d(0, 0));
+                PopulateWith(InitalRoomId, new Punt2d(0, 0));
             }
             else
             {
@@ -96,7 +106,7 @@ public class Supergenerador : MonoBehaviour
 
                             if (emptyDirections.Count != 0)
                             {
-                                PopulateWith(NPassa, emptyDirections[Random.Range(0, emptyDirections.Count)]);
+                                PopulateWith(CorridorId, emptyDirections[Random.Range(0, emptyDirections.Count)]);
                             }
                         }
                         if (FindNextRoom())
@@ -129,10 +139,10 @@ public class Supergenerador : MonoBehaviour
                 } while (!tempDis);
 
                 var tempDir = emptyDirections[Random.Range(0, emptyDirections.Count)];
-                PopulateWith(NPassa, tempDir);
+                PopulateWith(CorridorId, tempDir);
                 if (testDirections(tempDir))
                 {
-                    PopulateWith(Ncambra, tempDir);
+                    PopulateWith(EmptyRoomId, tempDir);
                 }
                 else
                 {
@@ -155,7 +165,7 @@ public class Supergenerador : MonoBehaviour
         //Localització del minotaure 
         var quadrantMinId = Quadrant_Oposat(_quadrantProta);
         var quadrantCant = Quadrant_cant_ex(quadrantMinId);
-        if (_map[quadrantCant.X, quadrantCant.Y] == Ncambra) MinoPosition = ToRealWorldPosition(quadrantCant.X, quadrantCant.Y);
+        if (_map[quadrantCant.X, quadrantCant.Y] == EmptyRoomId) MinoPosition = ToRealWorldPosition(quadrantCant.X, quadrantCant.Y);
         else
         {
             var tempPunt = Super_mino(quadrantCant);
@@ -167,7 +177,7 @@ public class Supergenerador : MonoBehaviour
         {
             var possibleLighthouseLocations = LocationsInQuadrant(AreaQuadrant(i, 3));
             var lighthouseLocation = possibleLighthouseLocations[Random.Range(0, possibleLighthouseLocations.Count)];
-            PopulateWith(Nligthouse, lighthouseLocation);
+            PopulateWith(LighthouseRoomId, lighthouseLocation);
         }
 
     }
@@ -402,19 +412,19 @@ public class Supergenerador : MonoBehaviour
             {
                 //nord
                 case 0:
-                    if (_map[punt.X, punt.Y + 2] == Ncambra) direccionsDis.Add(0);
+                    if (_map[punt.X, punt.Y + 2] == EmptyRoomId) direccionsDis.Add(0);
                     break;
                 //sud
                 case 1:
-                    if (_map[punt.X, punt.Y - 2] == Ncambra) direccionsDis.Add(1);
+                    if (_map[punt.X, punt.Y - 2] == EmptyRoomId) direccionsDis.Add(1);
                     break;
                 //est
                 case 2:
-                    if (_map[punt.X + 2, punt.Y] == Ncambra) direccionsDis.Add(2);
+                    if (_map[punt.X + 2, punt.Y] == EmptyRoomId) direccionsDis.Add(2);
                     break;
                 //oest
                 case 3:
-                    if (_map[punt.X - 2, punt.Y] == Ncambra) direccionsDis.Add(3);
+                    if (_map[punt.X - 2, punt.Y] == EmptyRoomId) direccionsDis.Add(3);
                     break;
             }
         }
@@ -508,7 +518,7 @@ public class Supergenerador : MonoBehaviour
             {
                 switch (_map[x, y])
                 {
-                    case Ncambra:
+                    case EmptyRoomId:
                         var tempCambra = Instantiate(_poolMaterial.SalesNor, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         var tempContenidor = Instantiate(_poolMaterial.ConstructMapa, ToRealWorldPosition(x,y), Quaternion.identity) as GameObject;
 
@@ -520,21 +530,21 @@ public class Supergenerador : MonoBehaviour
 
                         tempCambra.BroadcastMessage("Crear_Besties", SendMessageOptions.DontRequireReceiver);
                         break;
-                    case NpassaV:
+                    case VerticalCorridorId:
                         var passV = Instantiate(_poolMaterial.Pass("pass_V"), ToRealWorldPosition(x,y), Quaternion.identity) as GameObject;
                         passV.transform.SetParent(_contenidorInst.transform,true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[1], passV.transform, new Punt2d(x, y));
 
                         break;
-                    case NpassaH:
+                    case HorizontalCorridorId:
                         var passH = Instantiate(_poolMaterial.Pass("pass_H"), ToRealWorldPosition(x,y), Quaternion.identity) as GameObject;
                         passH.transform.SetParent(_contenidorInst.transform,true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[0], passH.transform, new Punt2d(x, y));
 
                         break;
-                    case NcambraIn:
+                    case InitalRoomId:
                         var tempCambraIn = Instantiate(_poolMaterial.SalesIn, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambraIn);
                         tempCambraIn.transform.SetParent(_contenidorInst.transform,true);
@@ -542,7 +552,7 @@ public class Supergenerador : MonoBehaviour
                         InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambraIn.transform, new Punt2d(x, y));
 
                         break;
-                    case Nligthouse:
+                    case LighthouseRoomId:
                         var templighthouseExterior = Instantiate(_poolMaterial.LighthouseExterior, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), templighthouseExterior);
                         templighthouseExterior.transform.SetParent(_contenidorInst.transform,true);
