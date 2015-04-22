@@ -7,6 +7,7 @@ using UnityEngine;
 public class Supergenerador : MonoBehaviour
 {
     #region variables
+    private bool _shouldReset = false;
     private Map _map;
     private PoolMaterial _poolMaterial;
     //posicio actual laberint 
@@ -17,31 +18,6 @@ public class Supergenerador : MonoBehaviour
     private GameObject _contenidorInst;
     //the adjescent directions and the far directions north, south, east and  west
     readonly Punt2d[] _closeDirections = { new Punt2d(0, 1), new Punt2d(0, -1), new Punt2d(1, 0), new Punt2d(-1, 0) };
-    //identifiers basic map elements  
-    const int EmptyRoomId = 1;
-    const int InitalRoomId = 2;
-    const int CorridorId = 1111;
-    const int VerticalCorridorId = 3;
-    const int HorizontalCorridorId = 4;
-    //identifiers complex map elements
-    const int LighthouseRoomId = 10;
-    const int ExitRoomId = 11;
-    const int BlackMarketRoomId = 12;
-    const int NpcRoomId = 13;
-    // identifiers enemy rooms
-    const int StandardEnemyRoomId = 20;
-    const int RedEnemyRoomId = 21;
-    const int BlueEnemyRoomId = 22;
-    const int YellowEnemyRoomId = 23;
-    const int AllEnemyRoomId = 24;
-    const int BossEnemyRoomId = 25;
-    // number of enemy rooms by type
-    private const int StandardEnemyRoomQuantity = 5;
-    private const int RedEnemyRoomQuantity = 10;
-    private const int BlueEnemyRoomQuantity = 6;
-    private const int YellowEnemyRoomQuantity = 5;
-    private const int AllEnemyRoomQuantity = 10;
-    private const int BossEnemyRoomQuantity = 1;
     //Chance
     // chance to connect rooms with ha corridor
     private const int ChanceAcceptBuild = 5;
@@ -52,6 +28,8 @@ public class Supergenerador : MonoBehaviour
     //References that will be used by the instantiator
     public Vector2 ProtaPosition;
     public Vector2 MinoPosition;
+    //Empty Quadrants
+    private List<int> _availableQuadrantsList = new List<int>();
     private int _quadrantProta;
     public Vector2 PosZero;
     private readonly Punt2d[] _lighthouseInteriorLocations = { new Punt2d(-10, 0), new Punt2d(-20, 0), new Punt2d(-30, 0), new Punt2d(-40, 0) };
@@ -59,23 +37,40 @@ public class Supergenerador : MonoBehaviour
 
     #region Funcions Inici
 
+
+    void Start()
+    {
+        _contenidorInst = new GameObject { name = "Map" };
+        _availableQuadrantsList.Add(0);
+        _availableQuadrantsList.Add(1);
+        _availableQuadrantsList.Add(2);
+        _availableQuadrantsList.Add(3);
+    }
+
     public Map Generar_mapa(int x, int y, int niv, int maxSa)
     {
-        Reset_valors();
+        if (_shouldReset) Reset();
         _map = new Map(x, y);
         ProtaPosition = ToRealWorldPosition(_map.Pointer.X, _map.Pointer.Y);
         _quadrantProta = Quin_Quadrant(_map.Pointer);
+        _availableQuadrantsList.RemoveAt(_quadrantProta);
         _poolMaterial = new PoolMaterial(niv);
         _maxSales = maxSa;
-        _contenidorInst = new GameObject { name = "Map" };
         Crear_dungeon();
         StartCoroutine(Colocar_al_mon());
         return _map;
     }
 
-    void Reset_valors()
+    void Reset()
     {
-        if (_contenidorInst != null) Destroy(_contenidorInst);
+      Destroy(_contenidorInst);
+      _contenidorInst = new GameObject { name = "Map" };
+      _availableQuadrantsList.Clear();
+      _availableQuadrantsList.Add(0);
+      _availableQuadrantsList.Add(1);
+      _availableQuadrantsList.Add(2);
+      _availableQuadrantsList.Add(3);
+    
     }
 
     #endregion
@@ -93,7 +88,7 @@ public class Supergenerador : MonoBehaviour
             {
                 //primera sala
                 primeraSala = false;
-                PopulateWith(InitalRoomId, new Punt2d(0, 0));
+                PopulateWith(Constants.InitalRoomId, new Punt2d(0, 0));
             }
             else
             {
@@ -113,7 +108,7 @@ public class Supergenerador : MonoBehaviour
 
                             if (emptyDirections.Count != 0)
                             {
-                                PopulateWith(CorridorId, emptyDirections[Random.Range(0, emptyDirections.Count)]);
+                                PopulateWith(Constants.CorridorId, emptyDirections[Random.Range(0, emptyDirections.Count)]);
                             }
                         }
                         if (FindNextRoom())
@@ -146,10 +141,10 @@ public class Supergenerador : MonoBehaviour
                 } while (!tempDis);
 
                 var tempDir = emptyDirections[Random.Range(0, emptyDirections.Count)];
-                PopulateWith(CorridorId, tempDir);
+                PopulateWith(Constants.CorridorId, tempDir);
                 if (testDirections(tempDir))
                 {
-                    PopulateWith(EmptyRoomId, tempDir);
+                    PopulateWith(Constants.EmptyRoomId, tempDir);
                 }
                 else
                 {
@@ -170,56 +165,20 @@ public class Supergenerador : MonoBehaviour
         }
         // Segona fase map    
         //Localització del minotaure 
-        var quadrantMinId = Quadrant_Oposat(_quadrantProta);
-        var quadrantCant = Quadrant_cant_ex(quadrantMinId);
-        if (_map[quadrantCant.X, quadrantCant.Y] == EmptyRoomId) MinoPosition = ToRealWorldPosition(quadrantCant.X, quadrantCant.Y);
-        else
-        {
-            var tempPunt = Super_mino(quadrantCant);
-            MinoPosition = ToRealWorldPosition(tempPunt.X, tempPunt.Y);
-        }
+        LocateMinotaur();
         //Tercera fase map
         //Localització dels fars
-        for (var i = 0; i <= 3; i++)
-        {
-            var possibleLighthouseLocations = LocationsInQuadrant(AreaQuadrant(i, 3));
-            var lighthouseLocation = possibleLighthouseLocations[Random.Range(0, possibleLighthouseLocations.Count)];
-            PopulateWith(LighthouseRoomId, lighthouseLocation);
-        }
+        LocateLighthouses();
         //Quarta fase
         //Localització de Mercat Negre
-
+        LocateInAvailableQuadrant(Constants.BlackMarketRoomId);
         //Quinta fase
         //Localització de Sortida
-
+        LocateInAvailableQuadrant(Constants.ExitRoomId);
         //Sexta fase
         //Sales enemics (Sempre va l'últim!)
-        List<Punt2d> allEmptyRooms = new List<Punt2d>();
-
-        for (var x = 0; x < _map.Width; ++x)
-        {
-            for (var y = 0; y < _map.Height; ++y)
-            {
-                if (_map[x, y] == EmptyRoomId)
-                {
-                    allEmptyRooms.Add(new Punt2d(x,y));
-                }
-            }
-        }
-        const int totalTheorycalRooms = StandardEnemyRoomQuantity + RedEnemyRoomQuantity + BlueEnemyRoomQuantity + YellowEnemyRoomQuantity + AllEnemyRoomQuantity + BossEnemyRoomQuantity;
-        if (allEmptyRooms.Count < totalTheorycalRooms)
-        {
-            var surpass = totalTheorycalRooms - allEmptyRooms.Count;
-            Error_fatal("Masses sales d'enemics, et passes per " + surpass);
-            return;
-        }
-
-        SetEnemyRooms(StandardEnemyRoomId, StandardEnemyRoomQuantity, allEmptyRooms);
-        SetEnemyRooms(RedEnemyRoomId, RedEnemyRoomQuantity, allEmptyRooms);
-        SetEnemyRooms(BlueEnemyRoomId, BlueEnemyRoomQuantity, allEmptyRooms);
-        SetEnemyRooms(YellowEnemyRoomId, YellowEnemyRoomQuantity, allEmptyRooms);
-        SetEnemyRooms(AllEnemyRoomId, AllEnemyRoomQuantity, allEmptyRooms);
-        SetEnemyRooms(BossEnemyRoomId, BossEnemyRoomQuantity, allEmptyRooms);
+        LocateEnemyRooms();
+       
     }
 
     #endregion
@@ -426,12 +385,12 @@ public class Supergenerador : MonoBehaviour
     {
         if (elementType < 4 || elementType == 1111)
         {
-            if (elementType == 1 || elementType == 2) _map.RoomCount++;
+            if (elementType == Constants.EmptyRoomId || elementType == Constants.InitalRoomId) _map.RoomCount++;
             _map.Pointer.X += dir.X;
             _map.Pointer.Y += dir.Y;
-            if (elementType == 1111)
+            if (elementType == Constants.CorridorId)
             {
-                elementType = dir.Y != 0 ? 3 : 4;
+                elementType = dir.Y != 0 ? Constants.VerticalCorridorId : Constants.HorizontalCorridorId;
             }
         }
         else
@@ -452,19 +411,19 @@ public class Supergenerador : MonoBehaviour
             {
                 //nord
                 case 0:
-                    if (_map[punt.X, punt.Y + 2] == EmptyRoomId) direccionsDis.Add(0);
+                    if (_map[punt.X, punt.Y + 2] == Constants.EmptyRoomId) direccionsDis.Add(0);
                     break;
                 //sud
                 case 1:
-                    if (_map[punt.X, punt.Y - 2] == EmptyRoomId) direccionsDis.Add(1);
+                    if (_map[punt.X, punt.Y - 2] == Constants.EmptyRoomId) direccionsDis.Add(1);
                     break;
                 //est
                 case 2:
-                    if (_map[punt.X + 2, punt.Y] == EmptyRoomId) direccionsDis.Add(2);
+                    if (_map[punt.X + 2, punt.Y] == Constants.EmptyRoomId) direccionsDis.Add(2);
                     break;
                 //oest
                 case 3:
-                    if (_map[punt.X - 2, punt.Y] == EmptyRoomId) direccionsDis.Add(3);
+                    if (_map[punt.X - 2, punt.Y] == Constants.EmptyRoomId) direccionsDis.Add(3);
                     break;
             }
         }
@@ -558,7 +517,7 @@ public class Supergenerador : MonoBehaviour
             {
                 switch (_map[x, y])
                 {
-                    case EmptyRoomId:
+                    case Constants.EmptyRoomId:
                         var tempCambra = Instantiate(_poolMaterial.SalesNor, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         var tempContenidor = Instantiate(_poolMaterial.ConstructMapa, ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
 
@@ -570,21 +529,21 @@ public class Supergenerador : MonoBehaviour
 
                         tempCambra.BroadcastMessage("Crear_Besties", SendMessageOptions.DontRequireReceiver);
                         break;
-                    case VerticalCorridorId:
+                    case Constants.VerticalCorridorId:
                         var passV = Instantiate(_poolMaterial.Pass("pass_V"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
                         passV.transform.SetParent(_contenidorInst.transform, true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[1], passV.transform, new Punt2d(x, y));
 
                         break;
-                    case HorizontalCorridorId:
+                    case Constants.HorizontalCorridorId:
                         var passH = Instantiate(_poolMaterial.Pass("pass_H"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
                         passH.transform.SetParent(_contenidorInst.transform, true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[0], passH.transform, new Punt2d(x, y));
 
                         break;
-                    case InitalRoomId:
+                    case Constants.InitalRoomId:
                         var tempCambraIn = Instantiate(_poolMaterial.SalesIn, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambraIn);
                         tempCambraIn.transform.SetParent(_contenidorInst.transform, true);
@@ -592,7 +551,7 @@ public class Supergenerador : MonoBehaviour
                         InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambraIn.transform, new Punt2d(x, y));
 
                         break;
-                    case LighthouseRoomId:
+                    case Constants.LighthouseRoomId:
                         var templighthouseExterior = Instantiate(_poolMaterial.LighthouseExterior, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), templighthouseExterior);
                         templighthouseExterior.transform.SetParent(_contenidorInst.transform, true);
@@ -625,6 +584,7 @@ public class Supergenerador : MonoBehaviour
 
         }
         GetComponent<Dungeon_manager>().Iniciar_nivell();
+        _shouldReset = true;
     }
 
     void Colocar_blocks(List<int> bloqueigLlocs, GameObject sala)
@@ -663,12 +623,74 @@ public class Supergenerador : MonoBehaviour
         temptrigger.transform.SetParent(parent, true);
     }
 
+    private void LocateMinotaur()
+    {
+        var quadrantMinId = Quadrant_Oposat(_quadrantProta);
+        var quadrantCant = Quadrant_cant_ex(quadrantMinId);
+        if (_map[quadrantCant.X, quadrantCant.Y] == Constants.EmptyRoomId) MinoPosition = ToRealWorldPosition(quadrantCant.X, quadrantCant.Y);
+        else
+        {
+            var tempPunt = Super_mino(quadrantCant);
+            MinoPosition = ToRealWorldPosition(tempPunt.X, tempPunt.Y);
+        }
+    }
+
+    private void LocateLighthouses()
+    {
+        for (var i = 0; i <= 3; i++)
+        {
+            var possibleLighthouseLocations = LocationsInQuadrant(AreaQuadrant(i, 3));
+            var lighthouseLocation = possibleLighthouseLocations[Random.Range(0, possibleLighthouseLocations.Count)];
+            PopulateWith(Constants.LighthouseRoomId, lighthouseLocation);
+        }
+    }
+
+    private void LocateInAvailableQuadrant(int typeroom)
+    {
+        var tempRandom = Random.Range(0, _availableQuadrantsList.Count);
+        var availableQuadrant = _availableQuadrantsList[tempRandom];
+        var locations = LocationsInQuadrant(AreaQuadrant(availableQuadrant, 2));
+        var location = locations[Random.Range(0, locations.Count)];
+        PopulateWith(typeroom, location);
+        _availableQuadrantsList.RemoveAt(tempRandom);
+    }
+
+    private void LocateEnemyRooms()
+    {
+        var allEmptyRooms = new List<Punt2d>();
+
+        for (var x = 0; x < _map.Width; ++x)
+        {
+            for (var y = 0; y < _map.Height; ++y)
+            {
+                if (_map[x, y] == Constants.EmptyRoomId)
+                {
+                    allEmptyRooms.Add(new Punt2d(x, y));
+                }
+            }
+        }
+        const int totalTheorycalRooms = Constants.StandardEnemyRoomQuantity + Constants.RedEnemyRoomQuantity + Constants.BlueEnemyRoomQuantity + Constants.YellowEnemyRoomQuantity + Constants.AllEnemyRoomQuantity + Constants.BossEnemyRoomQuantity;
+        if (allEmptyRooms.Count < totalTheorycalRooms)
+        {
+            var surpass = totalTheorycalRooms - allEmptyRooms.Count;
+            Error_fatal("Masses sales d'enemics, et passes per " + surpass);
+            return;
+        }
+
+        SetEnemyRooms(Constants.StandardEnemyRoomId, Constants.StandardEnemyRoomQuantity, allEmptyRooms);
+        SetEnemyRooms(Constants.RedEnemyRoomId, Constants.RedEnemyRoomQuantity, allEmptyRooms);
+        SetEnemyRooms(Constants.BlueEnemyRoomId, Constants.BlueEnemyRoomQuantity, allEmptyRooms);
+        SetEnemyRooms(Constants.YellowEnemyRoomId, Constants.YellowEnemyRoomQuantity, allEmptyRooms);
+        SetEnemyRooms(Constants.AllEnemyRoomId, Constants.AllEnemyRoomQuantity, allEmptyRooms);
+        SetEnemyRooms(Constants.BossEnemyRoomId, Constants.BossEnemyRoomQuantity, allEmptyRooms);
+    }
+
     private void SetEnemyRooms(int roomtype, int roomnumber, List<Punt2d> emptyroomsleft)
     {
         for (var i = 0; i < roomnumber; i++)
         {
             var tempRandom = Random.Range(0, emptyroomsleft.Count);
-            _map[emptyroomsleft[tempRandom].X,emptyroomsleft[tempRandom].Y] = roomtype;
+            _map[emptyroomsleft[tempRandom].X, emptyroomsleft[tempRandom].Y] = roomtype;
             emptyroomsleft.RemoveAt(tempRandom);
         }
     }
