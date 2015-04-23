@@ -14,7 +14,13 @@ namespace Gen_mapa
         private readonly List<GameObject> _passa;
         private readonly List<GameObject> _lighthouseExterior;
         private readonly List<GameObject> _lighthouseInterior;
-        private readonly GameObject _constructMapa;
+        private readonly List<GameObject>[] _enemyRooms = new List<GameObject>[5];
+        private readonly List<GameObject> _standardEnemyRooms;
+        private readonly List<GameObject> _redEnemyRooms;
+        private readonly List<GameObject> _blueEnemyRooms;
+        private readonly List<GameObject> _yellowEnemyRooms;
+        private readonly List<GameObject> _allEnemyRooms;
+        private readonly List<GameObject> _bossEnemyRooms;
 
         public PoolMaterial(int lvl)
         {
@@ -58,22 +64,21 @@ namespace Gen_mapa
                       break;
               }
             }
-            
-            var tempSalesInArray = Resources.LoadAll("Random_gen/sales_in/nivell_" + lvl, typeof(GameObject)).Cast<GameObject>().ToArray();
-            _salesIn = tempSalesInArray.ToList();
-            var tempSalesNorArray = Resources.LoadAll("Random_gen/sales_nor/nivell_" + lvl, typeof(GameObject)).Cast<GameObject>().ToArray();
-            _salesNor = tempSalesNorArray.ToList();
-            var tempPassaArray = Resources.LoadAll("Random_gen/passa/nivell_" + lvl, typeof(GameObject)).Cast<GameObject>().ToArray();
-            _passa = tempPassaArray.ToList();
-            var tempNeedArray = Resources.LoadAll("Random_gen/necesita_sala_sempre/Construct_mapa", typeof(GameObject)).Cast<GameObject>().ToArray();
-            _constructMapa = tempNeedArray[0];
-            var tempLighthouseExterior = Resources.LoadAll("Random_gen/lighthouse/Exterior/nivell_" + lvl, typeof(GameObject)).Cast<GameObject>().ToArray();
-            _lighthouseExterior = tempLighthouseExterior.ToList();
-            var tempLighthouseInterior = Resources.LoadAll("Random_gen/lighthouse/Interior/nivell_" + lvl, typeof(GameObject)).Cast<GameObject>().ToArray();
-            _lighthouseInterior = tempLighthouseInterior.ToList();
+
+            _salesIn = LoadResource("Random_gen/sales_in/nivell_", lvl);
+            _salesNor = LoadResource("Random_gen/sales_nor/nivell_", lvl);
+            _passa = LoadResource("Random_gen/passa/nivell_", lvl);
+            _lighthouseExterior = LoadResource("Random_gen/lighthouse/Exterior/nivell_", lvl);
+            _lighthouseInterior = LoadResource("Random_gen/lighthouse/Interior/nivell_", lvl);
+            _salesIn = LoadResource("Random_gen/sales_in/nivell_", lvl);
         }
 
-        public GameObject SalesIn
+        private List<GameObject> LoadResource(string resourceLocation, int lvlRoom)
+        {
+            return Resources.LoadAll(resourceLocation + lvlRoom, typeof (GameObject)).Cast<GameObject>().ToList();
+        }
+        
+        public GameObject InitalRooms
         {
           get{
               var tempRandom = Random.Range(0,_salesIn.Count);
@@ -82,7 +87,7 @@ namespace Gen_mapa
              }
         }
 
-        public GameObject SalesNor
+        public GameObject EmptyRooms
         {
             get
             {
@@ -100,7 +105,7 @@ namespace Gen_mapa
             }
         }
 
-        public GameObject Pass(string os)
+        public GameObject Corridors(string os)
         {
             return os == _passa[0].name ? _passa[0] : _passa[1];
         }
@@ -125,10 +130,6 @@ namespace Gen_mapa
                 //sales_in.RemoveAt(temp_random);
                 return tempConserv;
             }
-        }
-        public GameObject ConstructMapa
-        {
-            get { return _constructMapa;}
         }
 
         public GameObject[] TriggEle

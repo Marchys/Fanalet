@@ -33,6 +33,8 @@ public class Supergenerador : MonoBehaviour
     private int _quadrantProta;
     public Vector2 PosZero;
     private readonly Punt2d[] _lighthouseInteriorLocations = { new Punt2d(-10, 0), new Punt2d(-20, 0), new Punt2d(-30, 0), new Punt2d(-40, 0) };
+    //other resources
+    public GameObject ConstructMapa;
     #endregion
 
     #region Funcions Inici
@@ -518,8 +520,8 @@ public class Supergenerador : MonoBehaviour
                 switch (_map[x, y])
                 {
                     case Constants.EmptyRoomId:
-                        var tempCambra = Instantiate(_poolMaterial.SalesNor, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
-                        var tempContenidor = Instantiate(_poolMaterial.ConstructMapa, ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
+                        var tempCambra = Instantiate(_poolMaterial.EmptyRooms, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
+                        var tempContenidor = Instantiate(ConstructMapa, ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
 
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambra);
                         tempCambra.transform.parent = tempContenidor.transform;
@@ -530,21 +532,21 @@ public class Supergenerador : MonoBehaviour
                         tempCambra.BroadcastMessage("Crear_Besties", SendMessageOptions.DontRequireReceiver);
                         break;
                     case Constants.VerticalCorridorId:
-                        var passV = Instantiate(_poolMaterial.Pass("pass_V"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
+                        var passV = Instantiate(_poolMaterial.Corridors("pass_V"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
                         passV.transform.SetParent(_contenidorInst.transform, true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[1], passV.transform, new Punt2d(x, y));
 
                         break;
                     case Constants.HorizontalCorridorId:
-                        var passH = Instantiate(_poolMaterial.Pass("pass_H"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
+                        var passH = Instantiate(_poolMaterial.Corridors("pass_H"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
                         passH.transform.SetParent(_contenidorInst.transform, true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[0], passH.transform, new Punt2d(x, y));
 
                         break;
                     case Constants.InitalRoomId:
-                        var tempCambraIn = Instantiate(_poolMaterial.SalesIn, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
+                        var tempCambraIn = Instantiate(_poolMaterial.InitalRooms, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambraIn);
                         tempCambraIn.transform.SetParent(_contenidorInst.transform, true);
 
