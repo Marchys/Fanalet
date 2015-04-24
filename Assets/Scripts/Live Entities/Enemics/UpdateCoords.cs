@@ -3,17 +3,17 @@
 public class UpdateCoords : MonoBehaviour
 {
 
-    Enemigo_Minotauro parentEsser;
+    EnemyMinotaur parentEsser;
 
     // Use this for initialization
     void Awake()
     {
-        parentEsser = transform.parent.GetComponent<Enemigo_Minotauro>();
+        parentEsser = transform.parent.GetComponent<EnemyMinotaur>();
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Trigg" && parentEsser.currentStateName != Enemigo_Minotauro.State.Sleep)
+        if (other.gameObject.tag == "Trigg" && parentEsser.currentStateName != EnemyMinotaur.State.Sleep)
         {
             parentEsser.coor = other.GetComponent<Trigg_ele>().coor;
         }

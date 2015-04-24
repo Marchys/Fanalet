@@ -1,9 +1,10 @@
-﻿public class Enemigo_Babosa_Stats : Enemigo_Esser_Stats
+﻿public class EnemySlugStats : EnemyStats
 {	
-    public Enemigo_Babosa_Stats()
+    public EnemySlugStats()
     {
         EntityName = "Babosa";
         EntityDescription = "Babosilbaba";
+        Level = 0;
         Attack = 2;
         Life = 10;
         BaseSpeed = BaseSpeed*0.4f;      

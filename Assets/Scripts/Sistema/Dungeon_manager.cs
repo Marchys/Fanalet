@@ -51,7 +51,7 @@ public class Dungeon_manager : MonoBehaviour {
             loading_came.SetActive(false);
             ins_camera_prota.SetActive(true);
             ins_prota.GetComponent<Protas>().Activat = true;
-            minotaure.GetComponent<Enemigo_Minotauro>().a_patrullar();
+            minotaure.GetComponent<EnemyMinotaur>().a_patrullar();
         }
     }
 

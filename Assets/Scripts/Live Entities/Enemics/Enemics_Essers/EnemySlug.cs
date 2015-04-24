@@ -4,7 +4,7 @@ using Pathfinding;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Enemigo_Babosa : Enemigo_Esser
+public class EnemySlug : BaseEnemy
 {
     #region variables
     bool rayxoc;
@@ -164,7 +164,7 @@ public class Enemigo_Babosa : Enemigo_Esser
     #region funcions inici
     new void Start()
     {
-        character = new Enemigo_Babosa_Stats();
+        character = new EnemySlugStats();
         disCheck = Random.Range(1F, 2F);
         Physics2D.IgnoreLayerCollision(9, 9, true);
         base.Start();
@@ -362,12 +362,6 @@ public class Enemigo_Babosa : Enemigo_Esser
     public override void FerMal()
     {
         if (currentStateName == State.Attack) ProtaG.Mal(character.Attack);
-    }
-
-    public override void Mort()
-    {
-       Instantiate(ItemDictionary.Generar["RedHeart"], new Vector3(transform.position.x, transform.position.y, Random.Range(0.000001F, 0.0001F)), Quaternion.identity);
-       base.Mort();
     }
 
     public override void Handle(StopMessage message)

@@ -5,7 +5,7 @@ using System.Security.Policy;
 using Pathfinding;
 using UnityEngine;
 
-public class Enemigo_Minotauro : Enemigo_Esser, IHandle<ContinueMessage>, IHandle<ProtaEntersLighthouseMessage>
+public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaEntersLighthouseMessage>
 {
 
     #region variables
@@ -203,7 +203,7 @@ public class Enemigo_Minotauro : Enemigo_Esser, IHandle<ContinueMessage>, IHandl
     #region funcions inici
     new void Start()
     {
-        character = new Enemigo_Minotauro_Stats();
+        character = new EnemyMinotaurStats();
         base.Start();
         spriteMinotaur = ownTransform.Find("MinotaurRo").gameObject;
         anim = spriteMinotaur.GetComponent<Animator>();

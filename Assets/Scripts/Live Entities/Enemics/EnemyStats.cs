@@ -1,9 +1,10 @@
-﻿public class Enemigo_Esser_Stats 
+﻿public class EnemyStats
 {
-    public Enemigo_Esser_Stats()
+    public EnemyStats()
     {
         EntityName = "";
         EntityDescription = "";
+        Level = 0;
         Immortal = false;
         Attack = 0;
         Life = 0;
@@ -14,6 +15,8 @@
     public string EntityName { get; set; }
 
     public string EntityDescription { get; set; }
+
+    public int Level { get; set; }
 
     public bool Immortal { get; set; }
 

@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, IDoAtack, IHandle<StopMessage>, IHandle<PlayerDeathMessage>
+public abstract class BaseEnemy : MonoBehaviourEx, IVulnerable<int>, IMort, IDoAtack, IHandle<StopMessage>, IHandle<PlayerDeathMessage>
 {
 
     public GameObject ParticleDeath;
-    protected Enemigo_Esser_Stats character;
+    protected EnemyStats character;
     protected bool estat_stop = false;
     protected Transform ownTransform;
     protected Seeker seeker;
@@ -70,9 +70,22 @@ public abstract class Enemigo_Esser : MonoBehaviourEx, IVulnerable<int>, IMort, 
 
     }
 
-    public virtual void Mort()
+    public void Mort()
     {
+        GameObject itemToSpawnGameObject;
+        switch (character.Level)
+        {
+            case 0:
+                break;
+            case 1:
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+        }
         Instantiate(ParticleDeath,new Vector2(transform.position.x,transform.position.y), Quaternion.identity);
+        Instantiate(ItemDictionary.Generar["RedHeart"], new Vector3(transform.position.x, transform.position.y, Random.Range(0.000001F, 0.0001F)), Quaternion.identity);
         Destroy(gameObject);
     }
 
