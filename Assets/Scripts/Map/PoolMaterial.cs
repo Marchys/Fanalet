@@ -14,13 +14,10 @@ namespace Gen_mapa
         private readonly List<GameObject> _passa;
         private readonly List<GameObject> _lighthouseExterior;
         private readonly List<GameObject> _lighthouseInterior;
-        private readonly List<GameObject>[] _enemyRooms = new List<GameObject>[5];
-        private readonly List<GameObject> _standardEnemyRooms;
-        private readonly List<GameObject> _redEnemyRooms;
-        private readonly List<GameObject> _blueEnemyRooms;
-        private readonly List<GameObject> _yellowEnemyRooms;
-        private readonly List<GameObject> _allEnemyRooms;
-        private readonly List<GameObject> _bossEnemyRooms;
+        private readonly List<GameObject> _ExitRoom;
+        private readonly List<GameObject> _BlackMarketRoomExterior;
+        private readonly List<GameObject> _BlackMarketRoomInterior;
+        private readonly List<GameObject>[] _enemyRooms = new List<GameObject>[6];
 
         public PoolMaterial(int lvl)
         {
@@ -39,30 +36,30 @@ namespace Gen_mapa
                         _triggEle[2] = tempTriggArray[i];
                         break;
                 }
-            } 
+            }
 
             var tempBlocksArray = Resources.LoadAll("Random_gen/blocks/nivell_" + lvl, typeof(GameObject)).Cast<GameObject>().ToArray();
             for (var i = 0; i < 4; i++)
             {
-              switch (tempBlocksArray[i].name)
-              {
-                  //nord
-                  case "0":
-                      _blocks[0] = tempBlocksArray[i];
-                      break;                  
-                  //sud
-                  case "1":
-                      _blocks[1] = tempBlocksArray[i];
-                      break;
-                  //est
-                  case "2":
-                      _blocks[2] = tempBlocksArray[i];
-                      break;
-                  //oest
-                  case "3":
-                      _blocks[3] = tempBlocksArray[i];
-                      break;
-              }
+                switch (tempBlocksArray[i].name)
+                {
+                    //nord
+                    case "0":
+                        _blocks[0] = tempBlocksArray[i];
+                        break;
+                    //sud
+                    case "1":
+                        _blocks[1] = tempBlocksArray[i];
+                        break;
+                    //est
+                    case "2":
+                        _blocks[2] = tempBlocksArray[i];
+                        break;
+                    //oest
+                    case "3":
+                        _blocks[3] = tempBlocksArray[i];
+                        break;
+                }
             }
 
             _salesIn = LoadResource("Random_gen/sales_in/nivell_", lvl);
@@ -70,21 +67,30 @@ namespace Gen_mapa
             _passa = LoadResource("Random_gen/passa/nivell_", lvl);
             _lighthouseExterior = LoadResource("Random_gen/lighthouse/Exterior/nivell_", lvl);
             _lighthouseInterior = LoadResource("Random_gen/lighthouse/Interior/nivell_", lvl);
-            _salesIn = LoadResource("Random_gen/sales_in/nivell_", lvl);
+            _ExitRoom = LoadResource("Random_gen/exit/nivell_", lvl);
+            _BlackMarketRoomExterior = LoadResource("Random_gen/black_market/Exterior/nivell_", lvl);
+            _BlackMarketRoomInterior = LoadResource("Random_gen/black_market/Interior/nivell_", lvl);
+            _enemyRooms[0] = LoadResource("Random_gen/enemy_rooms/standard/nivell_", lvl);
+            _enemyRooms[1] = LoadResource("Random_gen/enemy_rooms/red/nivell_", lvl);
+            _enemyRooms[2] = LoadResource("Random_gen/enemy_rooms/blue/nivell_", lvl);
+            _enemyRooms[3] = LoadResource("Random_gen/enemy_rooms/yellow/nivell_", lvl);
+            _enemyRooms[4] = LoadResource("Random_gen/enemy_rooms/all/nivell_", lvl);
+            _enemyRooms[5] = LoadResource("Random_gen/enemy_rooms/boss/nivell_", lvl);
         }
 
         private List<GameObject> LoadResource(string resourceLocation, int lvlRoom)
         {
-            return Resources.LoadAll(resourceLocation + lvlRoom, typeof (GameObject)).Cast<GameObject>().ToList();
+            return Resources.LoadAll(resourceLocation + lvlRoom, typeof(GameObject)).Cast<GameObject>().ToList();
         }
-        
+
         public GameObject InitalRooms
         {
-          get{
-              var tempRandom = Random.Range(0,_salesIn.Count);
-              var tempConserv = _salesIn[tempRandom];
-              return tempConserv;         
-             }
+            get
+            {
+                var tempRandom = Random.Range(0, _salesIn.Count);
+                var tempConserv = _salesIn[tempRandom];
+                return tempConserv;
+            }
         }
 
         public GameObject EmptyRooms
@@ -100,7 +106,7 @@ namespace Gen_mapa
         public GameObject[] Blocks
         {
             get
-            {               
+            {
                 return _blocks;
             }
         }
@@ -132,14 +138,57 @@ namespace Gen_mapa
             }
         }
 
+        public GameObject ExitRoom
+        {
+            get
+            {
+                var tempRandom = Random.Range(0, _ExitRoom.Count);
+                var tempConserv = _ExitRoom[tempRandom];
+                //sales_in.RemoveAt(temp_random);
+                return tempConserv;
+            }
+        }
+
+        public GameObject BlackMarketExterior
+        {
+            get
+            {
+                var tempRandom = Random.Range(0, _BlackMarketRoomExterior.Count);
+                var tempConserv = _BlackMarketRoomExterior[tempRandom];
+                //sales_in.RemoveAt(temp_random);
+                return tempConserv;
+            }
+        }
+
+        public GameObject BlackMarketInterior
+        {
+            get
+            {
+                var tempRandom = Random.Range(0, _BlackMarketRoomInterior.Count);
+                var tempConserv = _BlackMarketRoomInterior[tempRandom];
+                //sales_in.RemoveAt(temp_random);
+                return tempConserv;
+            }
+        }
+
+        public GameObject EnemyRoom(int enemyRoomType)
+        {
+            int tempRandom = Random.Range(0, _enemyRooms[enemyRoomType - 20].Count);
+            GameObject tempConserv = _enemyRooms[enemyRoomType - 20][tempRandom];
+            //_enemyRooms[enemyRoomType - 20].RemoveAt(tempRandom);
+            return tempConserv;
+        }
+
         public GameObject[] TriggEle
         {
             get
             {
-              return _triggEle;
+                return _triggEle;
             }
         }
-        
+
+
+
     }
 
 }

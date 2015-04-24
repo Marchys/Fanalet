@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using Gen_mapa;
@@ -33,6 +34,7 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
 
                 switch (map[x, y])
                 {
+                    
                     case Constants.InitalRoomId:
                         var tempRoomIn = Instantiate(RoomGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempRoomIn.transform.localScale = new Vector2(0.02f, 0.02f);
@@ -40,14 +42,7 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
                         tempRoomIn.SetActive(true);
                         miniMapLayout[x, y] = tempRoomIn;
                         inRoomCoor = new Punt2d(x,y);
-                        break;
-                    case Constants.EmptyRoomId:
-                        var tempRoom = Instantiate(RoomGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
-                        tempRoom.transform.localScale = new Vector2(0.02f, 0.02f);
-                        tempRoom.transform.SetParent(transform, true);
-                        tempRoom.SetActive(false);
-                        miniMapLayout[x, y] = tempRoom;
-                        break;
+                        break;           
                     case Constants.VerticalCorridorId:
                         var tempVerticalCorridor = Instantiate(VerticalCorridorGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempVerticalCorridor.transform.localScale = new Vector2(0.02f, 0.02f);
@@ -68,6 +63,15 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
                         tempLighthouseRoom.transform.SetParent(transform, true);
                         tempLighthouseRoom.SetActive(false);
                         miniMapLayout[x, y] = tempLighthouseRoom;
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        var tempRoom = Instantiate(RoomGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
+                        tempRoom.transform.localScale = new Vector2(0.02f, 0.02f);
+                        tempRoom.transform.SetParent(transform, true);
+                        tempRoom.SetActive(false);
+                        miniMapLayout[x, y] = tempRoom;
                         break;
 
                 }

@@ -506,89 +506,6 @@ public class Supergenerador : MonoBehaviour
         Debug.Log(cosa);
     }
 
-    IEnumerator Colocar_al_mon()
-    {
-        var lighthousesSpawned = 0;
-        var w = _map.Width;
-        var h = _map.Height;
-        var total = h * w;
-        var un = (float)1 / total;
-        for (var x = 0; x < w; ++x)
-        {
-            for (var y = 0; y < h; ++y)
-            {
-                switch (_map[x, y])
-                {
-                    case Constants.EmptyRoomId:
-                        var tempCambra = Instantiate(_poolMaterial.EmptyRooms, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
-                        var tempContenidor = Instantiate(ConstructMapa, ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
-
-                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambra);
-                        tempCambra.transform.parent = tempContenidor.transform;
-                        tempContenidor.transform.SetParent(_contenidorInst.transform, true);
-
-                        InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambra.transform, new Punt2d(x, y));
-
-                        tempCambra.BroadcastMessage("Crear_Besties", SendMessageOptions.DontRequireReceiver);
-                        break;
-                    case Constants.VerticalCorridorId:
-                        var passV = Instantiate(_poolMaterial.Corridors("pass_V"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
-                        passV.transform.SetParent(_contenidorInst.transform, true);
-
-                        InstantiateTrigger(_poolMaterial.TriggEle[1], passV.transform, new Punt2d(x, y));
-
-                        break;
-                    case Constants.HorizontalCorridorId:
-                        var passH = Instantiate(_poolMaterial.Corridors("pass_H"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
-                        passH.transform.SetParent(_contenidorInst.transform, true);
-
-                        InstantiateTrigger(_poolMaterial.TriggEle[0], passH.transform, new Punt2d(x, y));
-
-                        break;
-                    case Constants.InitalRoomId:
-                        var tempCambraIn = Instantiate(_poolMaterial.InitalRooms, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
-                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambraIn);
-                        tempCambraIn.transform.SetParent(_contenidorInst.transform, true);
-
-                        InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambraIn.transform, new Punt2d(x, y));
-
-                        break;
-                    case Constants.LighthouseRoomId:
-                        var templighthouseExterior = Instantiate(_poolMaterial.LighthouseExterior, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
-                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), templighthouseExterior);
-                        templighthouseExterior.transform.SetParent(_contenidorInst.transform, true);
-                        templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseNumber = Quin_Quadrant(new Punt2d(x, y));
-
-                        Quadrant tempQuadrant = AreaQuadrant(Quin_Quadrant(new Punt2d(x, y)), 3);
-                        var areaLighthouse = new GameObject(Quin_Quadrant(new Punt2d(x, y)).ToString());
-                        areaLighthouse.tag = "LighthouseArea";
-                        areaLighthouse.transform.localPosition = new Vector2(tempQuadrant.Center.X * 17, tempQuadrant.Center.Y * 13);
-                        areaLighthouse.AddComponent<BoxCollider2D>().isTrigger = true;
-                        areaLighthouse.GetComponent<BoxCollider2D>().size = new Vector2(90, 70);
-                        areaLighthouse.transform.SetParent(_contenidorInst.transform, true);
-
-                        InstantiateTrigger(_poolMaterial.TriggEle[2], templighthouseExterior.transform, new Punt2d(x, y));
-
-                        var templighthouseInterior = Instantiate(_poolMaterial.LighthouseInterior, ToRealWorldPosition(_lighthouseInteriorLocations[lighthousesSpawned].X, _lighthouseInteriorLocations[lighthousesSpawned].Y), Quaternion.identity) as GameObject;
-                        templighthouseInterior.transform.parent = templighthouseExterior.transform;
-                        templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseInterior = templighthouseInterior;
-                        templighthouseInterior.GetComponent<LighthouseInterior>().LighthouseRoom = templighthouseExterior;
-                        lighthousesSpawned++;
-                        break;
-                    default:
-                        Debug.Log("Number not recognized");
-                        break;
-                }
-                LoadingBarProgress += un;
-                yield return null;
-
-            }
-
-        }
-        GetComponent<Dungeon_manager>().Iniciar_nivell();
-        _shouldReset = true;
-    }
-
     void Colocar_blocks(List<int> bloqueigLlocs, GameObject sala)
     {
 
@@ -696,7 +613,129 @@ public class Supergenerador : MonoBehaviour
             emptyroomsleft.RemoveAt(tempRandom);
         }
     }
+
     #endregion
+
+
+    IEnumerator Colocar_al_mon()
+    {
+        var lighthousesSpawned = 0;
+        var w = _map.Width;
+        var h = _map.Height;
+        var total = h * w;
+        var un = (float)1 / total;
+        for (var x = 0; x < w; ++x)
+        {
+            for (var y = 0; y < h; ++y)
+            {
+                switch (_map[x, y])
+                {
+                    case Constants.EmptyRoomId:
+                        var tempCambra = Instantiate(_poolMaterial.EmptyRooms, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
+
+                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambra);
+                        tempCambra.transform.SetParent(_contenidorInst.transform, true);
+
+                        InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambra.transform, new Punt2d(x, y));
+                        break;
+                    
+                    case Constants.StandardEnemyRoomId:   
+                    case Constants.RedEnemyRoomId:
+                    case Constants.BlueEnemyRoomId:
+                    case Constants.YellowEnemyRoomId:
+                    case Constants.AllEnemyRoomId:
+                    case Constants.BossEnemyRoomId:
+                        var enemyroom = Instantiate(_poolMaterial.EnemyRoom(_map[x, y]), ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
+                        var tempContenidor = Instantiate(ConstructMapa, ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
+                        
+                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), enemyroom);
+                        enemyroom.transform.SetParent(tempContenidor.transform,true);
+                        tempContenidor.transform.SetParent(_contenidorInst.transform, true);
+
+                        InstantiateTrigger(_poolMaterial.TriggEle[2], enemyroom.transform, new Punt2d(x, y));
+
+                        enemyroom.BroadcastMessage("Crear_Besties", SendMessageOptions.DontRequireReceiver);
+                        break;
+
+                    case Constants.VerticalCorridorId:
+                        var passV = Instantiate(_poolMaterial.Corridors("pass_V"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
+                        passV.transform.SetParent(_contenidorInst.transform, true);
+
+                        InstantiateTrigger(_poolMaterial.TriggEle[1], passV.transform, new Punt2d(x, y));
+
+                        break;
+                    case Constants.HorizontalCorridorId:
+                        var passH = Instantiate(_poolMaterial.Corridors("pass_H"), ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
+                        passH.transform.SetParent(_contenidorInst.transform, true);
+
+                        InstantiateTrigger(_poolMaterial.TriggEle[0], passH.transform, new Punt2d(x, y));
+
+                        break;
+                    case Constants.InitalRoomId:
+                        var tempCambraIn = Instantiate(_poolMaterial.InitalRooms, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
+                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), tempCambraIn);
+                        tempCambraIn.transform.SetParent(_contenidorInst.transform, true);
+
+                        InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambraIn.transform, new Punt2d(x, y));
+
+                        break;
+                    case Constants.LighthouseRoomId:
+                        var templighthouseExterior = Instantiate(_poolMaterial.LighthouseExterior, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
+                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), templighthouseExterior);
+                        templighthouseExterior.transform.SetParent(_contenidorInst.transform, true);
+                        templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseNumber = Quin_Quadrant(new Punt2d(x, y));
+
+                        Quadrant tempQuadrant = AreaQuadrant(Quin_Quadrant(new Punt2d(x, y)), 3);
+                        var areaLighthouse = new GameObject(Quin_Quadrant(new Punt2d(x, y)).ToString());
+                        areaLighthouse.tag = "LighthouseArea";
+                        areaLighthouse.transform.localPosition = new Vector2(tempQuadrant.Center.X * 17, tempQuadrant.Center.Y * 13);
+                        areaLighthouse.AddComponent<BoxCollider2D>().isTrigger = true;
+                        areaLighthouse.GetComponent<BoxCollider2D>().size = new Vector2(90, 70);
+                        areaLighthouse.transform.SetParent(_contenidorInst.transform, true);
+
+                        InstantiateTrigger(_poolMaterial.TriggEle[2], templighthouseExterior.transform, new Punt2d(x, y));
+
+                        var templighthouseInterior = Instantiate(_poolMaterial.LighthouseInterior, ToRealWorldPosition(_lighthouseInteriorLocations[lighthousesSpawned].X, _lighthouseInteriorLocations[lighthousesSpawned].Y), Quaternion.identity) as GameObject;
+                        templighthouseInterior.transform.parent = templighthouseExterior.transform;
+                        templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseInterior = templighthouseInterior;
+                        templighthouseInterior.GetComponent<LighthouseInterior>().LighthouseRoom = templighthouseExterior;
+                        lighthousesSpawned++;
+                        break;
+                    case Constants.ExitRoomId:
+                        var exitRoom = Instantiate(_poolMaterial.ExitRoom, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
+
+                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), exitRoom);
+                        exitRoom.transform.SetParent(_contenidorInst.transform, true);
+
+                        InstantiateTrigger(_poolMaterial.TriggEle[2], exitRoom.transform, new Punt2d(x, y));
+                        break;
+                    case Constants.BlackMarketRoomId:
+                        var blackMarketExterior = Instantiate(_poolMaterial.ExitRoom, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
+
+                        Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), blackMarketExterior);
+                        blackMarketExterior.transform.SetParent(_contenidorInst.transform, true);
+
+                        var blackMarketInterior = Instantiate(_poolMaterial.BlackMarketInterior, ToRealWorldPositionModified(-10, 10), Quaternion.identity) as GameObject;
+                        blackMarketInterior.transform.SetParent(blackMarketExterior.transform, true);
+                        break;
+                    case 0:
+                        //Debug.Log("Emptyness");
+                        break;
+                    default:
+                        Debug.Log("Number not recognized");
+                        break;
+                }
+                LoadingBarProgress += un;
+                yield return null;
+
+            }
+
+        }
+        GetComponent<Dungeon_manager>().Iniciar_nivell();
+        _shouldReset = true;
+    }
+
+    
 
 }
 
