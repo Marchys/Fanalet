@@ -12,7 +12,7 @@ public class LighthouseInterior : MonoBehaviourEx {
             Vector2 targetLocation = new Vector2(LighthouseRoom.transform.position.x + 12, LighthouseRoom.transform.position.y-9.25f); 
             Camera.main.transform.position = targetLocation;
             other.transform.position = targetLocation;
-            Messenger.Publish(new ProtaExitsLighthouseMessage());
+            Messenger.Publish(new ProtaExitsStructureMessage());
         }
     }
 }

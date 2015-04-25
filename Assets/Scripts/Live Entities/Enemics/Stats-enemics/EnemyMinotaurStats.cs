@@ -7,7 +7,10 @@
         Level = 10;
         Attack = 10;
         Life = 666;
+        MaxLife = 666;
         BaseSpeed = BaseSpeed * 1f;
+        AgroSpeed = BaseSpeed * 2f;
+        CurrentSpeed = BaseSpeed;
         Mass = 200;
         Immortal = true;
     }

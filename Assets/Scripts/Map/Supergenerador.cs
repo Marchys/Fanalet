@@ -39,19 +39,9 @@ public class Supergenerador : MonoBehaviour
 
     #region Funcions Inici
 
-
-    void Start()
-    {
-        _contenidorInst = new GameObject { name = "Map" };
-        _availableQuadrantsList.Add(0);
-        _availableQuadrantsList.Add(1);
-        _availableQuadrantsList.Add(2);
-        _availableQuadrantsList.Add(3);
-    }
-
     public Map Generar_mapa(int x, int y, int niv, int maxSa)
     {
-        if (_shouldReset) Reset();
+        SetStarting();
         _map = new Map(x, y);
         ProtaPosition = ToRealWorldPosition(_map.Pointer.X, _map.Pointer.Y);
         _quadrantProta = Quin_Quadrant(_map.Pointer);
@@ -63,16 +53,14 @@ public class Supergenerador : MonoBehaviour
         return _map;
     }
 
-    void Reset()
+    private void SetStarting()
     {
-      Destroy(_contenidorInst);
-      _contenidorInst = new GameObject { name = "Map" };
-      _availableQuadrantsList.Clear();
-      _availableQuadrantsList.Add(0);
-      _availableQuadrantsList.Add(1);
-      _availableQuadrantsList.Add(2);
-      _availableQuadrantsList.Add(3);
-    
+        if (_contenidorInst != null) Destroy(_contenidorInst);
+        _contenidorInst = new GameObject { name = "Map" };
+        _availableQuadrantsList.Add(0);
+        _availableQuadrantsList.Add(1);
+        _availableQuadrantsList.Add(2);
+        _availableQuadrantsList.Add(3);
     }
 
     #endregion

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndTakeOil>, IHandle<ProtaEntersLighthouseMessage>, IHandle<ProtaExitsLighthouseMessage>
+public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndTakeOil>, IHandle<ProtaEntersStructureMessage>, IHandle<ProtaExitsStructureMessage>
 {
 
     private string _activationType;
@@ -93,7 +93,7 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         Messenger.Publish(new ContinueMessage());
     }
 
-    public void Handle(ProtaEntersLighthouseMessage message)
+    public void Handle(ProtaEntersStructureMessage message)
     {
         if (_destilating)
         {
@@ -102,7 +102,7 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
        
     }
 
-    public void Handle(ProtaExitsLighthouseMessage message)
+    public void Handle(ProtaExitsStructureMessage message)
     {
         if (_destilating)
         {

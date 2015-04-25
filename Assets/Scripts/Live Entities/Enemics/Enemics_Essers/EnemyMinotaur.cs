@@ -5,7 +5,7 @@ using System.Security.Policy;
 using Pathfinding;
 using UnityEngine;
 
-public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaEntersLighthouseMessage>
+public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaEntersStructureMessage>
 {
 
     #region variables
@@ -53,11 +53,13 @@ public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
         switch (state)
         {
             case State.Patroll:
+                character.CurrentSpeed = character.BaseSpeed;
                 ha_llis = false;
                 variableSpeed = 0;
                 currentState = Patroll;
                 break;
             case State.Sleep:
+                ownRigidbody2D.velocity = Vector2.zero;
                 currentState = () => { };
                 break;
             case State.Attack:
@@ -65,6 +67,7 @@ public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
                 currentState = Attack;
                 break;
             case State.Chase:
+                character.CurrentSpeed = character.AgroSpeed;
                 Messenger.Publish(new MinotaurChaseMessage());
                 gestor = 0;
                 variableSpeed = 0;
@@ -104,7 +107,7 @@ public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
         targetDirection = targetHeading.normalized;
         anim.SetFloat("posX", targetDirection.x);
         anim.SetFloat("posY", targetDirection.y);
-        if (variableSpeed < character.BaseSpeed) variableSpeed += 10 * Time.deltaTime;
+        if (variableSpeed < character.CurrentSpeed) variableSpeed += 10 * Time.deltaTime;
         ownRigidbody2D.velocity = targetDirection * variableSpeed;
     }
 
@@ -195,7 +198,7 @@ public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
         targetDirection = targetHeading.normalized;
         anim.SetFloat("posX", targetDirection.x);
         anim.SetFloat("posY", targetDirection.y);
-        if (variableSpeed < character.BaseSpeed) variableSpeed += 10 * Time.deltaTime;
+        if (variableSpeed < character.CurrentSpeed) variableSpeed += 10 * Time.deltaTime;
         ownRigidbody2D.velocity = targetDirection * variableSpeed;
     }
     #endregion
@@ -340,11 +343,6 @@ public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
         return !aprop ? new Vector2(ownTransform.position.x, ownTransform.position.y + 2f) : new Vector2(ownTransform.position.x, ownTransform.position.y);
     }
 
-    public void a_patrullar()
-    {
-        setState(State.Patroll);
-    }
-
     void gir()
     {
         mirant_dreta = !mirant_dreta;
@@ -401,15 +399,14 @@ public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
     }
    
 
-    public void Handle(ProtaEntersLighthouseMessage message)
+    public void Handle(ProtaEntersStructureMessage message)
     {
         setState(State.Patroll);
     }
 
     public override void Handle(PlayerDeathMessage message)
     {
-        ownRigidbody2D.velocity = Vector2.zero;
-        enabled = false;
+        setState(State.Sleep);
     }
     #endregion
 }

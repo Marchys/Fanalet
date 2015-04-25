@@ -47,8 +47,8 @@ public abstract class BaseEnemy : MonoBehaviourEx, IVulnerable<int>, IMort, IDoA
     {
         if (!character.Immortal)
         {
-            StopCoroutine("Flash_red");
-            StartCoroutine("Flash_red");
+            //StopCoroutine("Flash_red");
+            //StartCoroutine("Flash_red");
             character.Life = character.Life - mals;
             if (character.Life <= 0) Mort();
         }
@@ -72,20 +72,53 @@ public abstract class BaseEnemy : MonoBehaviourEx, IVulnerable<int>, IMort, IDoA
 
     public void Mort()
     {
-        GameObject itemToSpawnGameObject;
+        GameObject itemToSpawnGameObject = null;
         switch (character.Level)
         {
             case 0:
+                float randomNum = Random.Range(0f, 1.0f);
+                if (randomNum >= 0.55f)
+                {
+                    if (randomNum >= 0.85f)
+                    {
+                        if (randomNum >= 0.95f)
+                        {
+                            itemToSpawnGameObject = ItemDictionary.Generar["YellowHeart"];
+                        }
+                        else
+                        {
+                            itemToSpawnGameObject = ItemDictionary.Generar["BlueHeart"];
+                        }
+                    }
+                    else
+                    {
+                        itemToSpawnGameObject = ItemDictionary.Generar["RedHeart"];
+                    }
+                }
+                else
+                {
+                    itemToSpawnGameObject = new GameObject();
+                }
                 break;
             case 1:
+                itemToSpawnGameObject = ItemDictionary.Generar["RedHeart"];
                 break;
             case 2:
+                itemToSpawnGameObject = ItemDictionary.Generar["BlueHeart"];
                 break;
             case 3:
+                itemToSpawnGameObject = ItemDictionary.Generar["YellowHeart"];
                 break;
+            default:
+                break;
+
         }
+
         Instantiate(ParticleDeath,new Vector2(transform.position.x,transform.position.y), Quaternion.identity);
-        Instantiate(ItemDictionary.Generar["RedHeart"], new Vector3(transform.position.x, transform.position.y, Random.Range(0.000001F, 0.0001F)), Quaternion.identity);
+        if (itemToSpawnGameObject != null)
+        {
+            Instantiate(itemToSpawnGameObject, new Vector3(transform.position.x, transform.position.y, Random.Range(0.000001F, 0.0001F)), Quaternion.identity);
+        }
         Destroy(gameObject);
     }
 

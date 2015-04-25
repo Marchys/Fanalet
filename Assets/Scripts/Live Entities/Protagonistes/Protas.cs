@@ -3,7 +3,7 @@ using System.Runtime.Remoting;
 using Pathfinding;
 using UnityEngine;
 
-public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMessage>, IHandle<ContinueMessage>, IHandle<PlayerDeathMessage>
+public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMessage>, IHandle<ContinueMessage>, IHandle<PlayerDeathMessage>, IHandle<ProtaEntersStructureMessage>, IHandle<ProtaExitsStructureMessage>
 {
     // Character public temoraly so cheats can se it
     public BaseCaracterStats Character;
@@ -15,7 +15,7 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
     protected Rigidbody2D OwnRigidbody2D;
     public Punt2d Coor;
     public bool Activat = false;
-
+    private bool insideStructure = false;
 
     protected void Start()
     {
@@ -36,8 +36,32 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
         modifiedStats.OiLife -= damageAmount;
         Character.UpdateStats(modifiedStats,Messenger);
     }
+
+    private void SwitchLifeWear()
+    {
+        if (insideStructure || !Activat)
+        {
+           StopCoroutine("LifeWear"); 
+        }else
+        {
+            StopCoroutine("LifeWear"); 
+            StartCoroutine("LifeWear");
+        }
+    }
+
+    private IEnumerator LifeWear()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(5f);
+            var modifiedStats = new BaseCaracterStats();
+            modifiedStats.OiLife -= 1;
+            Character.UpdateStats(modifiedStats, Messenger);
+        }
+        
+    }
     
-    IEnumerator Flash_red()
+    private IEnumerator Flash_red()
     {
         var alCol = 0.2f;
         _spriteRend.color = new Color(1f, alCol, alCol, 1F);
@@ -68,17 +92,32 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
 
     public virtual void Handle(StopMessage message)
     {
+        
         Activat = false;
+        SwitchLifeWear();
     }
 
     public virtual void Handle(ContinueMessage message)
     {
         Activat = true;
+        SwitchLifeWear();
     }
 
 
     public void Handle(PlayerDeathMessage message)
     {
         Destroy(gameObject);
+    }
+
+    public void Handle(ProtaEntersStructureMessage message)
+    {
+        insideStructure = true;
+        SwitchLifeWear();
+    }
+
+    public void Handle(ProtaExitsStructureMessage message)
+    {
+        insideStructure = false;
+        SwitchLifeWear();
     }
 }

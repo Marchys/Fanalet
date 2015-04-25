@@ -31,6 +31,15 @@ public class EnemySlug : BaseEnemy
     bool playerSeen = false;
     //distancia check position
     float disCheck;
+    //type slug of enemy
+    public SlugType slugyStats;
+    public enum SlugType
+    {
+        StandardSlug,
+        RedSlug,
+        BlueSlug,
+        YellowSlug
+    }
     //definir variables maquina d'estats       
     public enum State
     {
@@ -57,6 +66,7 @@ public class EnemySlug : BaseEnemy
         switch (state)
         {
             case State.Patroll:
+                character.CurrentSpeed = character.BaseSpeed;
                 _lastPosition = new Vector2(0, 0);
                 pathListExists = false;
                 variableSpeed = 0;
@@ -75,6 +85,7 @@ public class EnemySlug : BaseEnemy
                 currentState = Attack;
                 break;
             case State.Chase:
+                character.CurrentSpeed = character.AgroSpeed;
                 anim.SetInteger("Anim", 2);
                 variableSpeed = 0;
                 currentState = Chase;
@@ -127,7 +138,7 @@ public class EnemySlug : BaseEnemy
             Random_dir();
         }
         _lastPosition = ownTransform.position;
-        ownRigidbody2D.velocity = random_dir * character.BaseSpeed;
+        ownRigidbody2D.velocity = random_dir * character.CurrentSpeed;
         if (ownRigidbody2D.velocity.x > 0 && !mirant_dreta) gir();
         else if (ownRigidbody2D.velocity.x < 0 && mirant_dreta) gir();
     }
@@ -141,7 +152,7 @@ public class EnemySlug : BaseEnemy
         targetHeading = Que_target() - pos_mod_bi();
         targetDirection = targetHeading.normalized;
         //Debug.DrawRay(ownTransform.position, targetDirection*10, Color.green);     
-        if (variableSpeed < character.BaseSpeed) variableSpeed += 10 * Time.deltaTime;
+        if (variableSpeed < character.CurrentSpeed) variableSpeed += 10 * Time.deltaTime;
         ownRigidbody2D.velocity = targetDirection * variableSpeed;
         if (ownRigidbody2D.velocity.x > 0 && !mirant_dreta) gir();
         else if (ownRigidbody2D.velocity.x < 0 && mirant_dreta) gir();
@@ -164,10 +175,24 @@ public class EnemySlug : BaseEnemy
     #region funcions inici
     new void Start()
     {
-        character = new EnemySlugStats();
+        switch (slugyStats)
+        {
+            case SlugType.StandardSlug:
+                character = new EnemySlugStats();
+                break;
+            case SlugType.RedSlug:
+                character = new EnemyRedSlugStats();
+                break;
+            case SlugType.BlueSlug:
+                character = new EnemyBlueSlugStats();
+                break;
+            case SlugType.YellowSlug:
+                character = new EnemyYellowSlugStats();
+                break;
+        }
+        base.Start();
         disCheck = Random.Range(1F, 2F);
         Physics2D.IgnoreLayerCollision(9, 9, true);
-        base.Start();
         ownRigidbody2D.mass = character.Mass;
         target = prota;
         setState(State.Sleep);

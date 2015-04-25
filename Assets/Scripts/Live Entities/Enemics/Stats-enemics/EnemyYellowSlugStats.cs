@@ -1,15 +1,16 @@
-﻿using UnityEngine;
-using System.Collections;
-
-public class EnemyYellowSlugStats : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+﻿public class EnemyYellowSlugStats : EnemyStats
+{
+    public EnemyYellowSlugStats()
+    {
+        EntityName = "YellowSlug";
+        EntityDescription = "It's a yellow slug";
+        Level = 3;
+        Attack = 7;
+        Life = 30;
+        MaxLife = 30;
+        BaseSpeed = BaseSpeed * 1f;
+        AgroSpeed = BaseSpeed * 2.5f;
+        CurrentSpeed = BaseSpeed;
+        Mass = 40;
+    }
 }

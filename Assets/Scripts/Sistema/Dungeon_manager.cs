@@ -1,7 +1,7 @@
 ﻿using Gen_mapa;
 using UnityEngine;
 
-public class Dungeon_manager : MonoBehaviour {
+public class Dungeon_manager : MonoBehaviourEx {
 
     //supergenerador
     private Supergenerador re_supergenerador;
@@ -50,8 +50,7 @@ public class Dungeon_manager : MonoBehaviour {
             pri_niv = false;                      
             loading_came.SetActive(false);
             ins_camera_prota.SetActive(true);
-            ins_prota.GetComponent<Protas>().Activat = true;
-            minotaure.GetComponent<EnemyMinotaur>().a_patrullar();
+            Messenger.Publish(new ContinueMessage());
         }
     }
 
