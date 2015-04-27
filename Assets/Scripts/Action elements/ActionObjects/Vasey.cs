@@ -9,9 +9,10 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
     private BaseCaracterStats Stats;
     private string[] _firstDialog;
     private string[] _secondDialog;
-    private bool Activated = false;
-    private int idMessage = 0;
-    private int oilActivationPrice = 20;
+    private bool _activated = false;
+    private int _idMessage = 0;
+    private readonly int[] _oilActivationPrice = {10,150,300,500};
+    private int _lighthousesActivated = 0;
 
     // Use this for initialization
     new void Start()
@@ -36,18 +37,18 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
         base.ExecuteAction(stats);
         if (minotaurChasing) return;
         Messenger.Publish(new StopMessage());
-        idMessage = GetInstanceID();
-        Messenger.Publish(new DialogueStartMessage(!Activated ? _firstDialog : _secondDialog, idMessage));
+        _idMessage = GetInstanceID();
+        Messenger.Publish(new DialogueStartMessage(!_activated ? _firstDialog : _secondDialog, _idMessage));
     }
 
 
     public void Handle(DialogueEndMessage message)
     {
-        if (message.MessageId == idMessage && !Activated)
+        if (message.MessageId == _idMessage && !_activated)
         {
-            Messenger.Publish(new StartPayLighthouseMessage(Stats, oilActivationPrice, idMessage));
+            Messenger.Publish(new StartPayLighthouseMessage(Stats, _oilActivationPrice[_lighthousesActivated], _idMessage));
         }
-        else if(message.MessageId == idMessage && Activated)  Messenger.Publish(new ContinueMessage());
+        else if(message.MessageId == _idMessage && _activated)  Messenger.Publish(new ContinueMessage());
     }
 
     public void Handle(EndPayLighthouseMessage message)
@@ -57,23 +58,24 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
                message.ActivationType.YellowHearts != 0)
         {
 
-            if (message.MessageId == idMessage)
+            if (message.MessageId == _idMessage)
             {
-                Activated = true;
+                _activated = true;
                 _lighthouse.GetComponent<LighthouseStructure>().ActivateLighthouse(message.ActivationType);
+                _lighthouse.GetComponentInChildren<LightUpgrader>().LighthousesActivated = _lighthousesActivated;
                 Messenger.Publish(new ContinueMessage());
-                idMessage = 0;
+                _idMessage = 0;
             }
-            else 
+            else
             {
-                oilActivationPrice *= 2;
+                _lighthousesActivated++;
             }
 
         }
-        else if (message.MessageId == idMessage)
+        else if (message.MessageId == _idMessage)
         {
             Messenger.Publish(new ContinueMessage());
-            idMessage = 0;
+            _idMessage = 0;
         }
 
     }

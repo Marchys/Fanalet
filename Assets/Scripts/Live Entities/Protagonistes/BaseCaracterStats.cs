@@ -1,9 +1,13 @@
-﻿public class BaseCaracterStats 
+﻿using System.Diagnostics;
+using Debug = UnityEngine.Debug;
+
+public class BaseCaracterStats 
 {
     public BaseCaracterStats()
     {
         EntityName = "";
         EntityDescription = "";
+        Protagonist = false;
         Attack = 0;
         OiLife = 0;
         MaxOiLife = 0;
@@ -18,6 +22,8 @@
     public string EntityName { get; set; }
 
     public string EntityDescription { get; set; }
+
+    public bool Protagonist { get; set; }
 
     //Entity propieties
     public int Attack { get; set; }
@@ -38,6 +44,11 @@
 
     public virtual void UpdateStats(BaseCaracterStats statData, IEventAggregator messenger)
     {
+        if (!Protagonist)
+        {
+            Debug.Log("someone tried to update the stats and it's not a protagonist");
+            return;
+        }
         Attack += statData.Attack;
         MaxOiLife += statData.MaxOiLife;
         OiLife += statData.OiLife;

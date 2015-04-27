@@ -4,6 +4,7 @@
     {
         EntityName = "Po";
         EntityDescription = "Te mola po";
+	    Protagonist = true;
         Attack = 2;
         OiLife = 100;
         MaxOiLife = 100;
@@ -13,5 +14,5 @@
 	    BlueHearts = 0;
         YellowHearts = 0;
     }
-   
+    
 }
