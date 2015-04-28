@@ -698,13 +698,17 @@ public class Supergenerador : MonoBehaviour
                         InstantiateTrigger(_poolMaterial.TriggEle[2], exitRoom.transform, new Punt2d(x, y));
                         break;
                     case Constants.BlackMarketRoomId:
-                        var blackMarketExterior = Instantiate(_poolMaterial.ExitRoom, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
+                        var blackMarketExterior = Instantiate(_poolMaterial.BlackMarketExterior, ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
 
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), blackMarketExterior);
                         blackMarketExterior.transform.SetParent(_contenidorInst.transform, true);
 
+                        blackMarketExterior.GetComponentInChildren<BlackMarketDoor>().marketLocation = ToRealWorldPosition(-10, 10);
+
                         var blackMarketInterior = Instantiate(_poolMaterial.BlackMarketInterior, ToRealWorldPositionModified(-10, 10), Quaternion.identity) as GameObject;
                         blackMarketInterior.transform.SetParent(blackMarketExterior.transform, true);
+
+                        blackMarketInterior.GetComponentInChildren<BlackMarketExit>().exitLocation = ToRealWorldPosition(x, y);
                         break;
                     case 0:
                         //Debug.Log("Emptyness");

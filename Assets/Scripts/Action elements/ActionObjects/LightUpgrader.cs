@@ -37,7 +37,7 @@ public class LightUpgrader : ActionE, IHandle<EndUpgradeGuiMessage>
 
     public override void ExecuteAction(BaseCaracterStats stats)
     {
-        if (blocked) return;
+        if (Blocked) return;
         base.ExecuteAction(stats);
         Messenger.Publish(new StopMessage());
         _idMessage = GetInstanceID();
@@ -52,7 +52,7 @@ public class LightUpgrader : ActionE, IHandle<EndUpgradeGuiMessage>
             Messenger.Publish(new ContinueMessage());
             return;
         }
-        blocked = true;
-        _eAnimator.SetInteger("animationState", 0);
+        Blocked = true;
+        EAnimator.SetInteger("animationState", 0);
     }
 }

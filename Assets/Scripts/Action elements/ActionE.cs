@@ -5,39 +5,41 @@
 
 public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>
 {
-    protected Animator _eAnimator;
+    protected Animator EAnimator;
     protected bool minotaurChasing = false;
-    protected bool blocked = false;
+    protected bool Blocked = false;
+    public  GameObject Prota = null;
     
     protected void Start()
     {
-        _eAnimator=GetComponent<Animator>();
+        EAnimator=GetComponent<Animator>();
     }
     
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Prota" && !minotaurChasing && !blocked)
+        if (other.gameObject.tag == "Prota" && !minotaurChasing && !Blocked)
         {
-            _eAnimator.SetInteger("animationState",1);
+            if (Prota == null) Prota = other.gameObject;
+            EAnimator.SetInteger("animationState",1);
         }
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Prota" && !minotaurChasing && !blocked)
+        if (other.gameObject.tag == "Prota" && !minotaurChasing && !Blocked)
         {
-            _eAnimator.SetInteger("animationState",0);
+            EAnimator.SetInteger("animationState",0);
         }
     }
 
     public virtual void ExecuteAction(BaseCaracterStats stats)
     {
-       _eAnimator.SetInteger("animationState", 0);
+       EAnimator.SetInteger("animationState", 0);
     }
 
-    public void Handle(MinotaurChaseMessage message)
+    public virtual void Handle(MinotaurChaseMessage message)
     {
-        _eAnimator.SetInteger("animationState", 0);
+        EAnimator.SetInteger("animationState", 0);
         minotaurChasing = true;
     }
 }
