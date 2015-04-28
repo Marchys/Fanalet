@@ -17,7 +17,7 @@ public class LighthouseStructure : MonoBehaviourEx
         ownAnimator = GetComponent<Animator>();
     }
 
-    public void ActivateLighthouse(BaseCaracterStats typeActivation)
+    public void ActivateLighthouse(BaseCaracterStats typeActivation, int lighthousesActivated)
     {
         if (typeActivation.RedHearts != 0)
         {
@@ -36,6 +36,8 @@ public class LighthouseStructure : MonoBehaviourEx
         }
         Messenger.Publish(new LighthouseActivatedMessage(LighthouseNumber));
         LighthouseInterior.GetComponentInChildren<Furnance>().SetLighthousetype(typeActivation);
+        LighthouseInterior.GetComponentInChildren<LightUpgrader>().LighthousesActivated = lighthousesActivated;
+
         ownAnimator.SetBool("Activated", true);
         Messenger.Publish(new CameraShakeMessage());
         _activated = true;

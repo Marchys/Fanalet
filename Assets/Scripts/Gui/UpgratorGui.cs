@@ -4,13 +4,13 @@ using UnityEngine.UI;
 
 public class UpgratorGui : MonoBehaviourEx, IHandle<StartUpgradeGuiMessage>
 {
-    public Text AttackText;
-    public Text SpeedText;
-    public Text LifeText;
+    public GameObject AttackGameObject;
+    public GameObject SpeedGameObject;
+    public GameObject LifeGameObject;
 
-    public Image RedHeartImage;
-    public Image BlueHeartImage;
-    public Image YellowHeartImage;
+    public GameObject RedHeartGameObject;
+    public GameObject BlueHeartGameObject;
+    public GameObject YellowHeartGameObject;
 
     public Text RedHeartText;
     public Text BlueHeartText;
@@ -24,31 +24,34 @@ public class UpgratorGui : MonoBehaviourEx, IHandle<StartUpgradeGuiMessage>
     {
         _message = message;
         Messenger.Publish(new BlurMessage(true));
-
+        //Show all the interface
+        foreach (Transform child in transform)
+        {
+            child.gameObject.SetActive(true);
+        }
+        UpgradeButton.interactable = true;
         // show things that will change with the upgrade
-        if (_message.UpgradeStats.Attack != 0) AttackText.enabled = true;
-        if (_message.UpgradeStats.MaxOiLife != 0) SpeedText.enabled = true;
-        if (_message.UpgradeStats.BaseSpeed != 0) LifeText.enabled = true;
+        if (_message.UpgradeStats.Attack == 0) AttackGameObject.SetActive(false);
+        if (_message.UpgradeStats.MaxOiLife == 0) LifeGameObject.SetActive(false);
+        if (_message.UpgradeStats.BaseSpeed == 0) SpeedGameObject.SetActive(false);
 
         //show price of upgrade
-        if (_message.UpgradeStats.RedHearts != 0)
+        if (_message.UpgradeStats.RedHearts == 0)
         {
-            RedHeartImage.enabled = true;
-            RedHeartText.enabled = true;
-            RedHeartText.text = _message.UpgradeStats.RedHearts.ToString();
+            RedHeartGameObject.SetActive(false); 
         }
-        if (_message.UpgradeStats.BlueHearts != 0)
+        if (_message.UpgradeStats.BlueHearts == 0)
         {
-            BlueHeartImage.enabled = true;
-            BlueHeartText.enabled = true;
-            BlueHeartText.text = _message.UpgradeStats.RedHearts.ToString();
+            BlueHeartGameObject.SetActive(false); 
         }
-        if (_message.UpgradeStats.YellowHearts != 0)
+        if (_message.UpgradeStats.YellowHearts == 0)
         {
-            YellowHeartImage.enabled = true;
-            BlueHeartText.enabled = true;
-            YellowHeartText.text = _message.UpgradeStats.RedHearts.ToString();
+            YellowHeartGameObject.SetActive(false); 
         }
+
+         RedHeartText.text = _message.UpgradeStats.RedHearts.ToString();
+         YellowHeartText.text = _message.UpgradeStats.YellowHearts.ToString();
+         BlueHeartText.text = _message.UpgradeStats.BlueHearts.ToString();
 
         if ((_message.UpgradeStats.RedHearts + _message.ProtaStats.RedHearts) < 0 ||
             (_message.UpgradeStats.BlueHearts + _message.ProtaStats.BlueHearts) < 0 ||
@@ -56,12 +59,7 @@ public class UpgratorGui : MonoBehaviourEx, IHandle<StartUpgradeGuiMessage>
         {
             UpgradeButton.interactable = false;
         }
-            //Show all the interface
-        foreach (Transform child in transform)
-        {
-            child.gameObject.SetActive(true);
-        }
-        Messenger.Publish(new BlurMessage(false));
+        
     }
 
     public void Upgrade()
@@ -72,7 +70,6 @@ public class UpgratorGui : MonoBehaviourEx, IHandle<StartUpgradeGuiMessage>
         {
             child.gameObject.SetActive(false);
         }
-        Reset();
         Messenger.Publish(new BlurMessage(false));
         Messenger.Publish(new EndUpgradeGuiMessage(_message.MessageId, true));
     }
@@ -84,26 +81,8 @@ public class UpgratorGui : MonoBehaviourEx, IHandle<StartUpgradeGuiMessage>
         {
             child.gameObject.SetActive(false);
         }
-        Reset();
         Messenger.Publish(new BlurMessage(false));
         Messenger.Publish(new EndUpgradeGuiMessage(_message.MessageId, false));
-    }
-
-    private void Reset()
-    {
-        AttackText.enabled = false;
-        SpeedText.enabled = false;
-        LifeText.enabled = false;
-
-        RedHeartImage.enabled = false;
-        BlueHeartImage.enabled = false;
-        YellowHeartImage.enabled = false;
-
-        RedHeartText.enabled = false;
-        BlueHeartText.enabled = false;
-        YellowHeartText.enabled = false;
-
-        UpgradeButton.interactable = true;
     }
 
 }

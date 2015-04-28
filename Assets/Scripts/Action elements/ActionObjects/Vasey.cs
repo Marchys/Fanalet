@@ -61,8 +61,7 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
             if (message.MessageId == _idMessage)
             {
                 _activated = true;
-                _lighthouse.GetComponent<LighthouseStructure>().ActivateLighthouse(message.ActivationType);
-                _lighthouse.GetComponentInChildren<LightUpgrader>().LighthousesActivated = _lighthousesActivated;
+                _lighthouse.GetComponent<LighthouseStructure>().ActivateLighthouse(message.ActivationType, _lighthousesActivated);
                 Messenger.Publish(new ContinueMessage());
                 _idMessage = 0;
             }
