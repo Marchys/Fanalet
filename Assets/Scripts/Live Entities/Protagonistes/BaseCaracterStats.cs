@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using UnityEditor;
 using Debug = UnityEngine.Debug;
 
 public class BaseCaracterStats 
