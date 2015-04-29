@@ -11,7 +11,7 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
     private string[] _secondDialog;
     private bool _activated = false;
     private int _idMessage = 0;
-    private readonly int[] _oilActivationPrice = {10,150,300,500};
+    private readonly int[] _oilActivationPrice = {10,80,130,170};
     private int _lighthousesActivated = 0;
 
     // Use this for initialization
