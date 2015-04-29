@@ -6,7 +6,7 @@ public class OilBottleStats : BaseCaracterStats
     public OilBottleStats()
     {
         EntityName = "OilBottle";
-        EntityDescription = "A uncommon enemy heart";
+        EntityDescription = "A bit of oil";
         OiLife = 5;
     }
 

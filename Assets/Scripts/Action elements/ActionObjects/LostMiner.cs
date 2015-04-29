@@ -44,6 +44,7 @@ public class LostMiner : ActionE, IHandle<LighthouseActivatedMessage>, IHandle<D
     {
         protaStats = stats;
         base.ExecuteAction(stats);
+        if (minotaurChasing) return;
         if (stats.OldTools) _hasTools = true;
         Messenger.Publish(new StopMessage());
         _idMessage = GetInstanceID();

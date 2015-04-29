@@ -22,11 +22,12 @@ public class LightUpgrader : ActionE, IHandle<EndUpgradeGuiMessage>
         _upgrades[1].BlueHearts -= 7;
 
         _upgrades[2] = new BaseCaracterStats();
+        _upgrades[2].Attack += 1;
         _upgrades[2].MaxOiLife += 150;
         _upgrades[2].YellowHearts -= 5;
 
         _upgrades[3] = new BaseCaracterStats();
-        _upgrades[3].Attack += 3;
+        _upgrades[3].Attack += 1;
         _upgrades[3].BaseSpeed += 2;
         _upgrades[3].MaxOiLife += 50;
         _upgrades[3].RedHearts -= 5;

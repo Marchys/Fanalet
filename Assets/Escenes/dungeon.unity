@@ -7021,6 +7021,8 @@ MonoBehaviour:
   RoomGameObject: {fileID: 191696, guid: 1f9b498ce95a19740b4cc1cf1c6f320d, type: 2}
   LightHouseRoomGameObject: {fileID: 150444, guid: d24a17fb4afee924eb149a5f47941635,
     type: 2}
+  ExitGameObject: {fileID: 100862, guid: 71f0e6298b4a4d346974ecee125d0a12, type: 2}
+  MarketGameObject: {fileID: 102798, guid: 7552957454b2d9847927b7f10823a0c1, type: 2}
 --- !u!114 &586023184
 MonoBehaviour:
   m_ObjectHideFlags: 0

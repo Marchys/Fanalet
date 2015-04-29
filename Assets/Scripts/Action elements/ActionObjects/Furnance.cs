@@ -21,7 +21,7 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         else if (ActivationStats.BlueHearts != 0)
         {
             _activationType = "blue";
-            _conversionFactor = 1.9f;
+            _conversionFactor = 2f;
         }
         else if (ActivationStats.YellowHearts != 0)
         {

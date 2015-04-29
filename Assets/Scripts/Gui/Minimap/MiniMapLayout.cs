@@ -11,6 +11,8 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
     public GameObject HorizontalCorridorGameObject;
     public GameObject RoomGameObject;
     public GameObject LightHouseRoomGameObject;
+    public GameObject ExitGameObject;
+    public GameObject MarketGameObject;
 
     private GameObject[,] miniMapLayout;
 
@@ -18,13 +20,13 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
 
     void Start()
     {
-     //  GetComponent<RectTransform>().localPosition = new Vector2(-1772, 210);
+        //  GetComponent<RectTransform>().localPosition = new Vector2(-1772, 210);
     }
     public void GenerateLayout(Map map)
     {
         var w = map.Width;
         var h = map.Height;
-        var inRoomCoor = new Punt2d(0,0);
+        var inRoomCoor = new Punt2d(0, 0);
 
         miniMapLayout = new GameObject[w, h];
         for (var x = 0; x < w; ++x)
@@ -34,15 +36,15 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
 
                 switch (map[x, y])
                 {
-                    
+
                     case Constants.InitalRoomId:
                         var tempRoomIn = Instantiate(RoomGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempRoomIn.transform.localScale = new Vector2(0.02f, 0.02f);
                         tempRoomIn.transform.SetParent(transform, true);
                         tempRoomIn.SetActive(true);
                         miniMapLayout[x, y] = tempRoomIn;
-                        inRoomCoor = new Punt2d(x,y);
-                        break;           
+                        inRoomCoor = new Punt2d(x, y);
+                        break;
                     case Constants.VerticalCorridorId:
                         var tempVerticalCorridor = Instantiate(VerticalCorridorGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
                         tempVerticalCorridor.transform.localScale = new Vector2(0.02f, 0.02f);
@@ -63,6 +65,20 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
                         tempLighthouseRoom.transform.SetParent(transform, true);
                         tempLighthouseRoom.SetActive(false);
                         miniMapLayout[x, y] = tempLighthouseRoom;
+                        break;
+                    case Constants.BlackMarketRoomId:
+                        var blackMarket = Instantiate(MarketGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
+                        blackMarket.transform.localScale = new Vector2(0.02f, 0.02f);
+                        blackMarket.transform.SetParent(transform, true);
+                        blackMarket.SetActive(false);
+                        miniMapLayout[x, y] = blackMarket;
+                        break;
+                    case Constants.ExitRoomId:
+                        var exitRoom = Instantiate(ExitGameObject, new Vector2(Traduir_pos(x, 1), Traduir_pos(y, 0)), Quaternion.identity) as GameObject;
+                        exitRoom.transform.localScale = new Vector2(0.02f, 0.02f);
+                        exitRoom.transform.SetParent(transform, true);
+                        exitRoom.SetActive(false);
+                        miniMapLayout[x, y] = exitRoom;
                         break;
                     case 0:
                         break;
@@ -110,8 +126,8 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
                 {
                     if (!miniMapLayout[xCoor, yCoor].activeInHierarchy)
                     {
-                       miniMapLayout[xCoor, yCoor].SetActive(true);
-                       miniMapLayout[xCoor, yCoor].GetComponent<Image>().color = new Color32(255,255,255,50);
+                        miniMapLayout[xCoor, yCoor].SetActive(true);
+                        miniMapLayout[xCoor, yCoor].GetComponent<Image>().color = new Color32(255, 255, 255, 50);
                     }
                 }
             }

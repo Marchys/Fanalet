@@ -34,7 +34,7 @@ public class Item : MonoBehaviour
                 itemStatsModified = new YellowHeartStats();
                 break;
             case ItemTypes.OilBottle:
-                itemStatsModified = new YellowHeartStats();
+                itemStatsModified = new OilBottleStats();
                 break;
         }
     }
