@@ -13,7 +13,8 @@ public class Item : MonoBehaviour
     {
         RedHeart,
         BlueHeart,
-        YellowHeart
+        YellowHeart,
+        OilBottle
     }
 
     //This is what you need to show in the inspector.
@@ -30,6 +31,9 @@ public class Item : MonoBehaviour
                 itemStatsModified = new BlueHeartStats();
                 break;
             case ItemTypes.YellowHeart:
+                itemStatsModified = new YellowHeartStats();
+                break;
+            case ItemTypes.OilBottle:
                 itemStatsModified = new YellowHeartStats();
                 break;
         }

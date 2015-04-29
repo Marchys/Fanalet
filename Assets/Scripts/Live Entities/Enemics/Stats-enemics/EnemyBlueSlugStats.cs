@@ -8,8 +8,8 @@
         Attack = 4;
         Life = 16;
         MaxLife = 16;
-        BaseSpeed = BaseSpeed * 0.9f;
-        AgroSpeed = BaseSpeed * 2f;
+        BaseSpeed = BaseSpeed * 0.8f;
+        AgroSpeed = BaseSpeed * 1.3f;
         CurrentSpeed = BaseSpeed;
         Mass = 40;
     }

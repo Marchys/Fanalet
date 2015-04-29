@@ -76,29 +76,30 @@ public abstract class BaseEnemy : MonoBehaviourEx, IVulnerable<int>, IMort, IDoA
         switch (character.Level)
         {
             case 0:
-                float randomNum = Random.Range(0f, 1.0f);
-                if (randomNum >= 0.55f)
-                {
-                    if (randomNum >= 0.85f)
-                    {
-                        if (randomNum >= 0.95f)
-                        {
-                            itemToSpawnGameObject = ItemDictionary.Generar["YellowHeart"];
-                        }
-                        else
-                        {
-                            itemToSpawnGameObject = ItemDictionary.Generar["BlueHeart"];
-                        }
-                    }
-                    else
-                    {
-                        itemToSpawnGameObject = ItemDictionary.Generar["RedHeart"];
-                    }
-                }
-                else
-                {
-                    itemToSpawnGameObject = new GameObject();
-                }
+                itemToSpawnGameObject = ItemDictionary.Generar["OilBottle"];
+                //float randomNum = Random.Range(0f, 1.0f);
+                //if (randomNum >= 0.55f)
+                //{
+                //    if (randomNum >= 0.85f)
+                //    {
+                //        if (randomNum >= 0.95f)
+                //        {
+                //            itemToSpawnGameObject = ItemDictionary.Generar["YellowHeart"];
+                //        }
+                //        else
+                //        {
+                //            itemToSpawnGameObject = ItemDictionary.Generar["BlueHeart"];
+                //        }
+                //    }
+                //    else
+                //    {
+                //        itemToSpawnGameObject = ItemDictionary.Generar["RedHeart"];
+                //    }
+                //}
+                //else
+                //{
+                //    itemToSpawnGameObject = new GameObject();
+                //}
                 break;
             case 1:
                 itemToSpawnGameObject = ItemDictionary.Generar["RedHeart"];

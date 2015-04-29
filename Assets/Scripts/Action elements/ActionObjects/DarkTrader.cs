@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class DarkTrader : ActionE, IHandle<DialogueEndMessage>
+public class DarkTrader : ActionE, IHandle<DialogueEndMessage>, IHandle<EndBlackShopMessage>
 {
     public TextAsset TextFileDialogue1;
     public TextAsset TextFileDialogue2;
@@ -47,5 +47,15 @@ public class DarkTrader : ActionE, IHandle<DialogueEndMessage>
             Messenger.Publish(new StartBlackShopMessage(_idMessage,protaStats));
         }
         else if (message.MessageId == _idMessage && _bought) Messenger.Publish(new ContinueMessage());
+    }
+
+    public void Handle(EndBlackShopMessage message)
+    {
+        if (message.MessageId != _idMessage) return;
+        if (message.Sucess)
+        {
+            _bought = true;
+        }
+        Messenger.Publish(new ContinueMessage());
     }
 }

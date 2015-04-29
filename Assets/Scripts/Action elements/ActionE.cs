@@ -3,7 +3,7 @@
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Animator))]
 
-public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>
+public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>, IHandle<ProtaEntersStructureMessage>
 {
     protected Animator EAnimator;
     protected bool minotaurChasing = false;
@@ -41,5 +41,10 @@ public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>
     {
         EAnimator.SetInteger("animationState", 0);
         minotaurChasing = true;
+    }
+
+    public void Handle(ProtaEntersStructureMessage message)
+    {
+        minotaurChasing = false;
     }
 }

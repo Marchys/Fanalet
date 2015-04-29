@@ -9,7 +9,7 @@
         Life = 30;
         MaxLife = 30;
         BaseSpeed = BaseSpeed * 1f;
-        AgroSpeed = BaseSpeed * 2.5f;
+        AgroSpeed = BaseSpeed * 1.4f;
         CurrentSpeed = BaseSpeed;
         Mass = 40;
     }

@@ -19,10 +19,10 @@
     public const int AllEnemyRoomId = 24;
     public const int BossEnemyRoomId = 25;
     // number of enemy rooms by type
-    public const int StandardEnemyRoomQuantity = 5;
+    public const int StandardEnemyRoomQuantity = 15;
     public const int RedEnemyRoomQuantity = 10;
-    public const int BlueEnemyRoomQuantity = 6;
-    public const int YellowEnemyRoomQuantity = 5;
-    public const int AllEnemyRoomQuantity = 10;
+    public const int BlueEnemyRoomQuantity = 8;
+    public const int YellowEnemyRoomQuantity = 6;
+    public const int AllEnemyRoomQuantity = 5;
     public const int BossEnemyRoomQuantity = 1;
 }

@@ -47,12 +47,13 @@ public class LightUpgrader : ActionE, IHandle<EndUpgradeGuiMessage>
 
     public void Handle(EndUpgradeGuiMessage message)
     {
-        if (_idMessage != message.MessageId || !message.Upgraded)
+        if (_idMessage != message.MessageId) return;
+        if (message.Upgraded)
         {
-            Messenger.Publish(new ContinueMessage());
-            return;
+            Blocked = true;
+            EAnimator.SetInteger("animationState", 0);
         }
-        Blocked = true;
-        EAnimator.SetInteger("animationState", 0);
+        Messenger.Publish(new ContinueMessage());
+       
     }
 }

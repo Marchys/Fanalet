@@ -8,20 +8,25 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
     private int _idMessage = 0;
     private bool _destilating = false;
     private CountDown _countdown;
+    private float _conversionFactor = 0;
+
 
     public void SetLighthousetype(BaseCaracterStats ActivationStats)
     {
         if (ActivationStats.RedHearts != 0)
         {
             _activationType = "red";
+            _conversionFactor = 2f;
         }
         else if (ActivationStats.BlueHearts != 0)
         {
             _activationType = "blue";
+            _conversionFactor = 1.9f;
         }
         else if (ActivationStats.YellowHearts != 0)
         {
             _activationType = "yellow";
+            _conversionFactor = 2f;
         }
     }
 
@@ -37,8 +42,8 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         else
         {
             int oilDestilated;
-            if(_countdown.isFinished) oilDestilated = (int)_countdown.life;
-            else oilDestilated = (int) _countdown.elapsed;
+            if (_countdown.isFinished) oilDestilated = (int)(_countdown.life * _conversionFactor);
+            else oilDestilated = (int) (_countdown.elapsed*_conversionFactor);
             Messenger.Publish(new StartTakeOil(stats,_activationType, oilDestilated, _idMessage));
         }
        
@@ -52,13 +57,13 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         {
 
             case "red":
-                processTime = -2 * modifiedStats.RedHearts;
+                processTime = -10 * modifiedStats.RedHearts;
                 break;
             case "blue":
-                processTime = -4 * modifiedStats.BlueHearts;
+                processTime = -15 * modifiedStats.BlueHearts;
                 break;
             case "yellow":
-                processTime = -8 * modifiedStats.YellowHearts;
+                processTime = -20 * modifiedStats.YellowHearts;
                 break;
             default:
                 processTime = 0;

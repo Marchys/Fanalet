@@ -709,6 +709,8 @@ public class Supergenerador : MonoBehaviour
                         blackMarketInterior.transform.SetParent(blackMarketExterior.transform, true);
 
                         blackMarketInterior.GetComponentInChildren<BlackMarketExit>().exitLocation = ToRealWorldPosition(x, y);
+
+                        InstantiateTrigger(_poolMaterial.TriggEle[2], blackMarketExterior.transform, new Punt2d(x, y));
                         break;
                     case 0:
                         //Debug.Log("Emptyness");

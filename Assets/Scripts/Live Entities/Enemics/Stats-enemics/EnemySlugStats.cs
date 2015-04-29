@@ -6,10 +6,10 @@
         EntityDescription = "It's a slug";
         Level = 0;
         Attack = 2;
-        Life = 6;
-        MaxLife = 6;
-        BaseSpeed = BaseSpeed * 0.7f;
-        AgroSpeed = BaseSpeed * 1.3f;
+        Life = 4;
+        MaxLife = 4;
+        BaseSpeed = BaseSpeed * 0.6f;
+        AgroSpeed = BaseSpeed * 1.1f;
         CurrentSpeed = BaseSpeed;
         Mass = 40;	
 	}	

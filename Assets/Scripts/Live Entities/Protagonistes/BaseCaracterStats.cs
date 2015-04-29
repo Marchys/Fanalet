@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using UnityEditor;
 using Debug = UnityEngine.Debug;
 
 public class BaseCaracterStats 
@@ -16,6 +17,7 @@ public class BaseCaracterStats
         RedHearts = 0;
         BlueHearts = 0;
         YellowHearts = 0;
+        OldTools = false;
     }
 
     //Entity Data
@@ -41,6 +43,7 @@ public class BaseCaracterStats
     public int YellowHearts { get; set; }
     public int RedHearts { get; set; }
     public int BlueHearts { get; set; }
+    public bool OldTools { get; set; }
 
     public virtual void UpdateStats(BaseCaracterStats statData, IEventAggregator messenger)
     {
@@ -64,6 +67,10 @@ public class BaseCaracterStats
         RedHearts += statData.RedHearts;
         BlueHearts += statData.BlueHearts;
         YellowHearts += statData.YellowHearts;
+        if (statData.OldTools)
+        {
+            OldTools = statData.OldTools;
+        }
         messenger.Publish(new UpdateGuiMessage(this));
     }
 

@@ -9,7 +9,7 @@
         Life = 666;
         MaxLife = 666;
         BaseSpeed = BaseSpeed * 1f;
-        AgroSpeed = BaseSpeed * 2f;
+        AgroSpeed = BaseSpeed * 1.5f;
         CurrentSpeed = BaseSpeed;
         Mass = 200;
         Immortal = true;
