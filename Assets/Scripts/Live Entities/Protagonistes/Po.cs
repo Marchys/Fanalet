@@ -11,6 +11,10 @@ public class Po : Protas
     private const float FactCanvi = 6f;
     private float _inputHoritzontal;
     private float _inputVertical;
+
+    public float moveForce = 2.0f;
+    public float maxSpeed = 4.5f;
+
     //private float sprintSpeed;
     //variables dash
     private const bool DashUnlocked = true;
@@ -466,72 +470,72 @@ public class Po : Protas
         switch (id)
         {
             case 0:
-                _paradaActivaHor = true;
-                while (_inputHoritzontal > 0)
-                {
-                    _inputHoritzontal -= tempCanvi*Time.deltaTime;
-                    if (_stopParadaHor)
-                    {
-                        _stopParadaHor = false;
-                        _paradaActivaHor = false;
-                        _inputHoritzontal = 0;
-                        yield break;
-                    }
-                    yield return null;
-                }
+                //_paradaActivaHor = true;
+                //while (_inputHoritzontal > 0)
+                //{
+                //    _inputHoritzontal -= tempCanvi*Time.deltaTime;
+                //    if (_stopParadaHor)
+                //    {
+                //        _stopParadaHor = false;
+                //        _paradaActivaHor = false;
+                //        _inputHoritzontal = 0;
+                //        yield break;
+                //    }
+                //    yield return null;
+                //}
                 _inputHoritzontal = 0;
                 _paradaActivaHor = false;
                 break;
             case 1:
-                _paradaActivaHor = true;
-                while (_inputHoritzontal < 0)
-                {
-                    _inputHoritzontal += tempCanvi*Time.deltaTime;
-                    if (_stopParadaHor)
-                    {
-                        _stopParadaHor = false;
-                        _paradaActivaHor = false;
-                        _inputHoritzontal = 0;
-                        yield break;
-                    }
-                    yield return null;
-                }
+                //_paradaActivaHor = true;
+                //while (_inputHoritzontal < 0)
+                //{
+                //    _inputHoritzontal += tempCanvi*Time.deltaTime;
+                //    if (_stopParadaHor)
+                //    {
+                //        _stopParadaHor = false;
+                //        _paradaActivaHor = false;
+                //        _inputHoritzontal = 0;
+                //        yield break;
+                //    }
+                //    yield return null;
+                //}
                 _inputHoritzontal = 0;
                 _paradaActivaHor = false;
                 break;
 
             case 2:
-                _paradaActivaVer = true;
-                while (_inputVertical > 0)
-                {
-                    _inputVertical -= tempCanvi*Time.deltaTime;
-                    if (_stopParadaVer)
-                    {
-                        _stopParadaVer = false;
-                        _paradaActivaVer = false;
-                        _inputVertical = 0;
-                        yield break;
-                    }
-                    yield return null;
-                }
+                //_paradaActivaVer = true;
+                //while (_inputVertical > 0)
+                //{
+                //    _inputVertical -= tempCanvi*Time.deltaTime;
+                //    if (_stopParadaVer)
+                //    {
+                //        _stopParadaVer = false;
+                //        _paradaActivaVer = false;
+                //        _inputVertical = 0;
+                //        yield break;
+                //    }
+                //    yield return null;
+                //}
                 _inputVertical = 0;
                 _paradaActivaVer = false;
                 break;
 
             case 3:
-                _paradaActivaVer = true;
-                while (_inputVertical < 0)
-                {
-                    _inputVertical += tempCanvi*Time.deltaTime;
-                    if (_stopParadaVer)
-                    {
-                        _stopParadaVer = false;
-                        _paradaActivaVer = false;
-                        _inputVertical = 0;
-                        yield break;
-                    }
-                    yield return null;
-                }
+                //_paradaActivaVer = true;
+                //while (_inputVertical < 0)
+                //{
+                //    _inputVertical += tempCanvi*Time.deltaTime;
+                //    if (_stopParadaVer)
+                //    {
+                //        _stopParadaVer = false;
+                //        _paradaActivaVer = false;
+                //        _inputVertical = 0;
+                //        yield break;
+                //    }
+                //    yield return null;
+                //}
                 _inputVertical = 0;
                 _paradaActivaVer = false;
                 break;
@@ -540,6 +544,7 @@ public class Po : Protas
                 Debug.Log("Error_parada");
                 break;
         }
+        yield return null;
     }
 
     #endregion
@@ -593,7 +598,11 @@ public class Po : Protas
         // Move senteces
         //rigidbody2D.velocity = new Vector2(Mathf.Lerp(0, input_horitzontal * vel_caminar, 0.8f),
         //Mathf.Lerp(0, input_vertical * vel_caminar, 0.8f)); 
-        OwnRigidbody2D.velocity = new Vector2(_inputHoritzontal*Character.BaseSpeed, _inputVertical*Character.BaseSpeed);
+        var vector = new Vector2(_inputHoritzontal, _inputVertical);
+        OwnRigidbody2D.velocity = vector.normalized*(Character.BaseSpeed+2f);
+        //OwnRigidbody2D.velocity = Vector2.ClampMagnitude(OwnRigidbody2D.velocity, maxSpeed);
+        //OwnRigidbody2D.AddForce(vector.normalized*moveForce);
+        //OwnRigidbody2D.velocity = new Vector2(_inputHoritzontal*Character.BaseSpeed, _inputVertical*Character.BaseSpeed);
     }
 
     #endregion
