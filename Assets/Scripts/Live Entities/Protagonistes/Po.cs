@@ -12,8 +12,10 @@ public class Po : Protas
     private float _inputHoritzontal;
     private float _inputVertical;
 
-    public float moveForce = 2.0f;
-    public float maxSpeed = 4.5f;
+    public float moveForce = 200f;
+    public float maxSpeed = 5.5f;
+
+    private Vector3 vector;
 
     //private float sprintSpeed;
     //variables dash
@@ -437,6 +439,7 @@ public class Po : Protas
                 }
             }
         }
+        vector = new Vector2(_inputHoritzontal, _inputVertical);
     }
 
     # endregion
@@ -597,11 +600,12 @@ public class Po : Protas
     {
         // Move senteces
         //rigidbody2D.velocity = new Vector2(Mathf.Lerp(0, input_horitzontal * vel_caminar, 0.8f),
-        //Mathf.Lerp(0, input_vertical * vel_caminar, 0.8f)); 
-        var vector = new Vector2(_inputHoritzontal, _inputVertical);
-        OwnRigidbody2D.velocity = vector.normalized*(Character.BaseSpeed+2f);
+        //Mathf.Lerp(0, input_vertical * vel_caminar, 0.8f));
+        //OwnRigidbody2D.velocity = vector.normalized*(Character.BaseSpeed+2f);
+        OwnRigidbody2D.velocity = Vector2.ClampMagnitude(OwnRigidbody2D.velocity, maxSpeed);
+        OwnRigidbody2D.AddForce(vector.normalized*moveForce);
+        // OwnRigidbody2D.AddForce((vector.normalized*moveForce) * OwnRigidbody2D.mass / Time.fixedDeltaTime);
         //OwnRigidbody2D.velocity = Vector2.ClampMagnitude(OwnRigidbody2D.velocity, maxSpeed);
-        //OwnRigidbody2D.AddForce(vector.normalized*moveForce);
         //OwnRigidbody2D.velocity = new Vector2(_inputHoritzontal*Character.BaseSpeed, _inputVertical*Character.BaseSpeed);
     }
 
