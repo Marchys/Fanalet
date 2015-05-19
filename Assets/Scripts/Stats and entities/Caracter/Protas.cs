@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMessage>, IHandle<ContinueMessage>, IHandle<PlayerDeathMessage>, IHandle<ProtaEntersStructureMessage>, IHandle<ProtaExitsStructureMessage>
 {
     // Character public temoraly so cheats can se it
-    public BaseCaracterStats Character;
+    public BaseProtagonistStats Character;
     private SpriteRenderer _spriteRend;
     protected bool knocked = false;
     private bool _immune = false;
@@ -33,7 +33,7 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
         StartCoroutine(Flash_red());
         StartCoroutine(Knocked());
         var modifiedStats = new BaseCaracterStats();
-        modifiedStats.OiLife -= damageAmount;
+        modifiedStats.Life -= damageAmount;
         Character.UpdateStats(modifiedStats,Messenger);
     }
 
@@ -55,7 +55,7 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
         {
             yield return new WaitForSeconds(5f);
             var modifiedStats = new BaseCaracterStats();
-            modifiedStats.OiLife -= 1;
+            modifiedStats.Life -= 1;
             Character.UpdateStats(modifiedStats, Messenger);
         }
         

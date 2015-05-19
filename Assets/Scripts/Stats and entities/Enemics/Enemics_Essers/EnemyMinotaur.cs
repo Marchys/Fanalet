@@ -129,14 +129,6 @@ public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
         if (targetDirection.y > 0) anim.SetInteger("attackPhase", 1);
         else anim.SetInteger("attackPhase", 2);
         ownRigidbody2D.mass = 200000;
-        //tempDirection = new Vector2(0, -1);
-        //while (spriteMinotaur.ownTransform.localPosition.y > 1.2f)
-        //{
-        //    rigidbody2D.velocity = new Vector2(0, 0);
-        //    variableSpeed += 10 * Time.deltaTime;
-        //    spriteMinotaur.rigidbody2D.velocity = tempDirection * variableSpeed;
-        //    yield return new WaitForFixedUpdate();
-        //}
         yield return new WaitForSeconds(1);
         anim.SetInteger("attackPhase", 3);
         yield return new WaitForSeconds(0.3f);
@@ -158,14 +150,6 @@ public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
         tempMinSorting.enabled = false;
         yield return new WaitForSeconds(1);
         anim.SetInteger("attackPhase", 5);
-        //tempDirection = new Vector2(0, 1);
-        //while (spriteMinotaur.ownTransform.localPosition.y < 3.23f)
-        //{
-        //    variableSpeed += 10 * Time.deltaTime;
-        //    spriteMinotaur.rigidbody2D.velocity = tempDirection * variableSpeed;
-        //    yield return new WaitForFixedUpdate();
-        //}
-        //spriteMinotaur.rigidbody2D.velocity = new Vector2(0, 0);
         ownRigidbody2D.mass = character.Mass;
         attackCoroutineEnded = true;
     }
@@ -206,7 +190,7 @@ public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
     #region funcions inici
     new void Start()
     {
-        character = new EnemyMinotaurStats();
+        character = Constants.Enemies.Minotaur;
         base.Start();
         spriteMinotaur = ownTransform.Find("MinotaurRo").gameObject;
         anim = spriteMinotaur.GetComponent<Animator>();

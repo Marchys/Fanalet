@@ -14,15 +14,9 @@ public class BlackMarketGui : MonoBehaviourEx, IHandle<StartBlackShopMessage>
 
     public Button BuyButton;
 
-    private BaseCaracterStats priceTools;
+    private readonly BaseCaracterStats _priceTools = Constants.Prices.PriceTools;
 
     private StartBlackShopMessage _message;
-
-
-    void Start()
-    {
-        priceTools = new BaseCaracterStats {BlueHearts = -5, YellowHearts = -5, OldTools = true};
-    }
 
     public void Handle(StartBlackShopMessage message)
     {
@@ -34,35 +28,35 @@ public class BlackMarketGui : MonoBehaviourEx, IHandle<StartBlackShopMessage>
             child.gameObject.SetActive(true);
         }
         BuyButton.interactable = true;
-        if (priceTools.RedHearts == 0)
+        if (_priceTools.RedHearts == 0)
         {
             RedHeartGameObject.SetActive(false);
 
         }
-        if (priceTools.BlueHearts == 0)
+        if (_priceTools.BlueHearts == 0)
         {
            BlueHeartGameObject.SetActive(false);
         }
-        if (priceTools.YellowHearts == 0)
+        if (_priceTools.YellowHearts == 0)
         {
             YellowHeartGameObject.SetActive(false);
         }
         
-        if ((priceTools.RedHearts + _message.ProtaStats.RedHearts) < 0 ||
-             (priceTools.BlueHearts + _message.ProtaStats.BlueHearts) < 0 ||
-             (priceTools.YellowHearts + _message.ProtaStats.YellowHearts) < 0)
+        if ((_priceTools.RedHearts + _message.ProtaStats.RedHearts) < 0 ||
+             (_priceTools.BlueHearts + _message.ProtaStats.BlueHearts) < 0 ||
+             (_priceTools.YellowHearts + _message.ProtaStats.YellowHearts) < 0)
         {
             BuyButton.interactable = false;
         }
 
-        RedHeartText.text = priceTools.RedHearts.ToString();
-        YellowHeartText.text = priceTools.YellowHearts.ToString();
-        BlueHeartText.text = priceTools.BlueHearts.ToString();
+        RedHeartText.text = _priceTools.RedHearts.ToString();
+        YellowHeartText.text = _priceTools.YellowHearts.ToString();
+        BlueHeartText.text = _priceTools.BlueHearts.ToString();
     }
 
     public void Buy ()
     {
-        _message.ProtaStats.UpdateStats(priceTools, Messenger);
+        _message.ProtaStats.UpdateStats(_priceTools, Messenger);
         //hide all the interface
         foreach (Transform child in transform)
         {

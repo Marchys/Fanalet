@@ -59,7 +59,7 @@ public class SelectLighthouseActivation : MonoBehaviourEx, IHandle<StartPayLight
     public void SelectHeart()
     {
         SelectButton.interactable = false;
-        modifiedStats.OiLife -= Message.OilToPay;
+        modifiedStats.Life -= Message.OilToPay;
         foreach (Transform child in Dialogue1GameObject.transform)
         {
             child.gameObject.SetActive(false);

@@ -39,7 +39,7 @@ public abstract class BaseEnemy : MonoBehaviourEx, IVulnerable<int>, IMort, IDoA
             layerSorting = GetComponent<Sorting_sprites>();
             //set default values;
             layerSorting.enabled = false;
-        }       
+        }
 
     }
 
@@ -77,29 +77,6 @@ public abstract class BaseEnemy : MonoBehaviourEx, IVulnerable<int>, IMort, IDoA
         {
             case 0:
                 itemToSpawnGameObject = ItemDictionary.Generar["OilBottle"];
-                //float randomNum = Random.Range(0f, 1.0f);
-                //if (randomNum >= 0.55f)
-                //{
-                //    if (randomNum >= 0.85f)
-                //    {
-                //        if (randomNum >= 0.95f)
-                //        {
-                //            itemToSpawnGameObject = ItemDictionary.Generar["YellowHeart"];
-                //        }
-                //        else
-                //        {
-                //            itemToSpawnGameObject = ItemDictionary.Generar["BlueHeart"];
-                //        }
-                //    }
-                //    else
-                //    {
-                //        itemToSpawnGameObject = ItemDictionary.Generar["RedHeart"];
-                //    }
-                //}
-                //else
-                //{
-                //    itemToSpawnGameObject = new GameObject();
-                //}
                 break;
             case 1:
                 itemToSpawnGameObject = ItemDictionary.Generar["RedHeart"];
@@ -115,7 +92,7 @@ public abstract class BaseEnemy : MonoBehaviourEx, IVulnerable<int>, IMort, IDoA
 
         }
 
-        Instantiate(ParticleDeath,new Vector2(transform.position.x,transform.position.y), Quaternion.identity);
+        Instantiate(ParticleDeath, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
         if (itemToSpawnGameObject != null)
         {
             Instantiate(itemToSpawnGameObject, new Vector3(transform.position.x, transform.position.y, Random.Range(0.000001F, 0.0001F)), Quaternion.identity);

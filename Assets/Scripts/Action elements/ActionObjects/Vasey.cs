@@ -6,12 +6,11 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
     private GameObject _lighthouse;
     public TextAsset TextFileDialogue1;
     public TextAsset TextFileDialogue2;
-    private BaseCaracterStats Stats;
+    private BaseProtagonistStats Stats;
     private string[] _firstDialog;
     private string[] _secondDialog;
     private bool _activated = false;
     private int _idMessage = 0;
-    private readonly int[] _oilActivationPrice = {10,40,60,80};
     private int _lighthousesActivated = 0;
 
     // Use this for initialization
@@ -31,7 +30,7 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
         _lighthouse = transform.parent.parent.gameObject;
     }
 
-    public override void ExecuteAction(BaseCaracterStats stats)
+    public override void ExecuteAction(BaseProtagonistStats stats)
     {
         Stats = stats;
         base.ExecuteAction(stats);
@@ -46,7 +45,7 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
     {
         if (message.MessageId == _idMessage && !_activated)
         {
-            Messenger.Publish(new StartPayLighthouseMessage(Stats, _oilActivationPrice[_lighthousesActivated], _idMessage));
+            Messenger.Publish(new StartPayLighthouseMessage(Stats, Constants.Prices.LighthousesActivation[_lighthousesActivated], _idMessage));
         }
         else if(message.MessageId == _idMessage && _activated)  Messenger.Publish(new ContinueMessage());
     }

@@ -27,13 +27,13 @@ public class CollectOilGui : MonoBehaviourEx, IHandle<StartTakeOil>
         switch (_message.ActivationType)
         {
             case "red":
-                modifiedStats.OiLife += _message.OilDestilated;
+                modifiedStats.Life += _message.OilDestilated;
                 break;
             case "blue":
-                modifiedStats.OiLife += _message.OilDestilated;
+                modifiedStats.Life += _message.OilDestilated;
                 break;
             case "yellow":
-                modifiedStats.OiLife += _message.OilDestilated;
+                modifiedStats.Life += _message.OilDestilated;
                 break;
         }
         _message.StatsProtagonist.UpdateStats(modifiedStats, Messenger);

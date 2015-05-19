@@ -30,9 +30,9 @@
 
     public int MaxLife { get; set; }
 
-    public float BaseSpeed{ get; set; }
+    public float BaseSpeed { get; set; }
 
-    public float AgroSpeed{ get; set; }
+    public float AgroSpeed { get; set; }
 
     public float CurrentSpeed { get; set; }
 

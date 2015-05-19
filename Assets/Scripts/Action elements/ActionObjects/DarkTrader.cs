@@ -9,7 +9,7 @@ public class DarkTrader : ActionE, IHandle<DialogueEndMessage>, IHandle<EndBlack
     private string[] _secondDialog;
     private int _idMessage = 0;
     private bool _bought = false;
-    private BaseCaracterStats protaStats;
+    private BaseProtagonistStats protaStats;
 
     new void Start()
     {
@@ -25,7 +25,7 @@ public class DarkTrader : ActionE, IHandle<DialogueEndMessage>, IHandle<EndBlack
             _secondDialog[0] = "---";
         }
     }
-    public override void ExecuteAction(BaseCaracterStats stats)
+    public override void ExecuteAction(BaseProtagonistStats stats)
     {
         protaStats = stats;
         base.ExecuteAction(stats);

@@ -8,7 +8,7 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
     private int _idMessage = 0;
     private bool _destilating = false;
     private CountDown _countdown;
-    private float _conversionFactor = 0;
+    private float _conversionRate = 0;
 
 
     public void SetLighthousetype(BaseCaracterStats ActivationStats)
@@ -16,21 +16,21 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         if (ActivationStats.RedHearts != 0)
         {
             _activationType = "red";
-            _conversionFactor = 2f;
+            _conversionRate = Constants.Furnance.RedHeartTimeToOilRate;
         }
         else if (ActivationStats.BlueHearts != 0)
         {
             _activationType = "blue";
-            _conversionFactor = 2f;
+            _conversionRate = Constants.Furnance.BlueHeartTimeToOilRate;
         }
         else if (ActivationStats.YellowHearts != 0)
         {
             _activationType = "yellow";
-            _conversionFactor = 2f;
+            _conversionRate = Constants.Furnance.YellowHeartTimeToOilRate;
         }
     }
 
-    public override void ExecuteAction(BaseCaracterStats stats)
+    public override void ExecuteAction(BaseProtagonistStats stats)
     {
         base.ExecuteAction(stats);
         Messenger.Publish(new StopMessage());
@@ -42,8 +42,8 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         else
         {
             int oilDestilated;
-            if (_countdown.isFinished) oilDestilated = (int)(_countdown.life * _conversionFactor);
-            else oilDestilated = (int) (_countdown.elapsed*_conversionFactor);
+            if (_countdown.isFinished) oilDestilated = (int)(_countdown.life * _conversionRate);
+            else oilDestilated = (int) (_countdown.elapsed*_conversionRate);
             Messenger.Publish(new StartTakeOil(stats,_activationType, oilDestilated, _idMessage));
         }
        
@@ -57,13 +57,13 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         {
 
             case "red":
-                processTime = -10 * modifiedStats.RedHearts;
+                processTime = -Constants.Furnance.RedHeartProcessTime * modifiedStats.RedHearts;
                 break;
             case "blue":
-                processTime = -15 * modifiedStats.BlueHearts;
+                processTime = -Constants.Furnance.BlueHeartProcessTime * modifiedStats.BlueHearts;
                 break;
             case "yellow":
-                processTime = -20 * modifiedStats.YellowHearts;
+                processTime = -Constants.Furnance.YellowHeartProcessTime * modifiedStats.YellowHearts;
                 break;
             default:
                 processTime = 0;

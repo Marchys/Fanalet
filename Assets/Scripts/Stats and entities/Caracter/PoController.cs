@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class Po : Protas
+public class PoController : Protas
 {
 
     #region variables
@@ -91,7 +91,7 @@ public class Po : Protas
                 _animatorPer.SetInteger("estat_anim", 2);
                  Character.BaseSpeed += 0.3f;
                  var modifiedStats = new BaseCaracterStats();
-                 modifiedStats.OiLife -= 1;
+                 modifiedStats.Life -= 1;
                  Character.UpdateStats(modifiedStats,Messenger);
                 var bola =
                     Instantiate(BolaFoc, new Vector3(OwnTransform.position.x, OwnTransform.position.y, -0.85f),
@@ -160,7 +160,7 @@ public class Po : Protas
 
     private new void Start()
     {
-        Character = new BasePoStats();
+        Character = Constants.Protagonists.Po;
         base.Start();
         _animatorPer = gameObject.GetComponent<Animator>();
         SetState(State.Idl);

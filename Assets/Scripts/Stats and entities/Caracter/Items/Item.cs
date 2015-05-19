@@ -25,16 +25,16 @@ public class Item : MonoBehaviour
         switch (Items)
         {
             case ItemTypes.RedHeart:
-                itemStatsModified = new RedHeartStats();
+                itemStatsModified = Constants.Items.RedHeart;
                 break;
             case ItemTypes.BlueHeart:
-                itemStatsModified = new BlueHeartStats();
+                itemStatsModified = Constants.Items.BlueHeart;
                 break;
             case ItemTypes.YellowHeart:
-                itemStatsModified = new YellowHeartStats();
+                itemStatsModified = Constants.Items.YellowHeart;
                 break;
             case ItemTypes.OilBottle:
-                itemStatsModified = new OilBottleStats();
+                itemStatsModified = Constants.Items.OilBottle;
                 break;
         }
     }

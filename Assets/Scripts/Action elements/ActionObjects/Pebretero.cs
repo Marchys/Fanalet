@@ -2,7 +2,7 @@
 
 public class Pebretero : ActionE  {
 
-    public override void ExecuteAction(BaseCaracterStats stats)
+    public override void ExecuteAction(BaseProtagonistStats stats)
     {
         base.ExecuteAction(stats);
         JocManager.Generar.ActualStat = JocManager.JocStats.Dungeon;

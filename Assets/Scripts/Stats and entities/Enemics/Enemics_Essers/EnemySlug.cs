@@ -178,16 +178,16 @@ public class EnemySlug : BaseEnemy
         switch (slugyStats)
         {
             case SlugType.StandardSlug:
-                character = new EnemySlugStats();
+                character = Constants.Enemies.Slug;
                 break;
             case SlugType.RedSlug:
-                character = new EnemyRedSlugStats();
+                character = Constants.Enemies.RedSlug;
                 break;
             case SlugType.BlueSlug:
-                character = new EnemyBlueSlugStats();
+                character = Constants.Enemies.BlueSlug;
                 break;
             case SlugType.YellowSlug:
-                character = new EnemyYellowSlugStats();
+                character = Constants.Enemies.YellowSlug;
                 break;
         }
         base.Start();

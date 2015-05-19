@@ -40,7 +40,7 @@ public class LostMiner : ActionE, IHandle<LighthouseActivatedMessage>, IHandle<D
         }
     }
 
-    public override void ExecuteAction(BaseCaracterStats stats)
+    public override void ExecuteAction(BaseProtagonistStats stats)
     {
         protaStats = stats;
         base.ExecuteAction(stats);

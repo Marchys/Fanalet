@@ -5,7 +5,7 @@ public class BlackMarketDoor : ActionE
 {
     public Vector2 marketLocation;
     // Update is called once per frame
-	public override void ExecuteAction(BaseCaracterStats stats)
+	public override void ExecuteAction(BaseProtagonistStats stats)
 	{
         base.ExecuteAction(stats);
         Camera.main.transform.position = marketLocation;

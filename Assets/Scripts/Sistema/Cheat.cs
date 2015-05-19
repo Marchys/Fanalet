@@ -5,12 +5,12 @@ public class Cheat : MonoBehaviourEx {
 
     private BaseCaracterStats _MaterialStats = new BaseCaracterStats();
     private BaseCaracterStats _BaseStats = new BaseCaracterStats();
-    private BaseCaracterStats ProtaStats;
+    private BaseProtagonistStats ProtaStats;
 	
     void Start()
     {
-        _MaterialStats.MaxOiLife = 2000;
-        _MaterialStats.OiLife = 2000;
+        _MaterialStats.MaxLife = 2000;
+        _MaterialStats.Life = 2000;
         _MaterialStats.RedHearts = 99;
         _MaterialStats.BlueHearts = 99;
         _MaterialStats.YellowHearts = 99;

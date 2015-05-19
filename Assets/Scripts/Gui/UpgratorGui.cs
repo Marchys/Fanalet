@@ -32,7 +32,7 @@ public class UpgratorGui : MonoBehaviourEx, IHandle<StartUpgradeGuiMessage>
         UpgradeButton.interactable = true;
         // show things that will change with the upgrade
         if (_message.UpgradeStats.Attack == 0) AttackGameObject.SetActive(false);
-        if (_message.UpgradeStats.MaxOiLife == 0) LifeGameObject.SetActive(false);
+        if (_message.UpgradeStats.MaxLife == 0) LifeGameObject.SetActive(false);
         if (_message.UpgradeStats.BaseSpeed == 0) SpeedGameObject.SetActive(false);
 
         //show price of upgrade

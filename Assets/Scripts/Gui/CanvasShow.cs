@@ -19,7 +19,7 @@ public class CanvasShow : MonoBehaviourEx, IHandle<UpdateGuiMessage>
     //message to update the gui
     public void Handle(UpdateGuiMessage message)
     {
-        lifeText.text = " " + message.UpdatedProtaStats.OiLife + "/" + message.UpdatedProtaStats.MaxOiLife;
+        lifeText.text = " " + message.UpdatedProtaStats.Life + "/" + message.UpdatedProtaStats.MaxLife;
         RedHeartText.text = "" + message.UpdatedProtaStats.RedHearts;
         BlueHeartText.text = "" + message.UpdatedProtaStats.BlueHearts;
         YellowHeartText.text = "" + message.UpdatedProtaStats.YellowHearts;
