@@ -61,19 +61,25 @@ public static class Constants
 
     public static class Protagonists
     {
-        public static BaseProtagonistStats Po = new BaseProtagonistStats
+        public static BaseProtagonistStats Po
         {
-            EntityName = "Po",
-            EntityDescription = "Te mola po",
-            Attack = 2,
-            Life = 100,
-            MaxLife = 100,
-            BaseSpeed = 5.5f,
-            AttackCadence = 0.6f,
-            RedHearts = 0,
-            BlueHearts = 0,
-            YellowHearts = 0
-        };
+            get
+            {
+                return new BaseProtagonistStats
+                {
+                    EntityName = "Po",
+                    EntityDescription = "Te mola po",
+                    Attack = 2,
+                    Life = 100,
+                    MaxLife = 100,
+                    BaseSpeed = 5.5f,
+                    AttackCadence = 0.6f,
+                    RedHearts = 0,
+                    BlueHearts = 0,
+                    YellowHearts = 0
+                };
+            }
+        }
     }
 
     public static class Enemies
@@ -81,72 +87,107 @@ public static class Constants
 
         private static float _baseSpeed = 5.5f;
 
-        public static EnemyStats Slug = new EnemyStats
+
+        public static EnemyStats StandardSlug
         {
-            EntityName = "Slug",
-            EntityDescription = "It's a slug",
-            Level = 0,
-            Attack = 2,
-            Life = 3,
-            MaxLife = 3,
-            BaseSpeed = _baseSpeed * 0.6f,
-            AgroSpeed = _baseSpeed * 1.1f,
-            CurrentSpeed = _baseSpeed,
-            Mass = 20
-        };
-        public static EnemyStats RedSlug = new EnemyStats
+            get
+            {
+                return new EnemyStats
+                {
+                    EntityName = "StandardSlug",
+                    EntityDescription = "It's a slug",
+                    Level = 0,
+                    Attack = 2,
+                    Life = 3,
+                    MaxLife = 3,
+                    BaseSpeed = _baseSpeed * 0.6f,
+                    AgroSpeed = _baseSpeed * 1.1f,
+                    CurrentSpeed = _baseSpeed,
+                    Mass = 20
+                };
+            }
+        }
+
+        public static EnemyStats RedSlug
         {
-            EntityName = "Red Slug",
-            EntityDescription = "It's a red slug",
-            Level = 1,
-            Attack = 3,
-            Life = 8,
-            MaxLife = 8,
-            BaseSpeed = _baseSpeed * 0.7f,
-            AgroSpeed = _baseSpeed * 1.2f,
-            CurrentSpeed = _baseSpeed,
-            Mass = 25
-        };
-        public static EnemyStats BlueSlug = new EnemyStats
+            get
+            {
+                return new EnemyStats
+                {
+                    EntityName = "Red StandardSlug",
+                    EntityDescription = "It's a red slug",
+                    Level = 1,
+                    Attack = 3,
+                    Life = 8,
+                    MaxLife = 8,
+                    BaseSpeed = _baseSpeed * 0.7f,
+                    AgroSpeed = _baseSpeed * 1.2f,
+                    CurrentSpeed = _baseSpeed,
+                    Mass = 25
+                };
+            }
+        }
+
+        public static EnemyStats BlueSlug
         {
-            EntityName = "Blue Slug",
-            EntityDescription = "It's a blue slug",
-            Level = 2,
-            Attack = 4,
-            Life = 12,
-            MaxLife = 12,
-            BaseSpeed = _baseSpeed * 0.8f,
-            AgroSpeed = _baseSpeed * 1.3f,
-            CurrentSpeed = _baseSpeed,
-            Mass = 30
-        };
-        public static EnemyStats YellowSlug = new EnemyStats
+            get
+            {
+                return new EnemyStats
+                {
+                    EntityName = "Blue StandardSlug",
+                    EntityDescription = "It's a blue slug",
+                    Level = 2,
+                    Attack = 4,
+                    Life = 12,
+                    MaxLife = 12,
+                    BaseSpeed = _baseSpeed * 0.8f,
+                    AgroSpeed = _baseSpeed * 1.3f,
+                    CurrentSpeed = _baseSpeed,
+                    Mass = 30
+                };
+            }
+        }
+
+        public static EnemyStats YellowSlug
         {
-            EntityName = "Yellow Slug",
-            EntityDescription = "It's a yellow slug",
-            Level = 3,
-            Attack = 7,
-            Life = 30,
-            MaxLife = 30,
-            BaseSpeed = _baseSpeed * 1f,
-            AgroSpeed = _baseSpeed * 1.4f,
-            CurrentSpeed = _baseSpeed,
-            Mass = 35
-        };
-        public static EnemyStats Minotaur = new EnemyStats
+            get
+            {
+                return new EnemyStats
+                {
+                    EntityName = "Yellow StandardSlug",
+                    EntityDescription = "It's a yellow slug",
+                    Level = 3,
+                    Attack = 7,
+                    Life = 30,
+                    MaxLife = 30,
+                    BaseSpeed = _baseSpeed * 1f,
+                    AgroSpeed = _baseSpeed * 1.4f,
+                    CurrentSpeed = _baseSpeed,
+                    Mass = 35
+                };
+            }
+        }
+
+        public static EnemyStats Minotaur
         {
-            EntityName = "Minotaur",
-            EntityDescription = "The Immortal Tartarus Guardian",
-            Level = 10,
-            Attack = 10,
-            Life = 666,
-            MaxLife = 666,
-            BaseSpeed = _baseSpeed * 1f,
-            AgroSpeed = _baseSpeed * 1.5f,
-            CurrentSpeed = _baseSpeed,
-            Mass = 200,
-            Immortal = true
-        };
+            get
+            {
+                return new EnemyStats
+                {
+                    EntityName = "Minotaur",
+                    EntityDescription = "The Immortal Tartarus Guardian",
+                    Level = 10,
+                    Attack = 10,
+                    Life = 666,
+                    MaxLife = 666,
+                    BaseSpeed = _baseSpeed * 1f,
+                    AgroSpeed = _baseSpeed * 1.5f,
+                    CurrentSpeed = _baseSpeed,
+                    Mass = 200,
+                    Immortal = true
+                };
+            }
+        }
 
     }
 
