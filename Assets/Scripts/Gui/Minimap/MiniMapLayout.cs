@@ -16,8 +16,6 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
 
     private GameObject[,] miniMapLayout;
 
-    readonly Punt2d[] _closeDirections = { new Punt2d(0, 1), new Punt2d(0, -1), new Punt2d(1, 0), new Punt2d(-1, 0) };
-
     void Start()
     {
         //  GetComponent<RectTransform>().localPosition = new Vector2(-1772, 210);
@@ -118,19 +116,13 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
         miniMapLayout[message.Coor.X, message.Coor.Y].GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         for (var dir = 0; dir < 4; dir++)
         {
-            int xCoor = message.Coor.X + _closeDirections[dir].X;
-            int yCoor = message.Coor.Y + _closeDirections[dir].Y;
-            if (miniMapLayout.GetLength(0) > xCoor && xCoor >= 0 && miniMapLayout.GetLength(1) > yCoor && yCoor >= 0)
-            {
-                if (miniMapLayout[xCoor, yCoor] != null)
-                {
-                    if (!miniMapLayout[xCoor, yCoor].activeInHierarchy)
-                    {
-                        miniMapLayout[xCoor, yCoor].SetActive(true);
-                        miniMapLayout[xCoor, yCoor].GetComponent<Image>().color = new Color32(255, 255, 255, 50);
-                    }
-                }
-            }
+            int xCoor = message.Coor.X + Constants.RandomGeneration.CloseDirections[dir].X;
+            int yCoor = message.Coor.Y + Constants.RandomGeneration.CloseDirections[dir].Y;
+            if (miniMapLayout.GetLength(0) <= xCoor || xCoor < 0 || miniMapLayout.GetLength(1) <= yCoor || yCoor < 0) continue;
+            if (miniMapLayout[xCoor, yCoor] == null) continue;
+            if (miniMapLayout[xCoor, yCoor].activeInHierarchy) continue;
+            miniMapLayout[xCoor, yCoor].SetActive(true);
+            miniMapLayout[xCoor, yCoor].GetComponent<Image>().color = new Color32(255, 255, 255, 50);
         }
     }
 }

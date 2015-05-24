@@ -4,6 +4,16 @@ public static class Constants
 {
     public static class RandomGeneration
     {
+       // chance to connect rooms when that room has or 2 or more corridors already connected
+        public const int ChanceAcceptBuild = 5;
+        //chance connect rooms when stuck
+        public const int ChanceConnectStuck = 50;
+
+        //the adjescent directions and the far directions north, south, east and  west
+        public static readonly Punt2d[] CloseDirections = { new Punt2d(0, 1), new Punt2d(0, -1), new Punt2d(1, 0), new Punt2d(-1, 0) };
+
+        public static readonly Punt2d[] LighthouseInteriorLocations = { new Punt2d(-10, 0), new Punt2d(-20, 0), new Punt2d(-30, 0), new Punt2d(-40, 0) };
+
         //identifiers basic map elements  
         public const int EmptyRoomId = 1;
         public const int InitalRoomId = 2;

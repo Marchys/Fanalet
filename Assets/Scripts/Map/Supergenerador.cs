@@ -16,13 +16,7 @@ public class Supergenerador : MonoBehaviour
     // sala actual        
     //elements map   
     private GameObject _contenidorInst;
-    //the adjescent directions and the far directions north, south, east and  west
-    readonly Punt2d[] _closeDirections = { new Punt2d(0, 1), new Punt2d(0, -1), new Punt2d(1, 0), new Punt2d(-1, 0) };
-    //Chance
-    // chance to connect rooms with ha corridor
-    private const int ChanceAcceptBuild = 5;
-    //chance connect rooms when stuck
-    private const int ChanceConnectStuck = 50;
+    
     //Shows progress for the instantiation of the map
     public float LoadingBarProgress = 0;
     //References that will be used by the instantiator
@@ -32,7 +26,6 @@ public class Supergenerador : MonoBehaviour
     private List<int> _availableQuadrantsList = new List<int>();
     private int _quadrantProta;
     public Vector2 PosZero;
-    private readonly Punt2d[] _lighthouseInteriorLocations = { new Punt2d(-10, 0), new Punt2d(-20, 0), new Punt2d(-30, 0), new Punt2d(-40, 0) };
     //other resources
     public GameObject ConstructMapa;
     #endregion
@@ -78,7 +71,7 @@ public class Supergenerador : MonoBehaviour
             {
                 //primera sala
                 primeraSala = false;
-                PopulateWith(Constants.RandomGeneration.InitalRoomId, new Punt2d(0, 0));
+                PopulateWith(Constants.RandomGeneration.InitalRoomId, new Punt2d());
             }
             else
             {
@@ -92,7 +85,7 @@ public class Supergenerador : MonoBehaviour
                     if (repetir)
                     {
                         countOnPath = 0;
-                        if (Utils.ChanceTrue(ChanceConnectStuck))
+                        if (Utils.ChanceTrue(Constants.RandomGeneration.ChanceConnectStuck))
                         {
                             emptyDirections = new List<Punt2d>(IsNotEmpty(emptyDirections));
 
@@ -136,8 +129,7 @@ public class Supergenerador : MonoBehaviour
                 {
                     if (FindNextRoom())
                     {
-                        emptyDirections = TestDirections();
-                        tempDis = true;
+                        TestDirections();
                     }
                     else
                     {
@@ -175,7 +167,7 @@ public class Supergenerador : MonoBehaviour
         switch (quad)
         {
             case 0:
-                return new Punt2d(0, 0);
+                return new Punt2d();
             case 1:
                 return new Punt2d(_map.Width - 1, 0);
             case 2:
@@ -268,7 +260,7 @@ public class Supergenerador : MonoBehaviour
 
         for (var dir = 0; dir < 4; dir++)
         {
-            if (_map[_map.Pointer.X + _closeDirections[dir].X, _map.Pointer.Y + _closeDirections[dir].Y] == 0) direccionsDis.Add(_closeDirections[dir]);
+            if (_map[_map.Pointer.X + Constants.RandomGeneration.CloseDirections[dir].X, _map.Pointer.Y + Constants.RandomGeneration.CloseDirections[dir].Y] == 0) direccionsDis.Add(Constants.RandomGeneration.CloseDirections[dir]);
         }
         return direccionsDis;
 
@@ -281,7 +273,7 @@ public class Supergenerador : MonoBehaviour
 
         for (var dir = 0; dir < 4; dir++)
         {
-            if (_map[point.X + _closeDirections[dir].X, point.Y + _closeDirections[dir].Y] == 0) direccionsDis.Add(_closeDirections[dir]);
+            if (_map[point.X + Constants.RandomGeneration.CloseDirections[dir].X, point.Y + Constants.RandomGeneration.CloseDirections[dir].Y] == 0) direccionsDis.Add(Constants.RandomGeneration.CloseDirections[dir]);
         }
         return direccionsDis;
     }
@@ -306,12 +298,10 @@ public class Supergenerador : MonoBehaviour
             else if (positionValue != 0)
             {
                 var point = new Punt2d(_map.Pointer.X + tempFarDirections[dir].X, _map.Pointer.Y + tempFarDirections[dir].Y);
-                if (TestDirectionsFrom(point).Count < 3)
+                if (TestDirectionsFrom(point).Count >= 3) continue;
+                if (!Utils.ChanceTrue(Constants.RandomGeneration.ChanceAcceptBuild))
                 {
-                    if (!Utils.ChanceTrue(ChanceAcceptBuild))
-                    {
-                        tempList.Remove(directionsCheck[dir]);
-                    }
+                    tempList.Remove(directionsCheck[dir]);
                 }
             }
         }
@@ -670,8 +660,10 @@ public class Supergenerador : MonoBehaviour
                         templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseNumber = Quin_Quadrant(new Punt2d(x, y));
 
                         Quadrant tempQuadrant = AreaQuadrant(Quin_Quadrant(new Punt2d(x, y)), 3);
-                        var areaLighthouse = new GameObject(Quin_Quadrant(new Punt2d(x, y)).ToString());
-                        areaLighthouse.tag = "LighthouseArea";
+                        var areaLighthouse = new GameObject(Quin_Quadrant(new Punt2d(x, y)).ToString())
+                        {
+                            tag = "LighthouseArea"
+                        };
                         areaLighthouse.transform.localPosition = new Vector2(tempQuadrant.Center.X * 17, tempQuadrant.Center.Y * 13);
                         areaLighthouse.AddComponent<BoxCollider2D>().isTrigger = true;
                         areaLighthouse.GetComponent<BoxCollider2D>().size = new Vector2(90, 70);
@@ -679,7 +671,7 @@ public class Supergenerador : MonoBehaviour
 
                         InstantiateTrigger(_poolMaterial.TriggEle[2], templighthouseExterior.transform, new Punt2d(x, y));
 
-                        var templighthouseInterior = Instantiate(_poolMaterial.LighthouseInterior, ToRealWorldPosition(_lighthouseInteriorLocations[lighthousesSpawned].X, _lighthouseInteriorLocations[lighthousesSpawned].Y), Quaternion.identity) as GameObject;
+                        var templighthouseInterior = Instantiate(_poolMaterial.LighthouseInterior, ToRealWorldPosition(Constants.RandomGeneration.LighthouseInteriorLocations[lighthousesSpawned].X, Constants.RandomGeneration.LighthouseInteriorLocations[lighthousesSpawned].Y), Quaternion.identity) as GameObject;
                         templighthouseInterior.transform.parent = templighthouseExterior.transform;
                         templighthouseExterior.GetComponentInChildren<LighthouseStructure>().LighthouseInterior = templighthouseInterior;
                         templighthouseInterior.GetComponent<LighthouseInterior>().LighthouseRoom = templighthouseExterior;
