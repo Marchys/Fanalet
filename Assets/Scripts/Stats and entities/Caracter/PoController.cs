@@ -38,8 +38,8 @@ public class PoController : Protas
     private bool _horBlock = false;
     private int _verCheck = 0;
     private bool _verBlock = false;
-    private bool _stopParadaVer = false;
-    private bool _stopParadaHor = false;
+    //private bool _stopParadaVer = false;
+    //private bool _stopParadaHor = false;
     private bool _potActuar = false;
     //dispar
     public GameObject BolaFoc;
@@ -89,10 +89,10 @@ public class PoController : Protas
             case State.Shoot:
                 _disparant = true;
                 _animatorPer.SetInteger("estat_anim", 2);
-                 Character.BaseSpeed += 0.3f;
-                 var modifiedStats = new BaseCaracterStats();
-                 modifiedStats.Life -= 1;
-                 Character.UpdateStats(modifiedStats,Messenger);
+                Character.BaseSpeed += 0.3f;
+                var modifiedStats = new BaseCaracterStats();
+                modifiedStats.Life -= 1;
+                Character.UpdateStats(modifiedStats, Messenger);
                 var bola =
                     Instantiate(BolaFoc, new Vector3(OwnTransform.position.x, OwnTransform.position.y, -0.85f),
                         Quaternion.identity) as GameObject;
@@ -100,7 +100,7 @@ public class PoController : Protas
                 tempDir.Normalize();
                 if (bola != null)
                 {
-                    bola.GetComponent<bola>().Shoot(tempDir,Character.Attack,4f,BolaSpeed);
+                    bola.GetComponent<bola>().Shoot(tempDir, Character.Attack, 4f, BolaSpeed);
                 }
                 else
                 {
@@ -145,8 +145,8 @@ public class PoController : Protas
 
     private void Dash()
     {
-        _inputHoritzontal = _dashDir.x*Character.BaseSpeed;
-        _inputVertical = _dashDir.y*Character.BaseSpeed;
+        _inputHoritzontal = _dashDir.x * Character.BaseSpeed;
+        _inputVertical = _dashDir.y * Character.BaseSpeed;
         if (_enDash) return;
         SetState(State.Idl);
         _inputVertical = 0;
@@ -186,15 +186,15 @@ public class PoController : Protas
                 {
                     case 0:
                         _horCheck = 1;
-                        if (_paradaActivaHor) _stopParadaHor = true;
-                        if (_inputHoritzontal < 1) _inputHoritzontal += FactCanvi*Time.deltaTime;
+                        // if (_paradaActivaHor) _stopParadaHor = true;
+                        if (_inputHoritzontal < 1) _inputHoritzontal += FactCanvi * Time.deltaTime;
                         _animatorPer.SetFloat("MovX", 1);
                         _colEsq.enabled = false;
                         _colDret.enabled = true;
                         break;
                     //ownTransform.Rotate(Vector2.up, 180.0f);
                     case 1:
-                        if (_inputHoritzontal < 1) _inputHoritzontal += FactCanvi*Time.deltaTime;
+                        if (_inputHoritzontal < 1) _inputHoritzontal += FactCanvi * Time.deltaTime;
                         break;
                     default:
                         _horBlock = true;
@@ -211,15 +211,15 @@ public class PoController : Protas
                 {
                     case 0:
                         _horCheck = 2;
-                        if (_paradaActivaHor) _stopParadaHor = true;
-                        if (_inputHoritzontal > -1) _inputHoritzontal -= FactCanvi*Time.deltaTime;
+                        //if (_paradaActivaHor) _stopParadaHor = true;
+                        if (_inputHoritzontal > -1) _inputHoritzontal -= FactCanvi * Time.deltaTime;
                         _animatorPer.SetFloat("MovX", -1);
                         _colDret.enabled = false;
                         _colEsq.enabled = true;
                         break;
                     //ownTransform.Rotate(Vector2.up, -180.0f);
                     case 2:
-                        if (_inputHoritzontal > -1) _inputHoritzontal -= FactCanvi*Time.deltaTime;
+                        if (_inputHoritzontal > -1) _inputHoritzontal -= FactCanvi * Time.deltaTime;
                         break;
                     default:
                         _horBlock = true;
@@ -234,7 +234,7 @@ public class PoController : Protas
             {
                 _horCheck = 0;
                 _horBlock = false;
-                if (_paradaActivaHor) _stopParadaHor = true;
+                //if (_paradaActivaHor) _stopParadaHor = true;
             }
             else
             {
@@ -249,7 +249,7 @@ public class PoController : Protas
             {
                 _horCheck = 0;
                 _horBlock = false;
-                if (_paradaActivaHor) _stopParadaHor = true;
+                //  if (_paradaActivaHor) _stopParadaHor = true;
             }
             else
             {
@@ -265,12 +265,12 @@ public class PoController : Protas
                 if (_verCheck == 0)
                 {
                     _verCheck = 1;
-                    if (_paradaActivaVer) _stopParadaVer = true;
-                    if (_inputVertical < 1) _inputVertical += FactCanvi*Time.deltaTime;
+                    //     if (_paradaActivaVer) _stopParadaVer = true;
+                    if (_inputVertical < 1) _inputVertical += FactCanvi * Time.deltaTime;
                 }
                 else if (_verCheck == 1)
                 {
-                    if (_inputVertical < 1) _inputVertical += FactCanvi*Time.deltaTime;
+                    if (_inputVertical < 1) _inputVertical += FactCanvi * Time.deltaTime;
                 }
                 else
                 {
@@ -286,12 +286,12 @@ public class PoController : Protas
                 if (_verCheck == 0)
                 {
                     _verCheck = 2;
-                    if (_paradaActivaVer) _stopParadaVer = true;
-                    if (_inputVertical > -1) _inputVertical -= FactCanvi*Time.deltaTime;
+                    //  if (_paradaActivaVer) _stopParadaVer = true;
+                    if (_inputVertical > -1) _inputVertical -= FactCanvi * Time.deltaTime;
                 }
                 else if (_verCheck == 2)
                 {
-                    if (_inputVertical > -1) _inputVertical -= FactCanvi*Time.deltaTime;
+                    if (_inputVertical > -1) _inputVertical -= FactCanvi * Time.deltaTime;
                 }
                 else
                 {
@@ -306,7 +306,7 @@ public class PoController : Protas
             {
                 _verCheck = 0;
                 _verBlock = false;
-                if (_paradaActivaVer) _stopParadaVer = true;
+                //if (_paradaActivaVer) _stopParadaVer = true;
             }
             else
             {
@@ -321,7 +321,7 @@ public class PoController : Protas
             {
                 _verCheck = 0;
                 _verBlock = false;
-                if (_paradaActivaVer) _stopParadaVer = true;
+                // if (_paradaActivaVer) _stopParadaVer = true;
             }
             else
             {
@@ -353,7 +353,7 @@ public class PoController : Protas
         //input_horitzontal=Input.GetAxis("Horizontal");
         //input_vertical = Input.GetAxis("Vertical");
 
-        #endregion
+    #endregion
 
         #region dash
 
@@ -442,11 +442,11 @@ public class PoController : Protas
         vector = new Vector2(_inputHoritzontal, _inputVertical);
     }
 
-    # endregion
+        # endregion
 
     #region funcions secundàries
 
-   private IEnumerator Esperar_dash()
+    private IEnumerator Esperar_dash()
     {
         _enDash = true;
         yield return new WaitForSeconds(TempDash);
@@ -469,7 +469,6 @@ public class PoController : Protas
         // 1 Horitzontal augment cap a 0
         // 2 Vertical reducció cap a 0
         // 3 Vertical augment cap a 0
-        var tempCanvi = FactCanvi;
         switch (id)
         {
             case 0:
@@ -573,8 +572,8 @@ public class PoController : Protas
         }
         if (other.CompareTag("Item"))
         {
-            Character.UpdateStats(other.GetComponent<Item>().itemStatsModified,Messenger);
-           other.gameObject.GetComponent<Item>().Collected();
+            Character.UpdateStats(other.GetComponent<Item>().itemStatsModified, Messenger);
+            other.gameObject.GetComponent<Item>().Collected();
         }
     }
 
@@ -603,7 +602,7 @@ public class PoController : Protas
         //Mathf.Lerp(0, input_vertical * vel_caminar, 0.8f));
         //OwnRigidbody2D.velocity = vector.normalized*(Character.BaseSpeed+2f);
         OwnRigidbody2D.velocity = Vector2.ClampMagnitude(OwnRigidbody2D.velocity, maxSpeed);
-        OwnRigidbody2D.AddForce(vector.normalized*moveForce);
+        OwnRigidbody2D.AddForce(vector.normalized * moveForce);
         // OwnRigidbody2D.AddForce((vector.normalized*moveForce) * OwnRigidbody2D.mass / Time.fixedDeltaTime);
         //OwnRigidbody2D.velocity = Vector2.ClampMagnitude(OwnRigidbody2D.velocity, maxSpeed);
         //OwnRigidbody2D.velocity = new Vector2(_inputHoritzontal*Character.BaseSpeed, _inputVertical*Character.BaseSpeed);

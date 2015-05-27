@@ -4,7 +4,7 @@ using Pathfinding;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class EnemySlug : BaseEnemy
+public class SlugEnemy : BaseEnemy
 {
     #region variables
     bool rayxoc;
@@ -284,17 +284,7 @@ public class EnemySlug : BaseEnemy
                 }
                 else
                 {
-                    cont_llis++;
-                    //if (pathList.vectorPath.Count > cont_llis + 1)
-                    //{
-                    //    int layer_gu = 1 << 11;
-                    //    RaycastHit2D hit = Physics2D.BoxCast(ownTransform.position, new Vector2(3.5f, 3.5f), 0f, new Vector2(pathList.vectorPath[cont_llis + 1].x, pathList.vectorPath[cont_llis + 1].y) - pos_mod_bi(), 8f, layer_gu);
-                    //    if (hit.collider == null)
-                    //    {
-                    //        cont_llis += 1;
-                    //    }
-                    //}                
-
+                    cont_llis++;                
                 }
 
             }
@@ -306,15 +296,6 @@ public class EnemySlug : BaseEnemy
             pathList = seeker.StartPath(pos_mod_bi(), target.transform.position);
             prota_pos = target.transform.position;
             cont_llis = 1;
-            //if (pathList.vectorPath.Count > cont_llis + 1)
-            //{
-            //    int layer_gu = 1 << 11;
-            //    RaycastHit2D hit = Physics2D.BoxCast(ownTransform.position, new Vector2(3.5f, 3.5f), 0f, new Vector2(pathList.vectorPath[cont_llis + 1].x, pathList.vectorPath[cont_llis + 1].y) - pos_mod_bi(), 8f, layer_gu);
-            //    if (hit.collider == null)
-            //    {
-            //        cont_llis += 1;
-            //    }              
-            //}                          
             closeToPlayer = false;
             pathListExists = true;
         }

@@ -3,23 +3,23 @@ using Random = UnityEngine.Random;
 
 public class Gen_monster : MonoBehaviour
 {
-    public EnemySlug.SlugType slug;
+    public SlugEnemy.SlugType slug;
 
     public void Crear_Besties()
     {
         string enemyName = null;
         switch (slug)
         {
-            case EnemySlug.SlugType.StandardSlug:
+            case SlugEnemy.SlugType.StandardSlug:
                 enemyName = "StandardSlug";
                 break;
-            case EnemySlug.SlugType.RedSlug:
+            case SlugEnemy.SlugType.RedSlug:
                 enemyName = "RedSlug";
                 break;
-            case EnemySlug.SlugType.BlueSlug:
+            case SlugEnemy.SlugType.BlueSlug:
                 enemyName = "BlueSlug";
                 break;
-            case EnemySlug.SlugType.YellowSlug:
+            case SlugEnemy.SlugType.YellowSlug:
                 enemyName = "YellowSlug";
                 break;
         }

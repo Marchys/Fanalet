@@ -15,7 +15,7 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
     protected Rigidbody2D OwnRigidbody2D;
     public Punt2d Coor;
     public bool Activat = false;
-    private bool insideStructure = false;
+    private bool _insideStructure = false;
 
     protected void Start()
     {
@@ -39,7 +39,7 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
 
     private void SwitchLifeWear()
     {
-        if (insideStructure || !Activat)
+        if (_insideStructure || !Activat)
         {
            StopCoroutine("LifeWear"); 
         }else
@@ -111,13 +111,13 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
 
     public void Handle(ProtaEntersStructureMessage message)
     {
-        insideStructure = true;
+        _insideStructure = true;
         SwitchLifeWear();
     }
 
     public void Handle(ProtaExitsStructureMessage message)
     {
-        insideStructure = false;
+        _insideStructure = false;
         SwitchLifeWear();
     }
 }

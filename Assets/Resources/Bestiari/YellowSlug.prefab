@@ -291,12 +291,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 191756}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a008223fa63fa31469cf3785cf4ed12f, type: 3}
+  m_Script: {fileID: 11500000, guid: 169631f5551f98e4bbac98959e8efc19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ParticleDeath: {fileID: 177214, guid: b16fc31c35dd646498b69b7480d1d066, type: 2}
   slugyStats: 3
-  currentStateName: 0
+  currentStateName: 1
 --- !u!114 &11495742
 MonoBehaviour:
   m_ObjectHideFlags: 1

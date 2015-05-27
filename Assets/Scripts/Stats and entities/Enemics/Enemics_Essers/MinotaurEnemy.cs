@@ -5,7 +5,7 @@ using System.Security.Policy;
 using Pathfinding;
 using UnityEngine;
 
-public class EnemyMinotaur : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaEntersStructureMessage>
+public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaEntersStructureMessage>
 {
 
     #region variables
