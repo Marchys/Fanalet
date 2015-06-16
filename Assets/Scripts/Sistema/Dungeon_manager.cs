@@ -28,11 +28,6 @@ public class Dungeon_manager : MonoBehaviourEx {
 
     bool pri_niv = true;
 
-    void Awake()
-    {
-       
-    }
-
     // Use this for initialization
 	void Start () {
         re_supergenerador = GetComponent<Supergenerador>();       

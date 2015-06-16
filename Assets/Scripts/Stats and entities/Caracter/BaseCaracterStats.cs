@@ -1,6 +1,4 @@
-﻿using Debug = UnityEngine.Debug;
-
-public class BaseCaracterStats 
+﻿public class BaseCaracterStats 
 {
     public BaseCaracterStats()
     {

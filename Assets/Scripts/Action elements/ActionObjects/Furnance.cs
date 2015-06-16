@@ -98,8 +98,9 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         Messenger.Publish(new ContinueMessage());
     }
 
-    public void Handle(ProtaEntersStructureMessage message)
+    public override void Handle(ProtaEntersStructureMessage message)
     {
+        base.Handle(message);        
         if (_destilating)
         {
             _countdown.PauseToggle();

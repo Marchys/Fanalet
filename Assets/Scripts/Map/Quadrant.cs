@@ -6,7 +6,7 @@
         {
             TopLeftCorner = new Punt2d(topX, topY);
             BottomRightCorner = new Punt2d(bottX, bottY);
-            Center = new Punt2d((bottX + topX)/2, (bottY + topY)/2);
+            Center = new Punt2d((bottX + topX) / 2, (bottY + topY) / 2);
         }
 
         public Punt2d TopLeftCorner { get; set; }

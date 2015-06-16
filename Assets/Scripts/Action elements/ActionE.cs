@@ -43,7 +43,7 @@ public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>, 
         minotaurChasing = true;
     }
 
-    public void Handle(ProtaEntersStructureMessage message)
+    public virtual void Handle(ProtaEntersStructureMessage message)
     {
         minotaurChasing = false;
     }

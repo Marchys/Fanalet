@@ -23,8 +23,8 @@ public class ItemDictionary
            
         }
 
-        public GameObject this[string bestia]
+        public GameObject this[string item]
         {
-            get { return itemDictionary[bestia];}
+            get { return itemDictionary[item];}
         }
 }

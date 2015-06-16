@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CanvasShow : MonoBehaviourEx, IHandle<UpdateGuiMessage>
+public class StatGui : MonoBehaviourEx, IHandle<UpdateGuiMessage>
 {
     //stats gui
     public Text lifeText;

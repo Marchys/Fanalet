@@ -10,14 +10,13 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
     private SpriteRenderer _spriteRend;
     protected bool knocked = false;
     private bool _immune = false;
-    protected CanvasShow GuiReference;
     protected Transform OwnTransform;
     protected Rigidbody2D OwnRigidbody2D;
     public Punt2d Coor;
     public bool Activat = false;
     private bool _insideStructure = false;
 
-    protected void Start()
+    protected virtual void Start()
     {
         _spriteRend = GetComponent<SpriteRenderer>();
         OwnTransform = GetComponent<Transform>();

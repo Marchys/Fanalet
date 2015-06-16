@@ -158,7 +158,7 @@ public class PoController : Protas
 
     #region funcions inicials
 
-    private new void Start()
+    protected override void Start()
     {
         Character = Constants.Protagonists.Po;
         base.Start();
@@ -334,14 +334,14 @@ public class PoController : Protas
         {
             if (!_disparant && !_onCooldownShot && !knocked)
             {
-                RaycastHit xoc;
-                Ray raig = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(raig, out xoc) && xoc.transform.name == "Det_mouse_input")
-                {
+                //RaycastHit xoc;
+                //Ray raig = Camera.main.ScreenPointToRay(Input.mousePosition);
+                //if (Physics.Raycast(raig, out xoc) && xoc.transform.name == "Det_mouse_input")
+                //{
                     //objectiu_dis = new Vector2(xoc.ownTransform.position.x,xoc.ownTransform.position.y);
                     _objectiuDis = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                     SetState(State.Shoot);
-                }
+                //}
 
             }
         }
