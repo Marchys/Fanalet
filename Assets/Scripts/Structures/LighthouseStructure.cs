@@ -47,9 +47,9 @@ public class LighthouseStructure : MonoBehaviourEx
     {
         if (_activated && other.CompareTag("Prota"))
         {
-            Vector2 targetLocation = new Vector2(LighthouseInterior.transform.position.x + 11.75f, LighthouseInterior.transform.position.y - 2.75f); ;
+            Vector2 targetLocation = new Vector2(LighthouseInterior.transform.position.x + 11.75f, LighthouseInterior.transform.position.y - 2.75f); 
             other.transform.position = targetLocation;
-            Camera.main.transform.position = targetLocation;
+            Camera.main.transform.position = new Vector2(targetLocation.x, targetLocation.y - 1.25f); 
             Messenger.Publish(new ProtaEntersStructureMessage());
         }
     }
