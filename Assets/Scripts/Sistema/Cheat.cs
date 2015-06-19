@@ -15,7 +15,7 @@ public class Cheat : MonoBehaviourEx {
         _MaterialStats.BlueHearts = 99;
         _MaterialStats.YellowHearts = 99;
 
-        _BaseStats.BaseSpeed = 5f;
+        _BaseStats.BaseSpeed = 75f;
         _BaseStats.Attack = 5;
     }
 	

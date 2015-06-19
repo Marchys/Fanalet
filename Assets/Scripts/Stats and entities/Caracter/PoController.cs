@@ -12,8 +12,7 @@ public class PoController : Protas
     private float _inputHoritzontal;
     private float _inputVertical;
 
-    public float moveForce = 200f;
-    public float maxSpeed = 5.5f;
+    public float _maxSpeed = 5.5f;
 
     private Vector3 vector;
 
@@ -75,6 +74,7 @@ public class PoController : Protas
 
     public void SetState(State state)
     {
+        stateExit(CurrentStateName);
         CurrentStateName = state;
         switch (state)
         {
@@ -89,13 +89,9 @@ public class PoController : Protas
             case State.Shoot:
                 _disparant = true;
                 _animatorPer.SetInteger("estat_anim", 2);
-                Character.BaseSpeed += 0.3f;
-                var modifiedStats = new BaseCaracterStats();
-                modifiedStats.Life -= 1;
+                var modifiedStats = new BaseCaracterStats { Life = -1, BaseSpeed = 20 };
                 Character.UpdateStats(modifiedStats, Messenger);
-                var bola =
-                    Instantiate(BolaFoc, new Vector3(OwnTransform.position.x, OwnTransform.position.y, -0.85f),
-                        Quaternion.identity) as GameObject;
+                var bola = Instantiate(BolaFoc, new Vector3(OwnTransform.position.x, OwnTransform.position.y, -0.85f), Quaternion.identity) as GameObject;
                 var tempDir = _objectiuDis - new Vector2(OwnTransform.position.x, OwnTransform.position.y);
                 tempDir.Normalize();
                 if (bola != null)
@@ -110,9 +106,33 @@ public class PoController : Protas
                 _currentState = Shoot;
                 break;
             case State.Dash:
+                Character.CurrentSpeed += 1300;
                 _animatorPer.SetInteger("estat_anim", 3);
                 StartCoroutine(Esperar_dash());
                 _currentState = Dash;
+                break;
+            default:
+                Debug.Log("unrecognized state");
+                break;
+
+        }
+    }
+
+    public void stateExit(State state)
+    {
+        switch (state)
+        {
+            case State.Moving:
+
+                break;
+            case State.Idl:
+
+                break;
+            case State.Shoot:
+
+                break;
+            case State.Dash:
+                Character.CurrentSpeed = Character.BaseSpeed;
                 break;
             default:
                 Debug.Log("unrecognized state");
@@ -138,7 +158,8 @@ public class PoController : Protas
     private void Shoot()
     {
         if (_onCooldownShot) return;
-        Character.BaseSpeed -= 0.3f;
+        var modifiedStats = new BaseCaracterStats {BaseSpeed = -20 };
+        Character.UpdateStats(modifiedStats, Messenger);
         _disparant = false;
         SetState(State.Idl);
     }
@@ -338,9 +359,9 @@ public class PoController : Protas
                 //Ray raig = Camera.main.ScreenPointToRay(Input.mousePosition);
                 //if (Physics.Raycast(raig, out xoc) && xoc.transform.name == "Det_mouse_input")
                 //{
-                    //objectiu_dis = new Vector2(xoc.ownTransform.position.x,xoc.ownTransform.position.y);
-                    _objectiuDis = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                    SetState(State.Shoot);
+                //objectiu_dis = new Vector2(xoc.ownTransform.position.x,xoc.ownTransform.position.y);
+                _objectiuDis = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                SetState(State.Shoot);
                 //}
 
             }
@@ -601,8 +622,8 @@ public class PoController : Protas
         //rigidbody2D.velocity = new Vector2(Mathf.Lerp(0, input_horitzontal * vel_caminar, 0.8f),
         //Mathf.Lerp(0, input_vertical * vel_caminar, 0.8f));
         //OwnRigidbody2D.velocity = vector.normalized*(Character.BaseSpeed+2f);
-        OwnRigidbody2D.velocity = Vector2.ClampMagnitude(OwnRigidbody2D.velocity, maxSpeed);
-        OwnRigidbody2D.AddForce(vector.normalized * moveForce);
+        OwnRigidbody2D.velocity = Vector2.ClampMagnitude(OwnRigidbody2D.velocity, _maxSpeed);
+        OwnRigidbody2D.AddForce(vector.normalized * Character.CurrentSpeed);
         // OwnRigidbody2D.AddForce((vector.normalized*moveForce) * OwnRigidbody2D.mass / Time.fixedDeltaTime);
         //OwnRigidbody2D.velocity = Vector2.ClampMagnitude(OwnRigidbody2D.velocity, maxSpeed);
         //OwnRigidbody2D.velocity = new Vector2(_inputHoritzontal*Character.BaseSpeed, _inputVertical*Character.BaseSpeed);

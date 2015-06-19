@@ -82,7 +82,8 @@ public static class Constants
                     Attack = 2,
                     Life = 100,
                     MaxLife = 100,
-                    BaseSpeed = 5.5f,
+                    BaseSpeed = 200f,
+                    CurrentSpeed = 200f,
                     AttackCadence = 0.6f,
                     RedHearts = 0,
                     BlueHearts = 0,
@@ -217,9 +218,9 @@ public static class Constants
         public static readonly int[] LighthousesActivation = { 10, 40, 60, 80 };
         public static readonly BaseCaracterStats PriceTools = new BaseCaracterStats { BlueHearts = -5, YellowHearts = -5, OldTools = true };
         public static readonly BaseCaracterStats UpgradeOne = new BaseCaracterStats { Attack = 1, MaxLife = 50, RedHearts = -10 };
-        public static readonly BaseCaracterStats UpgradeTwo = new BaseCaracterStats { BaseSpeed = 1, MaxLife = 50, BlueHearts = -7 };
+        public static readonly BaseCaracterStats UpgradeTwo = new BaseCaracterStats { BaseSpeed = 75, MaxLife = 50, BlueHearts = -7 };
         public static readonly BaseCaracterStats UpgradeThree = new BaseCaracterStats { Attack = 1, MaxLife = 150, YellowHearts = -5 };
-        public static readonly BaseCaracterStats UpgradeFour = new BaseCaracterStats { Attack = 1, BaseSpeed = 1, MaxLife = 50, RedHearts = -5, BlueHearts = -5, YellowHearts = -5 };
+        public static readonly BaseCaracterStats UpgradeFour = new BaseCaracterStats { Attack = 1, BaseSpeed = 75, MaxLife = 50, RedHearts = -5, BlueHearts = -5, YellowHearts = -5 };
     }
 
 

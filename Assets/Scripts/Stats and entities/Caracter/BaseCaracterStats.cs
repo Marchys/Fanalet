@@ -8,6 +8,7 @@
         Life = 0;
         MaxLife = 0;
         BaseSpeed = 0;
+        CurrentSpeed = 0;
         AttackCadence = 0;
         RedHearts = 0;
         BlueHearts = 0;
@@ -28,6 +29,8 @@
     public int MaxLife { get; set; }
 
     public float BaseSpeed { get; set; }
+
+    public float CurrentSpeed { get; set; }
 
     public float AttackCadence { get; set; }
 

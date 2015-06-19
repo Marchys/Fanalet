@@ -1,7 +1,6 @@
 ﻿public class BaseProtagonistStats : BaseCaracterStats {
     public virtual void UpdateStats(BaseCaracterStats statData, IEventAggregator messenger)
     {
-        Attack += statData.Attack;
         MaxLife += statData.MaxLife;
         Life += statData.Life;
         if (MaxLife < Life) Life = MaxLife;
@@ -11,11 +10,14 @@
             messenger.Publish(new StopMessage());
             messenger.Publish(new PlayerDeathMessage());
         }
-        BaseSpeed += statData.BaseSpeed;
-        AttackCadence += statData.AttackCadence;
         RedHearts += statData.RedHearts;
         BlueHearts += statData.BlueHearts;
         YellowHearts += statData.YellowHearts;
+
+        Attack += statData.Attack;
+        BaseSpeed += statData.BaseSpeed;
+        CurrentSpeed = BaseSpeed;
+        AttackCadence += statData.AttackCadence;
         if (statData.OldTools)
         {
             OldTools = statData.OldTools;
