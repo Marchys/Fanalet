@@ -4,7 +4,7 @@ public static class Constants
 {
     public static class RandomGeneration
     {
-       // chance to connect rooms when that room has or 2 or more corridors already connected
+        // chance to connect rooms when that room has or 2 or more corridors already connected
         public const int ChanceAcceptBuild = 5;
         //chance connect rooms when stuck
         public const int ChanceConnectStuck = 50;
@@ -223,6 +223,17 @@ public static class Constants
         public static readonly BaseCaracterStats UpgradeFour = new BaseCaracterStats { Attack = 1, BaseSpeed = 75, MaxLife = 50, RedHearts = -5, BlueHearts = -5, YellowHearts = -5 };
     }
 
+    public static class Colors
+    {
+        public static string RedHeart = "#D83E49";
+        public static string BlueHeart = "#8BB4F5";
+        public static string YellowHeart = "#E9FA7D";
+    }
 
-
+    public static class GuiTransitions
+    {
+        public const int HoleTransition = 0;
+        public const int In = 0;
+        public const int Out = 1;
+    }
 }

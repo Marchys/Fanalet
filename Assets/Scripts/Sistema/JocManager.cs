@@ -16,17 +16,12 @@ public class JocManager
             get { return instance; }
         }       
  
-        public void Pause(bool paused) {
-            if(paused) {
-                // pause the game/physic
-                Time.timeScale = 0.0f; 
-            } else {
-                // resume
-                Time.timeScale = 1f; 
-            }
+        public void Pause(bool paused)
+        {
+            Time.timeScale = paused ? 0.0f : 1f;
         }
 
-        public JocStats ActualStat
+    public JocStats ActualStat
        {           
              set 
              {

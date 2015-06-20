@@ -8,7 +8,9 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
     // components gui
     public Image HeartActivated;
     public Button AcceptButton;
-    public Text HeartQuantityText;
+    public Text TypeOfHearts;
+    public Text FirstDigit;
+    public Text SecondDigit;
 
     // sprites to change
     public Sprite RedHeartSprite;
@@ -26,7 +28,9 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
     {
         _maxHeartValue = 25;
         _currentHearts = 0;
-        HeartQuantityText.text = _currentHearts / 10 + " " + _currentHearts % 10;
+        FirstDigit.text = (_currentHearts / 10).ToString();
+        SecondDigit.text = (_currentHearts % 10).ToString();
+        TypeOfHearts.text = "How many <color=" + Constants.Colors.RedHeart + ">red hearts</color> do you want to destill?";
     }
 
 
@@ -35,7 +39,8 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
     {
         _currentHearts = _currentHearts + amount;
         _currentHearts = _currentHearts.LimitToRange(0, _maxHeartValue);
-        HeartQuantityText.text = _currentHearts / 10 + " " + _currentHearts % 10;
+        FirstDigit.text = (_currentHearts / 10).ToString();
+        SecondDigit.text = (_currentHearts % 10).ToString();
         AcceptButton.interactable = _currentHearts > 0;
     }
 
@@ -47,7 +52,7 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
         switch (Message.ActivationType)
         {
             case "red":
-                modifiedStats.RedHearts -=  _currentHearts;
+                modifiedStats.RedHearts -= _currentHearts;
                 break;
             case "blue":
                 modifiedStats.BlueHearts -= _currentHearts;
@@ -62,7 +67,7 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
             child.gameObject.SetActive(false);
         }
         Messenger.Publish(new BlurMessage(false));
-        Messenger.Publish(new EndGuiDestilationMessage(Message.MessageId,modifiedStats));
+        Messenger.Publish(new EndGuiDestilationMessage(Message.MessageId, modifiedStats));
     }
 
     public void Cancel()
@@ -73,7 +78,7 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
             child.gameObject.SetActive(false);
         }
         Messenger.Publish(new BlurMessage(false));
-        Messenger.Publish(new EndGuiDestilationMessage(Message.MessageId,new BaseCaracterStats()));
+        Messenger.Publish(new EndGuiDestilationMessage(Message.MessageId, new BaseCaracterStats()));
     }
 
     public void Handle(StartGuiDestilationMessage message)
@@ -88,20 +93,24 @@ public class DestillHeartsGui : MonoBehaviourEx, IHandle<StartGuiDestilationMess
             case "red":
                 _maxHeartValue = message.StatsProtagonist.RedHearts;
                 HeartActivated.sprite = RedHeartSprite;
+                TypeOfHearts.text = "How many <color=" + Constants.Colors.RedHeart + ">" + message.ActivationType + " hearts</color> do you want to destill?";
                 break;
             case "blue":
                 _maxHeartValue = message.StatsProtagonist.BlueHearts;
                 HeartActivated.sprite = BlueHeartSprite;
+                TypeOfHearts.text = "How many <color=" + Constants.Colors.BlueHeart + ">" + message.ActivationType + " hearts</color> do you want to destill?";
                 break;
             case "yellow":
                 _maxHeartValue = message.StatsProtagonist.YellowHearts;
                 HeartActivated.sprite = YellowHeartSprite;
+                TypeOfHearts.text = "How many <color=" + Constants.Colors.YellowHeart + ">" + message.ActivationType + " hearts</color> do you want to destill?";
                 break;
 
         }
         //Set digit values
         _currentHearts = 0;
-        HeartQuantityText.text = _currentHearts / 10 + " " + _currentHearts % 10;
+        FirstDigit.text = (_currentHearts / 10).ToString();
+        SecondDigit.text = (_currentHearts % 10).ToString();
         //Show all the destillation interface
         foreach (Transform child in transform)
         {

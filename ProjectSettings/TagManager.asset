@@ -27,6 +27,7 @@ TagManager:
   - Item
   - Canvas
   - LighthouseArea
+  - transition
   layers:
   - Default
   - TransparentFX
@@ -45,7 +46,7 @@ TagManager:
   - Prota
   - CoorRoom
   - RadiusActivatorRoom
-  - 
+  - transition
   - 
   - 
   - 

@@ -18,7 +18,7 @@ public class Supergenerador : MonoBehaviour
     private GameObject _contenidorInst;
     
     //Shows progress for the instantiation of the map
-    public float LoadingBarProgress = 0;
+    public float LoadingProgress = 0;
     //References that will be used by the instantiator
     public Vector2 ProtaPosition;
     public Vector2 MinoPosition;
@@ -707,7 +707,7 @@ public class Supergenerador : MonoBehaviour
                         Debug.Log("Number not recognized");
                         break;
                 }
-                LoadingBarProgress += un;
+                LoadingProgress += un;
                 yield return null;
 
             }

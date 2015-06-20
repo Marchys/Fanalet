@@ -34,7 +34,7 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
     {
         Stats = stats;
         base.ExecuteAction(stats);
-        if (minotaurChasing) return;
+        if (MinotaurChasing) return;
         Messenger.Publish(new StopMessage());
         _idMessage = GetInstanceID();
         Messenger.Publish(new DialogueStartMessage(!_activated ? _firstDialog : _secondDialog, _idMessage));

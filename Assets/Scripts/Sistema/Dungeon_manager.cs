@@ -1,15 +1,15 @@
 ﻿using Gen_mapa;
 using UnityEngine;
 
-public class Dungeon_manager : MonoBehaviourEx {
+public class Dungeon_manager : MonoBehaviourEx, IHandle<EndTransitionGuiMessage>
+{
 
     //supergenerador
     private Supergenerador re_supergenerador;
     private GameObject contenidor_mapa;
 
-    private Map generatedMap;   
-   
-    public GameObject loading_came;
+    private Map generatedMap;
+
     public GameObject per_came;
     public GameObject prota;
     public GameObject minotaure;
@@ -23,30 +23,29 @@ public class Dungeon_manager : MonoBehaviourEx {
 
     private GameObject ins_prota;
     private GameObject ins_camera_prota;
-    private Camera camara_prin;   
-    
+
+    private int _idMessage;
+
 
     bool pri_niv = true;
 
     // Use this for initialization
-	void Start () {
-        re_supergenerador = GetComponent<Supergenerador>();       
+    void Start()
+    {
+        _idMessage = GetInstanceID();
+        ins_camera_prota = Instantiate(per_came, new Vector3(1, 1, 15), Quaternion.identity) as GameObject;
+        if (ins_camera_prota != null) ins_camera_prota.GetComponent<Smooth_follow>().enabled = false;
+        re_supergenerador = GetComponent<Supergenerador>();
         generatedMap = re_supergenerador.Generar_mapa(15, 15, 1, 64);
         _mapContainer = GameObject.Find("Map");
         Minimap.GetComponentInChildren<MiniMapLayout>().GenerateLayout(generatedMap);
         Crear_prota_mino();
         //StartCoroutine(Joc());           
-	}
+    }
 
     public void Iniciar_nivell()
     {
-        if (pri_niv)
-        {
-            pri_niv = false;                      
-            loading_came.SetActive(false);
-            ins_camera_prota.SetActive(true);
-            Messenger.Publish(new ContinueMessage());
-        }
+        Messenger.Publish(new StartTransitionGuiMessage(Constants.GuiTransitions.HoleTransition, Constants.GuiTransitions.Out, _idMessage));
     }
 
     public void Crear_prota_mino()
@@ -54,22 +53,24 @@ public class Dungeon_manager : MonoBehaviourEx {
         if (pri_niv)
         {
             ins_prota = Instantiate(prota, new Vector3(re_supergenerador.ProtaPosition.x, re_supergenerador.ProtaPosition.y, prota.transform.position.z), Quaternion.identity) as GameObject;
-            ins_camera_prota = Instantiate(per_came, new Vector3(re_supergenerador.ProtaPosition.x, re_supergenerador.ProtaPosition.y, 15), Quaternion.identity) as GameObject;            
-            ins_camera_prota.SetActive(false);            
-            ins_camera_prota.GetComponent<Smooth_follow>().target = ins_prota.transform;
-            ins_camera_prota.GetComponent<ProceduralGridMover2D>().target = ins_prota.transform;
+            if (ins_prota != null)
+            {
+                ins_camera_prota.GetComponent<Smooth_follow>().target = ins_prota.transform;
+                ins_camera_prota.GetComponent<Smooth_follow>().enabled = true;
+                ins_camera_prota.GetComponent<ProceduralGridMover2D>().target = ins_prota.transform;
+            }
             canvasGui.GetComponent<Canvas>().worldCamera = ins_camera_prota.GetComponent<Camera>();// Set player Minimap targets
-           
+
         }
         minotaure = Instantiate(Bestiari.Generar["Minotauro"], new Vector2(re_supergenerador.MinoPosition.x, re_supergenerador.MinoPosition.y), Quaternion.identity) as GameObject;
-        var minotauri = minotaure.GetComponent<Mapa_General_p>();       
+        var minotauri = minotaure.GetComponent<Mapa_General_p>();
         minotauri.map = generatedMap;
         minotauri.Crear_pathfinding_grid();
         //SET minotaur targets
-        setMinimapReferences();
+        SetMinimapReferences();
     }
 
-    private void setMinimapReferences()
+    private void SetMinimapReferences()
     {
         //Enable Scripts
         Minimap.GetComponent<MiniMap>().enabled = true;
@@ -83,20 +84,15 @@ public class Dungeon_manager : MonoBehaviourEx {
         MinotaurMinimap.GetComponent<MapPoint>().Target = minotaure.transform;
         MinimapLayout.GetComponent<MapPoint>().Target = _mapContainer.transform;
     }
-    //IEnumerator Joc()
-    //{
-    //      while(true)
-    //        {
 
+    public void Handle(EndTransitionGuiMessage message)
+    {
+        if (message.MessageId != _idMessage) return;
+        if (pri_niv)
+        {
+            pri_niv = false;
+            Messenger.Publish(new ContinueMessage());
+        }
 
-
-    //          yield return null;
-    //        {
-    //}
-   
-
-
-
-     
-
+    }
 }

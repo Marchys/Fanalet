@@ -6,7 +6,7 @@
 public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>, IHandle<ProtaEntersStructureMessage>
 {
     protected Animator EAnimator;
-    protected bool minotaurChasing = false;
+    protected bool MinotaurChasing = false;
     protected bool Blocked = false;
     public  GameObject Prota = null;
     
@@ -17,7 +17,7 @@ public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>, 
     
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Prota" && !minotaurChasing && !Blocked)
+        if (other.gameObject.tag == "Prota" && !MinotaurChasing && !Blocked)
         {
             if (Prota == null) Prota = other.gameObject;
             EAnimator.SetInteger("animationState",1);
@@ -26,7 +26,7 @@ public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>, 
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Prota" && !minotaurChasing && !Blocked)
+        if (other.gameObject.tag == "Prota" && !MinotaurChasing && !Blocked)
         {
             EAnimator.SetInteger("animationState",0);
         }
@@ -40,11 +40,11 @@ public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>, 
     public virtual void Handle(MinotaurChaseMessage message)
     {
         EAnimator.SetInteger("animationState", 0);
-        minotaurChasing = true;
+        MinotaurChasing = true;
     }
 
     public virtual void Handle(ProtaEntersStructureMessage message)
     {
-        minotaurChasing = false;
+        MinotaurChasing = false;
     }
 }
