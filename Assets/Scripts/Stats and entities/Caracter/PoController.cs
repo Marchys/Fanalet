@@ -622,6 +622,7 @@ public class PoController : Protas
         //rigidbody2D.velocity = new Vector2(Mathf.Lerp(0, input_horitzontal * vel_caminar, 0.8f),
         //Mathf.Lerp(0, input_vertical * vel_caminar, 0.8f));
         //OwnRigidbody2D.velocity = vector.normalized*(Character.BaseSpeed+2f);
+        if (!Activat) return;
         OwnRigidbody2D.velocity = Vector2.ClampMagnitude(OwnRigidbody2D.velocity, _maxSpeed);
         OwnRigidbody2D.AddForce(vector.normalized * Character.CurrentSpeed);
         // OwnRigidbody2D.AddForce((vector.normalized*moveForce) * OwnRigidbody2D.mass / Time.fixedDeltaTime);
@@ -634,9 +635,10 @@ public class PoController : Protas
     #region Messages
     public override void Handle(StopMessage message)
     {
+        base.Handle(new StopMessage());
         _inputHoritzontal = 0;
         _inputVertical = 0;
-        base.Handle(new StopMessage());
+        vector = Vector2.zero;
     }
 
     public override void Handle(ContinueMessage message)

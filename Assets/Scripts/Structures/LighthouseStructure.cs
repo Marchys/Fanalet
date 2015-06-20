@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class LighthouseStructure : MonoBehaviourEx
+public class LighthouseStructure : MonoBehaviourEx, IHandle<EndTransitionGuiMessage>
 {
 
     private Boolean _activated = false;
@@ -12,8 +12,14 @@ public class LighthouseStructure : MonoBehaviourEx
     public Light RightEyeLight;
     public int LighthouseNumber = 0;
 
+    private Vector2 _targetLocation;
+    private int _idMessage;
+    private GameObject _prota;
+    private bool _firstTransition = true;
+
     private void Start()
     {
+        _idMessage = GetInstanceID();
         ownAnimator = GetComponent<Animator>();
     }
 
@@ -47,11 +53,35 @@ public class LighthouseStructure : MonoBehaviourEx
     {
         if (_activated && other.CompareTag("Prota"))
         {
-            Vector2 targetLocation = new Vector2(LighthouseInterior.transform.position.x + 11.75f, LighthouseInterior.transform.position.y - 2.75f); 
-            other.transform.position = targetLocation;
-            Camera.main.transform.position = new Vector2(targetLocation.x, targetLocation.y - 1.25f); 
-            Messenger.Publish(new ProtaEntersStructureMessage());
+            Messenger.Publish(new StopMessage());
+            _targetLocation = new Vector2(LighthouseInterior.transform.position.x + 11.75f, LighthouseInterior.transform.position.y - 2.75f);
+            _prota = other.gameObject;
+            _firstTransition = true;
+            Messenger.Publish(new StartTransitionGuiMessage(Constants.GuiTransitions.HoleTransition, Constants.GuiTransitions.In, _idMessage));
         }
     }
 
+    public void Handle(EndTransitionGuiMessage message)
+    {
+        if (message.MessageId != _idMessage) return;
+        if (_firstTransition)
+        {
+            _prota.transform.position = _targetLocation;
+            Camera.main.transform.position = new Vector2(_targetLocation.x, _targetLocation.y - 1.25f);
+            Messenger.Publish(new ProtaEntersStructureMessage());
+            StartCoroutine(ShowAgain());
+            _firstTransition = false;
+        }
+        else
+        {
+            Messenger.Publish(new ContinueMessage());
+        }
+
+    }
+
+    IEnumerator ShowAgain()
+    {
+        yield return new WaitForSeconds(0.7f);
+        Messenger.Publish(new StartTransitionGuiMessage(Constants.GuiTransitions.HoleTransition, Constants.GuiTransitions.Out, _idMessage));
+    }
 }

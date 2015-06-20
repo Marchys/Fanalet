@@ -33,17 +33,18 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
         StartCoroutine(Knocked());
         var modifiedStats = new BaseCaracterStats();
         modifiedStats.Life -= damageAmount;
-        Character.UpdateStats(modifiedStats,Messenger);
+        Character.UpdateStats(modifiedStats, Messenger);
     }
 
     private void SwitchLifeWear()
     {
         if (_insideStructure || !Activat)
         {
-           StopCoroutine("LifeWear"); 
-        }else
+            StopCoroutine("LifeWear");
+        }
+        else
         {
-            StopCoroutine("LifeWear"); 
+            StopCoroutine("LifeWear");
             StartCoroutine("LifeWear");
         }
     }
@@ -57,9 +58,9 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
             modifiedStats.Life -= 1;
             Character.UpdateStats(modifiedStats, Messenger);
         }
-        
+
     }
-    
+
     private IEnumerator Flash_red()
     {
         var alCol = 0.2f;
@@ -91,7 +92,6 @@ public abstract class Protas : MonoBehaviourEx, IVulnerable<int>, IHandle<StopMe
 
     public virtual void Handle(StopMessage message)
     {
-        
         Activat = false;
         SwitchLifeWear();
     }
