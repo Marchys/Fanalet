@@ -1,14 +1,15 @@
 fileFormatVersion: 2
-guid: 8284d2acc6c027a4589e550f796c5df5
+guid: 8d5b4d3e309e1ae45b31d7a6e543c866
+timeCreated: 1434895087
+licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: Attack
-    21300002: Attack_0
-    21300004: Attack_1
-    21300006: Attack_2
-    21300008: Attack_3
-    21300010: Attack_4
-    21300012: Attack_5
+    21300000: SombreroAtt_0
+    21300002: SombreroAtt_1
+    21300004: SombreroAtt_2
+    21300006: SombreroAtt_3
+    21300008: SombreroAtt_4
+    21300010: SombreroAtt_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -54,37 +55,7 @@ TextureImporter:
   buildTargetSettings: []
   spriteSheet:
     sprites:
-    - name: Attack_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 396
-        width: 198
-        height: 198
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Attack_1
-      rect:
-        serializedVersion: 2
-        x: 198
-        y: 396
-        width: 198
-        height: 198
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Attack_2
-      rect:
-        serializedVersion: 2
-        x: 396
-        y: 396
-        width: 198
-        height: 198
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Attack_3
+    - name: SombreroAtt_0
       rect:
         serializedVersion: 2
         x: 0
@@ -94,7 +65,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Attack_4
+    - name: SombreroAtt_1
       rect:
         serializedVersion: 2
         x: 198
@@ -104,11 +75,41 @@ TextureImporter:
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
-    - name: Attack_5
+    - name: SombreroAtt_2
       rect:
         serializedVersion: 2
         x: 396
         y: 198
+        width: 198
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SombreroAtt_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 198
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SombreroAtt_4
+      rect:
+        serializedVersion: 2
+        x: 198
+        y: 0
+        width: 198
+        height: 198
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: SombreroAtt_5
+      rect:
+        serializedVersion: 2
+        x: 396
+        y: 0
         width: 198
         height: 198
       alignment: 0
