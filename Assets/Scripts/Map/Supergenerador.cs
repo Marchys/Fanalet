@@ -4,7 +4,7 @@ using System.Linq;
 using Gen_mapa;
 using UnityEngine;
 
-public class Supergenerador : MonoBehaviour
+public class Supergenerador : MonoBehaviourEx
 {
     #region variables
     private bool _shouldReset = false;
@@ -17,8 +17,6 @@ public class Supergenerador : MonoBehaviour
     //elements map   
     private GameObject _contenidorInst;
     
-    //Shows progress for the instantiation of the map
-    public float LoadingProgress = 0;
     //References that will be used by the instantiator
     public Vector2 ProtaPosition;
     public Vector2 MinoPosition;
@@ -597,6 +595,7 @@ public class Supergenerador : MonoBehaviour
         var w = _map.Width;
         var h = _map.Height;
         var total = h * w;
+        var loadingProgress = 0;
         var un = (float)1 / total;
         for (var x = 0; x < w; ++x)
         {
@@ -707,7 +706,8 @@ public class Supergenerador : MonoBehaviour
                         Debug.Log("Number not recognized");
                         break;
                 }
-                LoadingProgress += un;
+                loadingProgress += 1;
+                Messenger.Publish(new LoadingTick(loadingProgress, total));
                 yield return null;
 
             }

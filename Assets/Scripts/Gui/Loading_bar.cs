@@ -33,7 +33,7 @@ public class Loading_bar : MonoBehaviour
         //for this example, the bar display is linked to the current time,
         //however you would set this value based on your desired display
         //eg, the loading progress, the player's health, or whatever.
-        barDisplay = gen.LoadingProgress;       
+      
         //      barDisplay = MyControlScript.staticHealth;
     }
 }
