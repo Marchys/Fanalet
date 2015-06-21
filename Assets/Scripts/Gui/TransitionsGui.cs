@@ -11,7 +11,16 @@ public class TransitionsGui : MonoBehaviourEx, IHandle<StartTransitionGuiMessage
 
     private float _holeRadius = 0;
     private int _currentTransitionMessageId = 0;
- 
+
+    void Start()
+    {
+        if (_holeTransitionGuiMaterial == null)
+        {
+            _holeTransitionGuiMaterial = HoleTransitionGui.GetComponent<Image>().material;
+            _holeTransitionGuiMaterial.SetFloat("_Radius", 0);
+        }
+    }
+   
     public void Handle(StartTransitionGuiMessage message)
     {
         if (_holeTransitionGuiMaterial == null)

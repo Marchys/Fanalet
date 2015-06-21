@@ -28,6 +28,7 @@ TagManager:
   - Canvas
   - LighthouseArea
   - transition
+  - destructible
   layers:
   - Default
   - TransparentFX

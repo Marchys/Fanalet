@@ -14,13 +14,17 @@ public class bola : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Enemigo_tri" || col.gameObject.tag == "Escenari_coll")
+        if (col.gameObject.tag == "Enemigo_tri" || col.gameObject.tag == "Escenari_coll" || col.gameObject.tag == "destructible")
         {
             gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 0);
             gameObject.GetComponent<Collider2D>().enabled = false;
             if (col.gameObject.tag == "Enemigo_tri")
             {
                 col.transform.parent.BroadcastMessage("Impacte_mal", en_xoc, SendMessageOptions.DontRequireReceiver); ;
+            }
+            if (col.gameObject.tag == "destructible")
+            {
+                col.gameObject.GetComponent<Destructible>().Mal(en_xoc.Mal);
             }
             StartCoroutine("Autoexplode");
         }

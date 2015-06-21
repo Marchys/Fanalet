@@ -67,6 +67,12 @@ public static class Constants
             EntityDescription = "Some oil for you, don't die please",
             Life = 5
         };
+        public static BaseCaracterStats RandomOilBottle = new BaseCaracterStats
+        {
+            EntityName = "Oil for the guy",
+            EntityDescription = "Some oil for you, don't die please",
+            Life = 10
+        };
     }
 
     public static class Protagonists
@@ -235,5 +241,10 @@ public static class Constants
         public const int HoleTransition = 0;
         public const int In = 0;
         public const int Out = 1;
+    }
+
+    public static class Destructibles
+    {
+        public const int BarrelLife = 0;
     }
 }

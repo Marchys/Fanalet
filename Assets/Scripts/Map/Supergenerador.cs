@@ -33,7 +33,6 @@ public class Supergenerador : MonoBehaviourEx
     public Map Generar_mapa(int x, int y, int niv, int maxSa)
     {
         SetStarting();
-        Random.seed = 42;
         _map = new Map(x, y);
         ProtaPosition = ToRealWorldPosition(_map.Pointer.X, _map.Pointer.Y);
         _quadrantProta = Quin_Quadrant(_map.Pointer);
