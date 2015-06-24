@@ -10,7 +10,7 @@ public abstract class ActionE : MonoBehaviourEx, IHandle<MinotaurChaseMessage>, 
     protected bool Blocked = false;
     public  GameObject Prota = null;
     
-    protected void Start()
+    protected virtual void Start()
     {
         EAnimator=GetComponent<Animator>();
     }

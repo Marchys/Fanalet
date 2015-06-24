@@ -5,14 +5,16 @@ using UnityEngine.UI;
 public class CollectOilGui : MonoBehaviourEx, IHandle<StartTakeOil>
 {
 
-    public Text oilText;
+    public Text ProccesText;
     private StartTakeOil _message;
 
     public void Handle(StartTakeOil message)
     {
         Messenger.Publish(new BlurMessage(true));
         _message = message;
-        oilText.text = message.OilDestilated.ToString();
+        ProccesText.text = "Oil Extracted: ";
+        ProccesText.text += "<color=" + Constants.Colors.YellowHeart + ">" + message.OilDestilated + "</color>";
+        ProccesText.text += "\nStatus: " + (message.DestilationFinished ? "Done" : "Extracting...");
         //Show all the destillation interface
         foreach (Transform child in transform)
         {

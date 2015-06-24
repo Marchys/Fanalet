@@ -4,12 +4,14 @@ using System.Collections;
 public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndTakeOil>, IHandle<ProtaEntersStructureMessage>, IHandle<ProtaExitsStructureMessage>
 {
 
+    public GameObject FireGameobject;
+    public GameObject DoorGameobject;
+
     private string _activationType;
     private int _idMessage = 0;
     private bool _destilating = false;
     private CountDown _countdown;
     private float _conversionRate = 0;
-
 
     public void SetLighthousetype(BaseCaracterStats ActivationStats)
     {
@@ -43,12 +45,12 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         {
             int oilDestilated;
             if (_countdown.isFinished) oilDestilated = (int)(_countdown.life * _conversionRate);
-            else oilDestilated = (int) (_countdown.elapsed*_conversionRate);
-            Messenger.Publish(new StartTakeOil(stats,_activationType, oilDestilated, _idMessage));
+            else oilDestilated = (int)(_countdown.elapsed * _conversionRate);
+            Messenger.Publish(new StartTakeOil(stats, _activationType, oilDestilated, _idMessage, _countdown.isFinished));
         }
-       
+
     }
-  
+
 
     private void StartDestilation(BaseCaracterStats modifiedStats)
     {
@@ -69,7 +71,10 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
                 processTime = 0;
                 break;
         }
-       
+        //particle and door aniamtrions
+        DoorGameobject.GetComponent<Animator>().SetInteger("FurnanceStatus", 1);
+        FireGameobject.GetComponent<ParticleSystem>().enableEmission = true;
+        FireGameobject.GetComponent<Light>().enabled = true;
         _countdown = new CountDown(processTime);
         _countdown.Start();
         _countdown.PauseToggle();
@@ -94,18 +99,24 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         if (message.IsOilCollected)
         {
             _destilating = false;
+            DoorGameobject.GetComponent<Animator>().SetInteger("FurnanceStatus", 0);
+            FireGameobject.GetComponent<ParticleSystem>().enableEmission = false;
+            FireGameobject.GetComponent<Light>().enabled = false;
         }
         Messenger.Publish(new ContinueMessage());
     }
 
     public override void Handle(ProtaEntersStructureMessage message)
     {
-        base.Handle(message);        
+        base.Handle(message);
         if (_destilating)
         {
             _countdown.PauseToggle();
         }
-       
+        if (_countdown == null || !_countdown.isFinished) return;
+        DoorGameobject.GetComponent<Animator>().SetInteger("FurnanceStatus", 0);
+        FireGameobject.GetComponent<ParticleSystem>().enableEmission = false;
+        FireGameobject.GetComponent<Light>().enabled = false;
     }
 
     public void Handle(ProtaExitsStructureMessage message)
@@ -113,7 +124,7 @@ public class Furnance : ActionE, IHandle<EndGuiDestilationMessage>, IHandle<EndT
         if (_destilating)
         {
             _countdown.PauseToggle();
-        } 
+        }
     }
 }
 

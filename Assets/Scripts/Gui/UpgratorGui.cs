@@ -4,13 +4,7 @@ using UnityEngine.UI;
 
 public class UpgratorGui : MonoBehaviourEx, IHandle<StartUpgradeGuiMessage>
 {
-    public GameObject AttackGameObject;
-    public GameObject SpeedGameObject;
-    public GameObject LifeGameObject;
-
-    public GameObject RedHeartGameObject;
-    public GameObject BlueHeartGameObject;
-    public GameObject YellowHeartGameObject;
+    public Text ExplanatoryText;
 
     public Text RedHeartText;
     public Text BlueHeartText;
@@ -31,27 +25,14 @@ public class UpgratorGui : MonoBehaviourEx, IHandle<StartUpgradeGuiMessage>
         }
         UpgradeButton.interactable = true;
         // show things that will change with the upgrade
-        if (_message.UpgradeStats.Attack == 0) AttackGameObject.SetActive(false);
-        if (_message.UpgradeStats.MaxLife == 0) LifeGameObject.SetActive(false);
-        if (_message.UpgradeStats.BaseSpeed == 0) SpeedGameObject.SetActive(false);
+        ExplanatoryText.text = "This upgrade contains:";
+        if (_message.UpgradeStats.Attack != 0) ExplanatoryText.text += "\n<color=" + Constants.Colors.RedHeart + ">+ More attack </color>";
+        if (_message.UpgradeStats.MaxLife != 0) ExplanatoryText.text += "\n<color=" + Constants.Colors.YellowHeart + "> + More capacity</color>";
+        if (_message.UpgradeStats.BaseSpeed != 0) ExplanatoryText.text += "\n<color=" + Constants.Colors.BlueHeart + ">+ More speed </color>";
 
-        //show price of upgrade
-        if (_message.UpgradeStats.RedHearts == 0)
-        {
-            RedHeartGameObject.SetActive(false); 
-        }
-        if (_message.UpgradeStats.BlueHearts == 0)
-        {
-            BlueHeartGameObject.SetActive(false); 
-        }
-        if (_message.UpgradeStats.YellowHearts == 0)
-        {
-            YellowHeartGameObject.SetActive(false); 
-        }
-
-         RedHeartText.text = _message.UpgradeStats.RedHearts.ToString();
-         YellowHeartText.text = _message.UpgradeStats.YellowHearts.ToString();
-         BlueHeartText.text = _message.UpgradeStats.BlueHearts.ToString();
+        RedHeartText.text = "X" + Mathf.Abs(_message.UpgradeStats.RedHearts);
+        YellowHeartText.text = "X" + Mathf.Abs(_message.UpgradeStats.YellowHearts);
+        BlueHeartText.text = "X" + Mathf.Abs(message.UpgradeStats.BlueHearts);
 
         if ((_message.UpgradeStats.RedHearts + _message.ProtaStats.RedHearts) < 0 ||
             (_message.UpgradeStats.BlueHearts + _message.ProtaStats.BlueHearts) < 0 ||
@@ -59,7 +40,7 @@ public class UpgratorGui : MonoBehaviourEx, IHandle<StartUpgradeGuiMessage>
         {
             UpgradeButton.interactable = false;
         }
-        
+
     }
 
     public void Upgrade()
