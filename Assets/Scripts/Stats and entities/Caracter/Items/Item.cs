@@ -15,7 +15,8 @@ public class Item : MonoBehaviour
         BlueHeart,
         YellowHeart,
         OilBottle,
-        RandomOilBottle
+        RandomOilBottle,
+        LilBear
     }
 
     //This is what you need to show in the inspector.
@@ -39,6 +40,9 @@ public class Item : MonoBehaviour
                 break;
             case ItemTypes.RandomOilBottle:
                 itemStatsModified = Constants.Items.RandomOilBottle;
+                break;
+            case ItemTypes.LilBear:
+                itemStatsModified = Constants.Items.LilBear;
                 break;
         }
     }

@@ -1,0 +1,213 @@
+fileFormatVersion: 2
+guid: 05c63590cf1008843912853f7ed276cb
+timeCreated: 1435167819
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: TombolaSheet_0
+    21300002: TombolaSheet_1
+    21300004: TombolaSheet_2
+    21300006: TombolaSheet_3
+    21300008: TombolaSheet_4
+    21300010: TombolaSheet_5
+    21300012: TombolaSheet_6
+    21300014: TombolaSheet_7
+    21300016: TombolaSheet_8
+    21300018: TombolaSheet_9
+    21300020: TombolaSheet_10
+    21300022: TombolaSheet_11
+    21300024: TombolaSheet_12
+    21300026: TombolaSheet_13
+    21300028: TombolaSheet_14
+    21300030: TombolaSheet_15
+    21300032: TombolaSheet_16
+    21300034: TombolaSheet_17
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: TombolaSheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2736
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_1
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 2736
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_2
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 2736
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2052
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_4
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 2052
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_5
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 2052
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1368
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_7
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 1368
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_8
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 1368
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_9
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 684
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_10
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 684
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_11
+      rect:
+        serializedVersion: 2
+        x: 984
+        y: 684
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaSheet_13
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 0
+        width: 492
+        height: 684
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

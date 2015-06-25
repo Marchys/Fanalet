@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor.Animations;
 
 public class DarkTrader : ActionE, IHandle<DialogueEndMessage>, IHandle<EndBlackShopMessage>
 {
+    public GameObject DarkTraderGirl;
+    public GameObject DarkTraderMachine;
+    public AnimatorController SpecialAnimatorController;
     public TextAsset TextFileDialogue1;
     public TextAsset TextFileDialogue2;
     private string[] _firstDialog;
@@ -31,6 +35,7 @@ public class DarkTrader : ActionE, IHandle<DialogueEndMessage>, IHandle<EndBlack
         base.ExecuteAction(stats);
         Messenger.Publish(new StopMessage());
         _idMessage = GetInstanceID();
+        DarkTraderGirl.GetComponent<Animator>().SetInteger("TomboleraState", 2);
         Messenger.Publish(new DialogueStartMessage(!_bought ? _firstDialog : _secondDialog, _idMessage));
     }
 
@@ -42,11 +47,17 @@ public class DarkTrader : ActionE, IHandle<DialogueEndMessage>, IHandle<EndBlack
 
     public void Handle(DialogueEndMessage message)
     {
-        if (message.MessageId == _idMessage && !_bought)
+        if (message.MessageId != _idMessage) return;
+        DarkTraderGirl.GetComponent<Animator>().SetInteger("TomboleraState", 0);
+        if (_bought)
         {
-            Messenger.Publish(new StartBlackShopMessage(_idMessage,protaStats));
+            Messenger.Publish(new ContinueMessage());
         }
-        else if (message.MessageId == _idMessage && _bought) Messenger.Publish(new ContinueMessage());
+        else
+        {
+            Messenger.Publish(new StartBlackShopMessage(_idMessage, protaStats));
+        }
+
     }
 
     public void Handle(EndBlackShopMessage message)
@@ -55,7 +66,34 @@ public class DarkTrader : ActionE, IHandle<DialogueEndMessage>, IHandle<EndBlack
         if (message.Sucess)
         {
             _bought = true;
+            StartCoroutine(HitButtonSequence());
         }
+        Messenger.Publish(new ContinueMessage());
+    }
+
+    IEnumerator HitButtonSequence()
+    {
+        DarkTraderGirl.GetComponent<Animator>().SetInteger("TomboleraState", 1);
+        yield return new WaitForSeconds(0.5f);
+        DarkTraderMachine.GetComponent<Animator>().SetInteger("TombolaState", 1);
+        yield return new WaitForSeconds(0.5f);
+        DarkTraderGirl.GetComponent<Animator>().SetInteger("TomboleraState", 0);
+        var tempItem = Instantiate(ItemDictionary.Generar["LilBear"], DarkTraderMachine.transform.position, Quaternion.identity) as Transform;
+        if (tempItem != null)
+        {
+            bool thing = true;
+            foreach (Transform t in tempItem)
+            {
+                if (thing)
+                {
+                    t.GetComponent<Animator>().runtimeAnimatorController = SpecialAnimatorController;
+                    thing = false;
+                }
+               
+            }
+        }
+        yield return new WaitForSeconds(0.1f);
+        DarkTraderMachine.GetComponent<Animator>().SetInteger("TombolaState", 0);
         Messenger.Publish(new ContinueMessage());
     }
 }

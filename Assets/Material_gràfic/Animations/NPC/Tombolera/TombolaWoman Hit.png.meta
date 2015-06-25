@@ -1,0 +1,264 @@
+fileFormatVersion: 2
+guid: 97ae5a7966e8b4c48ba59047c5debc97
+timeCreated: 1435166016
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: TombolaWoman Hit_0
+    21300002: TombolaWoman Hit_1
+    21300004: TombolaWoman Hit_2
+    21300006: TombolaWoman Hit_3
+    21300008: TombolaWoman Hit_4
+    21300010: TombolaWoman Hit_5
+    21300012: TombolaWoman Hit_6
+    21300014: TombolaWoman Hit_7
+    21300016: TombolaWoman Hit_8
+    21300018: TombolaWoman Hit_9
+    21300020: TombolaWoman Hit_10
+    21300022: TombolaWoman Hit_11
+    21300024: TombolaWoman Hit_12
+    21300026: TombolaWoman Hit_13
+    21300028: TombolaWoman Hit_14
+    21300030: TombolaWoman Hit_15
+    21300032: TombolaWoman Hit_16
+    21300034: TombolaWoman Hit_17
+    21300036: TombolaWoman Hit_18
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: .25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: .5, y: .5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    sprites:
+    - name: TombolaWoman Hit_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1671
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_1
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 1671
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_2
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 1671
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_3
+      rect:
+        serializedVersion: 2
+        x: 1512
+        y: 1671
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1294
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_5
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 1294
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_6
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 1294
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_7
+      rect:
+        serializedVersion: 2
+        x: 1512
+        y: 1294
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 917
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_9
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 917
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_10
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 917
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_11
+      rect:
+        serializedVersion: 2
+        x: 1512
+        y: 917
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 540
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_13
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 540
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_14
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 540
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_15
+      rect:
+        serializedVersion: 2
+        x: 1512
+        y: 540
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 163
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_17
+      rect:
+        serializedVersion: 2
+        x: 504
+        y: 163
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: TombolaWoman Hit_18
+      rect:
+        serializedVersion: 2
+        x: 1008
+        y: 163
+        width: 504
+        height: 377
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

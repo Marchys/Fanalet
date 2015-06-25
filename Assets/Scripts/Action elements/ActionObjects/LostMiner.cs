@@ -8,7 +8,10 @@ public class LostMiner : ActionE, IHandle<LighthouseActivatedMessage>, IHandle<D
     public TextAsset TextFileDialogue2;
     public TextAsset TextFileDialogue3;
 
+    public GameObject OldManGameObject;
+    public GameObject ShadowOldManGameObject;
     public GameObject ExitExplosion;
+    public GameObject HideExplosion;
 
     private string[] _firstDialog;
     private string[] _secondDialog;
@@ -48,6 +51,7 @@ public class LostMiner : ActionE, IHandle<LighthouseActivatedMessage>, IHandle<D
         if (protaStats.OldTools) _hasTools = true;
         Messenger.Publish(new StopMessage());
         _idMessage = GetInstanceID();
+        OldManGameObject.GetComponent<Animator>().SetInteger("OldManState",2);
         Messenger.Publish(new DialogueStartMessage(HandleDialogue(), _idMessage));
     }
 
@@ -56,10 +60,12 @@ public class LostMiner : ActionE, IHandle<LighthouseActivatedMessage>, IHandle<D
         if (message.MessageId != _idMessage) return;
         if (!_allLighthousesActivated || !_hasTools)
         {
+            OldManGameObject.GetComponent<Animator>().SetInteger("OldManState", 0);
             Messenger.Publish(new ContinueMessage());
             return;
         }
         //Present message win
+        OldManGameObject.GetComponent<Animator>().SetInteger("OldManState", 1);
         StartCoroutine(WinCorutine());
         Instantiate(ExitExplosion, transform.position, Quaternion.identity);
     }
@@ -109,5 +115,18 @@ public class LostMiner : ActionE, IHandle<LighthouseActivatedMessage>, IHandle<D
 
     }
 
-    
+    public override void Handle(MinotaurChaseMessage message)
+    {
+        base.Handle(message);
+        Instantiate(HideExplosion, new Vector2(transform.position.x,transform.position.y-1.87f), Quaternion.identity);
+        OldManGameObject.SetActive(false);
+        ShadowOldManGameObject.SetActive(false);
+    }
+
+    public override void Handle(ProtaEntersStructureMessage message)
+    {
+        base.Handle(message);
+        OldManGameObject.SetActive(false);
+        ShadowOldManGameObject.SetActive(false);
+    }
 }

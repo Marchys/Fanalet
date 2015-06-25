@@ -1,7 +1,15 @@
 fileFormatVersion: 2
-guid: df71eb1252f0d1b42921ad49f66531e0
+guid: 4a7a1393bc681c54c92b7907d7d84f56
+timeCreated: 1435159667
+licenseType: Free
 TextureImporter:
-  fileIDToRecycleName: {}
+  fileIDToRecycleName:
+    21300000: OldMan_Talking_0
+    21300002: OldMan_Talking_1
+    21300004: OldMan_Talking_2
+    21300006: OldMan_Talking_3
+    21300008: OldMan_Talking_4
+    21300010: OldMan_Talking_5
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -20,18 +28,22 @@ TextureImporter:
   isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 8
+  cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
-  maxTextureSize: 1024
+  maxTextureSize: 2048
   textureSettings:
     filterMode: -1
-    aniso: -1
+    aniso: 16
     mipBias: -1
-    wrapMode: -1
+    wrapMode: 1
   nPOTScale: 0
   lightmap: 0
+  rGBM: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -42,6 +54,68 @@ TextureImporter:
   textureType: 8
   buildTargetSettings: []
   spriteSheet:
-    sprites: []
+    sprites:
+    - name: OldMan_Talking_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 699
+        width: 300
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: OldMan_Talking_1
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 699
+        width: 300
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: OldMan_Talking_2
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 699
+        width: 300
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: OldMan_Talking_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 374
+        width: 300
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: OldMan_Talking_4
+      rect:
+        serializedVersion: 2
+        x: 300
+        y: 374
+        width: 300
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: OldMan_Talking_5
+      rect:
+        serializedVersion: 2
+        x: 600
+        y: 374
+        width: 300
+        height: 325
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 
