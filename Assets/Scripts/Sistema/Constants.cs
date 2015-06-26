@@ -93,7 +93,7 @@ public static class Constants
                     EntityName = "Po",
                     EntityDescription = "Te mola po",
                     Attack = 2,
-                    Life = 100,
+                    Life = 2,
                     MaxLife = 100,
                     BaseSpeed = 200f,
                     CurrentSpeed = 200f,
@@ -246,6 +246,7 @@ public static class Constants
     public static class GuiTransitions
     {
         public const int HoleTransition = 0;
+        public const int NormalTransition = 1;
         public const int In = 0;
         public const int Out = 1;
     }

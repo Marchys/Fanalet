@@ -876,6 +876,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prota: {fileID: 153806, guid: 0eb029fa045ab634ab11a33a29c0a027, type: 2}
   camera_prota: {fileID: 100002, guid: 9240c341289e19a488d1f51ee3e9421f, type: 2}
+--- !u!1 &1175438677 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 195614, guid: fb44e39e67f40114ebb7149700f6efae, type: 2}
+  m_PrefabInternal: {fileID: 650167928}
+--- !u!114 &1175438679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1175438677}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1254083943, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 0
+  m_AspectRatio: 1.7783494
 --- !u!1 &1400475037
 GameObject:
   m_ObjectHideFlags: 0
