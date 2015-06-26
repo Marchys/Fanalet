@@ -6,7 +6,6 @@ public class DarkTrader : ActionE, IHandle<DialogueEndMessage>, IHandle<EndBlack
 {
     public GameObject DarkTraderGirl;
     public GameObject DarkTraderMachine;
-    public AnimatorController SpecialAnimatorController;
     public TextAsset TextFileDialogue1;
     public TextAsset TextFileDialogue2;
     private string[] _firstDialog;
@@ -74,19 +73,19 @@ public class DarkTrader : ActionE, IHandle<DialogueEndMessage>, IHandle<EndBlack
     IEnumerator HitButtonSequence()
     {
         DarkTraderGirl.GetComponent<Animator>().SetInteger("TomboleraState", 1);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.6f);
         DarkTraderMachine.GetComponent<Animator>().SetInteger("TombolaState", 1);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.4f);
         DarkTraderGirl.GetComponent<Animator>().SetInteger("TomboleraState", 0);
-        var tempItem = Instantiate(ItemDictionary.Generar["LilBear"], DarkTraderMachine.transform.position, Quaternion.identity) as Transform;
+        GameObject tempItem = Instantiate(ItemDictionary.Generar["LilBear"], new Vector2(DarkTraderMachine.transform.position.x, DarkTraderMachine.transform.position.y-2.5f), Quaternion.identity) as GameObject;
         if (tempItem != null)
         {
             bool thing = true;
-            foreach (Transform t in tempItem)
+            foreach (Transform t in tempItem.transform)
             {
                 if (thing)
                 {
-                    t.GetComponent<Animator>().runtimeAnimatorController = SpecialAnimatorController;
+                    t.GetComponent<Animator>().SetInteger("NormalItem",1);
                     thing = false;
                 }
                
