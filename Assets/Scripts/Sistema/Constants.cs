@@ -1,6 +1,4 @@
-﻿using UnityEditorInternal;
-using UnityEngine;
-
+﻿
 public static class Constants
 {
     public static class RandomGeneration
@@ -93,7 +91,7 @@ public static class Constants
                     EntityName = "Po",
                     EntityDescription = "Te mola po",
                     Attack = 2,
-                    Life = 2,
+                    Life = 100,
                     MaxLife = 100,
                     BaseSpeed = 200f,
                     CurrentSpeed = 200f,

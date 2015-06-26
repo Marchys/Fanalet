@@ -24,17 +24,8 @@ public class TransitionsGui : MonoBehaviourEx, IHandle<StartTransitionGuiMessage
             NormalTransitionGuiImage = NormalTransitionGui.GetComponent<Image>();
             _holeTransitionGuiMaterial.SetFloat("_Radius", 0);
         }
-        StartCoroutine(thuigny());
     }
 
-    IEnumerator thuigny()
-    {
-        while (true)
-        {
-            Debug.Log(NormalTransitionGuiImage.color);
-            yield return new WaitForSeconds(0.5f);
-        }
-    }
     public void Handle(StartTransitionGuiMessage message)
     {
         if (_holeTransitionGuiMaterial == null)
