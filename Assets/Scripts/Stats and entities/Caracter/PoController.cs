@@ -198,8 +198,12 @@ public class PoController : Protas
     private void Update()
     {
         _currentState();
+        if (Input.GetButtonDown("Pause"))
+        {
+            Messenger.Publish(new PauseToggleMessage());
+        }
         if (_dash || !Activat) return;
-        if (Input.GetButton("right"))
+        if (Input.GetButton("Right"))
         {
             if (!_horBlock)
             {
@@ -224,7 +228,7 @@ public class PoController : Protas
                 }
             }
         }
-        if (Input.GetButton("left"))
+        if (Input.GetButton("Left"))
         {
             if (!_horBlock)
             {
@@ -249,7 +253,7 @@ public class PoController : Protas
                 }
             }
         }
-        if (Input.GetButtonUp("right"))
+        if (Input.GetButtonUp("Right"))
         {
             if (_horBlock)
             {
@@ -264,7 +268,7 @@ public class PoController : Protas
             }
 
         }
-        if (Input.GetButtonUp("left"))
+        if (Input.GetButtonUp("Left"))
         {
             if (_horBlock)
             {
@@ -279,7 +283,7 @@ public class PoController : Protas
             }
         }
 
-        if (Input.GetButton("up"))
+        if (Input.GetButton("Up"))
         {
             if (!_verBlock)
             {
@@ -300,7 +304,7 @@ public class PoController : Protas
                 }
             }
         }
-        if (Input.GetButton("down"))
+        if (Input.GetButton("Down"))
         {
             if (!_verBlock)
             {
@@ -321,7 +325,7 @@ public class PoController : Protas
                 }
             }
         }
-        if (Input.GetButtonUp("up"))
+        if (Input.GetButtonUp("Up"))
         {
             if (_verBlock)
             {
@@ -336,7 +340,7 @@ public class PoController : Protas
             }
 
         }
-        if (Input.GetButtonUp("down"))
+        if (Input.GetButtonUp("Down"))
         {
             if (_verBlock)
             {
@@ -351,7 +355,7 @@ public class PoController : Protas
             }
         }
 
-        if (Input.GetButtonDown("disparar"))
+        if (Input.GetButtonDown("Shoot"))
         {
             if (!_disparant && !_onCooldownShot && !knocked)
             {
@@ -367,13 +371,13 @@ public class PoController : Protas
             }
         }
 
-        if (Input.GetButtonDown("accio"))
+        if (Input.GetButtonDown("Action"))
         {
             if (_potActuar) _actionGameObject.GetComponent<ActionE>().ExecuteAction(Character);
         }
         //input_horitzontal=Input.GetAxis("Horizontal");
         //input_vertical = Input.GetAxis("Vertical");
-
+      
     #endregion
 
         #region dash
@@ -381,7 +385,7 @@ public class PoController : Protas
         if (!_dashCooldown && DashUnlocked && !_disparant)
         {
 
-            if (Input.GetButtonDown("right"))
+            if (Input.GetButtonDown("Right"))
             {
                 if (_lastDashDir != 1)
                 {
@@ -402,7 +406,7 @@ public class PoController : Protas
 
             }
 
-            else if (Input.GetButtonDown("left"))
+            else if (Input.GetButtonDown("Left"))
             {
                 if (_lastDashDir != 2)
                 {
@@ -421,7 +425,7 @@ public class PoController : Protas
                     _tempLastDash = Time.time;
                 }
             }
-            else if (Input.GetButtonDown("up"))
+            else if (Input.GetButtonDown("Up"))
             {
                 if (_lastDashDir != 3)
                 {
@@ -440,7 +444,7 @@ public class PoController : Protas
                     _tempLastDash = Time.time;
                 }
             }
-            else if (Input.GetButtonDown("down"))
+            else if (Input.GetButtonDown("Down"))
             {
                 if (_lastDashDir != 4)
                 {

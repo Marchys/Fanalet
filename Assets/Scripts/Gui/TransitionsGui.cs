@@ -110,7 +110,7 @@ public class TransitionsGui : MonoBehaviourEx, IHandle<StartTransitionGuiMessage
     IEnumerator InNormalTransition()
     {
         Color tempColor = NormalTransitionGuiImage.color;
-        while (tempColor.a < 1)
+        while (tempColor.a < 0.5f)
         {
             tempColor.a += 0.05f;
             NormalTransitionGuiImage.color = tempColor;

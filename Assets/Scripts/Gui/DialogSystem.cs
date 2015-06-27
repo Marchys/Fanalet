@@ -70,7 +70,7 @@ public class DialogSystem : MonoBehaviourEx, IHandle<DialogueStartMessage>
     {
         while (true)
         {
-            if (Input.GetButtonDown("accio"))
+            if (Input.GetButtonDown("Action"))
             {
                 NextLine();
             }
