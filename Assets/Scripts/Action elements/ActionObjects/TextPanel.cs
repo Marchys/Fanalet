@@ -17,7 +17,6 @@ public class TextPanel : ActionE, IHandle<DialogueEndMessage>
         else
         {
             _firstDialog[0] = "---";
-           
         }
     }
 
@@ -32,5 +31,6 @@ public class TextPanel : ActionE, IHandle<DialogueEndMessage>
     public void Handle(DialogueEndMessage message)
     {
         if (message.MessageId != _idMessage) return;
+        Messenger.Publish(new ContinueMessage());
     }
 }

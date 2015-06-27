@@ -12,7 +12,7 @@ public static class Utils
    
     public static string[] Lines(string source)
     {
-        char[] archDelim = new char[] {'º'};
+        string[] archDelim = new string[] { "/nl/" };
         return source.Split(archDelim, StringSplitOptions.RemoveEmptyEntries);
     }
 
