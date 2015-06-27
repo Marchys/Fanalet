@@ -14,7 +14,7 @@ public class Vasey : ActionE, IHandle<DialogueEndMessage>, IHandle<EndPayLightho
     private int _lighthousesActivated = 0;
 
     // Use this for initialization
-    new void Start()
+    protected override void Start()
     {
         base.Start();
         if (TextFileDialogue1 != null && TextFileDialogue2 != null)

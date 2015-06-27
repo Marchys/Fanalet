@@ -29,6 +29,8 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
     bool attackCoroutineEnded = false;
     private GameObject spriteMinotaur;
     public GameObject crashGround;
+    private bool _deepsleep = false;
+    public TextAsset MinotaurWakeUpMessage;
     //definir variables maquina d'estats    
     public enum State
     {
@@ -48,6 +50,7 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
 
     public void setState(State state)
     {
+        if (_deepsleep) return;
         StateExit(currentStateName);
         currentStateName = state;
         switch (state)
@@ -188,7 +191,7 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
     #endregion
 
     #region funcions inici
-    new void Start()
+    protected override void Start()
     {
         character = Constants.Enemies.Minotaur;
         base.Start();
@@ -198,8 +201,23 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
         target = prota;
         ownRigidbody2D.mass = character.Mass;
         setState(State.Sleep);
+        _deepsleep = true;
         script_mapa = GetComponent<Mapa_General_p>();
         seeker.pathCallback += OnPathComplete;
+    }
+
+    private IEnumerator StartSleepingRoutine()
+    {
+        yield return new WaitForSeconds(120f);
+        if (_deepsleep)
+        {
+            _deepsleep = false;
+            setState(State.Patroll);
+            if (MinotaurWakeUpMessage != null)
+            {
+                Messenger.Publish(new GameEventsGuiMessage(Utils.Lines(MinotaurWakeUpMessage.text)));
+            }
+        }
     }
     #endregion
 
@@ -352,6 +370,7 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
     {
         if (other.gameObject.tag == "Prota" && currentStateName == State.Patroll)
         {
+            _deepsleep = false;
             setState(State.Chase);
         }
         if (other.CompareTag("LighthouseArea"))
@@ -379,9 +398,13 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
 
     public void Handle(ContinueMessage message)
     {
+        if (_deepsleep)
+        {
+            StartCoroutine(StartSleepingRoutine());
+        }
         setState(State.Patroll);
     }
-   
+
 
     public void Handle(ProtaEntersStructureMessage message)
     {

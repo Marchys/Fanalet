@@ -126,7 +126,7 @@ public class LostMiner : ActionE, IHandle<LighthouseActivatedMessage>, IHandle<D
     public override void Handle(ProtaEntersStructureMessage message)
     {
         base.Handle(message);
-        OldManGameObject.SetActive(false);
-        ShadowOldManGameObject.SetActive(false);
+        OldManGameObject.SetActive(true);
+        ShadowOldManGameObject.SetActive(true);
     }
 }

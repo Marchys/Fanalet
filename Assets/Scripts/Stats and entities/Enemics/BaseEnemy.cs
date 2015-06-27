@@ -21,7 +21,7 @@ public abstract class BaseEnemy : MonoBehaviourEx, IVulnerable<int>, IMort, IDoA
     //public SpriteRenderer sprite_ren_pro;
     //public SpriteRenderer sprite_ren_en;
 
-    protected void Start()
+    protected virtual void Start()
     {
         //sprite_ren_en = GetComponent<SpriteRenderer>();
         prota = GameObject.FindWithTag("Prota");

@@ -27,7 +27,7 @@ public class UpgratorGui : MonoBehaviourEx, IHandle<StartUpgradeGuiMessage>
         // show things that will change with the upgrade
         ExplanatoryText.text = "This upgrade contains:";
         if (_message.UpgradeStats.Attack != 0) ExplanatoryText.text += "\n<color=" + Constants.Colors.RedHeart + ">+ More attack </color>";
-        if (_message.UpgradeStats.MaxLife != 0) ExplanatoryText.text += "\n<color=" + Constants.Colors.YellowHeart + "> + More capacity</color>";
+        if (_message.UpgradeStats.MaxLife != 0) ExplanatoryText.text += "\n<color=" + Constants.Colors.YellowHeart + ">+ More capacity</color>";
         if (_message.UpgradeStats.BaseSpeed != 0) ExplanatoryText.text += "\n<color=" + Constants.Colors.BlueHeart + ">+ More speed </color>";
 
         RedHeartText.text = "X" + Mathf.Abs(_message.UpgradeStats.RedHearts);

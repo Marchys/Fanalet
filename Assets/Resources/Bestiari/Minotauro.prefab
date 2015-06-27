@@ -419,6 +419,8 @@ MonoBehaviour:
   ParticleDeath: {fileID: 177214, guid: b16fc31c35dd646498b69b7480d1d066, type: 2}
   currentStateName: 0
   crashGround: {fileID: 152752, guid: f5870b102a4d0a6439b511ae7c995aa4, type: 2}
+  MinotaurWakeUpMessage: {fileID: 4900000, guid: d67d068dab190764fbc0616f7cf8229b,
+    type: 3}
 --- !u!212 &21250514
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -477,7 +479,11 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications: []
+    m_Modifications:
+    - target: {fileID: 0}
+      propertyPath: MinotaurWakeUpMessage
+      value: 
+      objectReference: {fileID: 4900000, guid: d67d068dab190764fbc0616f7cf8229b, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 150522}
