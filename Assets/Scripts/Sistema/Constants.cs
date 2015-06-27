@@ -31,13 +31,6 @@ public static class Constants
         public const int YellowEnemyRoomId = 23;
         public const int AllEnemyRoomId = 24;
         public const int BossEnemyRoomId = 25;
-        // number of enemy rooms by type
-        public const int StandardEnemyRoomQuantity = 19;
-        public const int RedEnemyRoomQuantity = 12;
-        public const int BlueEnemyRoomQuantity = 10;
-        public const int YellowEnemyRoomQuantity = 7;
-        public const int AllEnemyRoomQuantity = 5;
-        public const int BossEnemyRoomQuantity = 1;
     }
 
     public static class Items

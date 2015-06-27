@@ -16,7 +16,7 @@ public class Supergenerador : MonoBehaviourEx
     // sala actual        
     //elements map   
     private GameObject _contenidorInst;
-    
+
     //References that will be used by the instantiator
     public Vector2 ProtaPosition;
     public Vector2 MinoPosition;
@@ -153,8 +153,8 @@ public class Supergenerador : MonoBehaviourEx
         LocateInAvailableQuadrant(Constants.RandomGeneration.ExitRoomId);
         //Sexta fase
         //Sales enemics (Sempre va l'últim!)
-        LocateEnemyRooms();
-       
+        LocateGeneralRooms();
+
     }
 
     #endregion
@@ -546,45 +546,118 @@ public class Supergenerador : MonoBehaviourEx
         _availableQuadrantsList.RemoveAt(tempRandom);
     }
 
-    private void LocateEnemyRooms()
+    private void LocateGeneralRooms()
     {
-        var allEmptyRooms = new List<Punt2d>();
-
+        var allEmptyRooms = new List<Punt2d>[4];
+        allEmptyRooms[0] = new List<Punt2d>();
+        allEmptyRooms[1] = new List<Punt2d>();
+        allEmptyRooms[2] = new List<Punt2d>();
+        allEmptyRooms[3] = new List<Punt2d>();
+        int roomCount = 0;
         for (var x = 0; x < _map.Width; ++x)
         {
             for (var y = 0; y < _map.Height; ++y)
             {
                 if (_map[x, y] == Constants.RandomGeneration.EmptyRoomId)
                 {
-                    allEmptyRooms.Add(new Punt2d(x, y));
+                    int inQuadrant = Quin_Quadrant(new Punt2d(x, y));
+                    allEmptyRooms[inQuadrant].Add(new Punt2d(x, y));
+                    roomCount++;
                 }
             }
         }
-        const int totalTheorycalRooms = Constants.RandomGeneration.StandardEnemyRoomQuantity + Constants.RandomGeneration.RedEnemyRoomQuantity + Constants.RandomGeneration.BlueEnemyRoomQuantity + Constants.RandomGeneration.YellowEnemyRoomQuantity + Constants.RandomGeneration.AllEnemyRoomQuantity + Constants.RandomGeneration.BossEnemyRoomQuantity;
-        if (allEmptyRooms.Count < totalTheorycalRooms)
-        {
-            var surpass = totalTheorycalRooms - allEmptyRooms.Count;
-            Error_fatal("Masses sales d'enemics, et passes per " + surpass);
-            return;
-        }
 
-        SetEnemyRooms(Constants.RandomGeneration.StandardEnemyRoomId, Constants.RandomGeneration.StandardEnemyRoomQuantity, allEmptyRooms);
-        SetEnemyRooms(Constants.RandomGeneration.RedEnemyRoomId, Constants.RandomGeneration.RedEnemyRoomQuantity, allEmptyRooms);
-        SetEnemyRooms(Constants.RandomGeneration.BlueEnemyRoomId, Constants.RandomGeneration.BlueEnemyRoomQuantity, allEmptyRooms);
-        SetEnemyRooms(Constants.RandomGeneration.YellowEnemyRoomId, Constants.RandomGeneration.YellowEnemyRoomQuantity, allEmptyRooms);
-        SetEnemyRooms(Constants.RandomGeneration.AllEnemyRoomId, Constants.RandomGeneration.AllEnemyRoomQuantity, allEmptyRooms);
-        SetEnemyRooms(Constants.RandomGeneration.BossEnemyRoomId, Constants.RandomGeneration.BossEnemyRoomQuantity, allEmptyRooms);
+        List<int> quadrantsList = new List<int> { 0, 1, 2, 3 };
+        quadrantsList.RemoveAt(_quadrantProta);
+        int[] possibleRooms = new[]
+        {
+            Constants.RandomGeneration.StandardEnemyRoomId,Constants.RandomGeneration.BlueEnemyRoomId, 
+            Constants.RandomGeneration.YellowEnemyRoomId,Constants.RandomGeneration.AllEnemyRoomId, 
+            Constants.RandomGeneration.BossEnemyRoomId, Constants.RandomGeneration.EmptyRoomId
+        };
+        SetRoomsInQuadrant(allEmptyRooms[_quadrantProta], possibleRooms, Constants.RandomGeneration.RedEnemyRoomId, 60);
+
+        possibleRooms = new[]
+        {
+            Constants.RandomGeneration.StandardEnemyRoomId, Constants.RandomGeneration.RedEnemyRoomId,
+            Constants.RandomGeneration.YellowEnemyRoomId,Constants.RandomGeneration.AllEnemyRoomId, 
+            Constants.RandomGeneration.BossEnemyRoomId, Constants.RandomGeneration.EmptyRoomId
+        };
+        int numberChosen = Random.Range(0, quadrantsList.Count);
+        SetRoomsInQuadrant(allEmptyRooms[quadrantsList[numberChosen]], possibleRooms, Constants.RandomGeneration.BlueEnemyRoomId, 60);
+        quadrantsList.RemoveAt(numberChosen);
+
+        possibleRooms = new[]
+        {
+            Constants.RandomGeneration.StandardEnemyRoomId, Constants.RandomGeneration.RedEnemyRoomId,
+            Constants.RandomGeneration.BlueEnemyRoomId,Constants.RandomGeneration.AllEnemyRoomId,
+            Constants.RandomGeneration.BossEnemyRoomId, Constants.RandomGeneration.EmptyRoomId
+        };
+        numberChosen = Random.Range(0, quadrantsList.Count);
+        SetRoomsInQuadrant(allEmptyRooms[quadrantsList[numberChosen]], possibleRooms, Constants.RandomGeneration.YellowEnemyRoomId, 60);
+        quadrantsList.RemoveAt(numberChosen);
+
+        possibleRooms = new[]
+        {
+            Constants.RandomGeneration.StandardEnemyRoomId, Constants.RandomGeneration.RedEnemyRoomId,
+            Constants.RandomGeneration.BlueEnemyRoomId, Constants.RandomGeneration.YellowEnemyRoomId,
+            Constants.RandomGeneration.AllEnemyRoomId, Constants.RandomGeneration.BossEnemyRoomId, Constants.RandomGeneration.EmptyRoomId
+        };
+        numberChosen = Random.Range(0, quadrantsList.Count);
+        SetRoomsInQuadrant(allEmptyRooms[quadrantsList[numberChosen]], possibleRooms);
+        quadrantsList.RemoveAt(numberChosen);
     }
 
-    private void SetEnemyRooms(int roomtype, int roomnumber, List<Punt2d> emptyroomsleft)
+    //danger can crash in some cases if values are wrong
+    private void SetRoomsInQuadrant(List<Punt2d> quadrantRooms, int[] roomsId, int mainRoomId = 404, int mainRoomChance = 404)
     {
-        for (var i = 0; i < roomnumber; i++)
+        int roomTypeCount = roomsId.Length;
+        while (quadrantRooms.Count > 0)
         {
-            var tempRandom = Random.Range(0, emptyroomsleft.Count);
-            _map[emptyroomsleft[tempRandom].X, emptyroomsleft[tempRandom].Y] = roomtype;
-            emptyroomsleft.RemoveAt(tempRandom);
+            int targetRoomIndex = Random.Range(0, quadrantRooms.Count);
+            if (mainRoomId == 404 || !Utils.ChanceTrue(mainRoomChance))
+            {
+                _map[quadrantRooms[targetRoomIndex].X, quadrantRooms[targetRoomIndex].Y] = roomsId[Random.Range(0, roomTypeCount)];
+            }
+            else
+            {
+                _map[quadrantRooms[targetRoomIndex].X, quadrantRooms[targetRoomIndex].Y] = mainRoomId;
+            }
+            quadrantRooms.RemoveAt(targetRoomIndex);
         }
     }
+
+    //private void SetEnemyRooms(int roomtype, int roomNumber, List<List<Punt2d>> emptyroomsleft)
+    //{
+    //    for (var i = 0; i < roomNumber; i++)
+    //    {
+    //        int targetQuadrantNumber = Random.Range(0, emptyroomsleft.Count);
+    //        if (emptyroomsleft[targetQuadrantNumber].Count != 0)
+    //        {
+    //            var targetRoomPosition = Random.Range(0, emptyroomsleft[targetQuadrantNumber].Count);
+    //            _map[emptyroomsleft[targetQuadrantNumber][targetRoomPosition].X, emptyroomsleft[targetRoomPosition][targetRoomPosition].Y] = roomtype;
+    //            emptyroomsleft.RemoveAt(targetRoomPosition);
+    //        }
+    //        else
+    //        {
+    //            emptyroomsleft.RemoveAt(targetQuadrantNumber);
+    //        }
+    //    }
+    //}
+
+    //private void SetEnemyRooms(int roomtype, int roomNumber, List<Punt2d> emptyroomsleft, int targetQuadrant, int chanceBuildQuadrant)
+    //{
+    //    for (var i = 0; i < emptyroomsleft.Count; i++)
+    //    {
+
+    //    }
+    //    for (var i = 0; i < roomNumber; i++)
+    //    {
+    //        var tempRandom = Random.Range(0, emptyroomsleft.Count);
+    //        _map[emptyroomsleft[tempRandom].X, emptyroomsleft[tempRandom].Y] = roomtype;
+    //        emptyroomsleft.RemoveAt(tempRandom);
+    //    }
+    //}
 
     #endregion
 
@@ -610,8 +683,8 @@ public class Supergenerador : MonoBehaviourEx
 
                         InstantiateTrigger(_poolMaterial.TriggEle[2], tempCambra.transform, new Punt2d(x, y));
                         break;
-                    
-                    case Constants.RandomGeneration.StandardEnemyRoomId:   
+
+                    case Constants.RandomGeneration.StandardEnemyRoomId:
                     case Constants.RandomGeneration.RedEnemyRoomId:
                     case Constants.RandomGeneration.BlueEnemyRoomId:
                     case Constants.RandomGeneration.YellowEnemyRoomId:
@@ -619,9 +692,9 @@ public class Supergenerador : MonoBehaviourEx
                     case Constants.RandomGeneration.BossEnemyRoomId:
                         var enemyroom = Instantiate(_poolMaterial.EnemyRoom(_map[x, y]), ToRealWorldPositionModified(x, y), Quaternion.identity) as GameObject;
                         var tempContenidor = Instantiate(ConstructMapa, ToRealWorldPosition(x, y), Quaternion.identity) as GameObject;
-                        
+
                         Colocar_blocks(Test_dir_blo(new Punt2d(x, y)), enemyroom);
-                        enemyroom.transform.SetParent(tempContenidor.transform,true);
+                        enemyroom.transform.SetParent(tempContenidor.transform, true);
                         tempContenidor.transform.SetParent(_contenidorInst.transform, true);
 
                         InstantiateTrigger(_poolMaterial.TriggEle[2], enemyroom.transform, new Punt2d(x, y));
@@ -716,7 +789,7 @@ public class Supergenerador : MonoBehaviourEx
         _shouldReset = true;
     }
 
-    
+
 
 }
 
