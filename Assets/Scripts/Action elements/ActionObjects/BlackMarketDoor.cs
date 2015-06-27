@@ -28,8 +28,9 @@ public class BlackMarketDoor : ActionE, IHandle<EndTransitionGuiMessage>
         if (message.MessageId != _idMessage) return;
         if (_firstTransition)
         {
-            Camera.main.transform.position = marketLocation;
-            Prota.transform.position = marketLocation;
+            var modifiedMarketPosition= new Vector2(marketLocation.x, marketLocation.y-3.5f);
+            Camera.main.transform.position = modifiedMarketPosition;
+            Prota.transform.position = modifiedMarketPosition;
             Messenger.Publish(new ProtaEntersStructureMessage());
             StartCoroutine(ShowAgain());
             _firstTransition = false;

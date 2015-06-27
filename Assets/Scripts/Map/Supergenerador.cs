@@ -764,7 +764,7 @@ public class Supergenerador : MonoBehaviourEx
 
                         blackMarketExterior.GetComponentInChildren<BlackMarketDoor>().marketLocation = ToRealWorldPosition(-10, 10);
 
-                        var blackMarketInterior = Instantiate(_poolMaterial.BlackMarketInterior, ToRealWorldPositionModified(-10, 10), Quaternion.identity) as GameObject;
+                        var blackMarketInterior = Instantiate(_poolMaterial.BlackMarketInterior, ToRealWorldPosition(-10, 10), Quaternion.identity) as GameObject;
                         blackMarketInterior.transform.SetParent(blackMarketExterior.transform, true);
 
                         blackMarketInterior.GetComponentInChildren<BlackMarketExit>().exitLocation = ToRealWorldPosition(x, y);
