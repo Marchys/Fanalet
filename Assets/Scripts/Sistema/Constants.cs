@@ -221,9 +221,9 @@ public static class Constants
     {
         public static readonly int[] LighthousesActivation = { 10, 40, 60, 80 };
         public static readonly BaseCaracterStats PriceTools = new BaseCaracterStats { BlueHearts = -5, YellowHearts = -5};
-        public static readonly BaseCaracterStats UpgradeOne = new BaseCaracterStats { Attack = 1, MaxLife = 50, RedHearts = -10 };
-        public static readonly BaseCaracterStats UpgradeTwo = new BaseCaracterStats { BaseSpeed = 75, MaxLife = 50, BlueHearts = -7 };
-        public static readonly BaseCaracterStats UpgradeThree = new BaseCaracterStats { Attack = 1, MaxLife = 150, YellowHearts = -5 };
+        public static readonly BaseCaracterStats UpgradeOne = new BaseCaracterStats { Attack = 1, MaxLife = 50, RedHearts = -7};
+        public static readonly BaseCaracterStats UpgradeTwo = new BaseCaracterStats { BaseSpeed = 75, MaxLife = 50, BlueHearts = -5 };
+        public static readonly BaseCaracterStats UpgradeThree = new BaseCaracterStats { Attack = 1, MaxLife = 150, YellowHearts = -3 };
         public static readonly BaseCaracterStats UpgradeFour = new BaseCaracterStats { Attack = 1, BaseSpeed = 75, MaxLife = 50, RedHearts = -5, BlueHearts = -5, YellowHearts = -5 };
     }
 

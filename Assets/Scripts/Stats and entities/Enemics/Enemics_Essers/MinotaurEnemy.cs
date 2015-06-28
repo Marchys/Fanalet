@@ -70,6 +70,7 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
                 currentState = Attack;
                 break;
             case State.Chase:
+                Messenger.Publish(new GameEventsGuiMessage(new string[2] {"The Minotaur has found you!","hide inside a lighthouse!" }));
                 character.CurrentSpeed = character.AgroSpeed;
                 Messenger.Publish(new MinotaurChaseMessage());
                 gestor = 0;
@@ -208,7 +209,7 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
 
     private IEnumerator StartSleepingRoutine()
     {
-        yield return new WaitForSeconds(120f);
+        yield return new WaitForSeconds(240f);
         if (_deepsleep)
         {
             _deepsleep = false;
@@ -368,6 +369,11 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
     #region triggers i colliders
     void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.tag == "Prota" && _deepsleep)
+        {
+            _deepsleep = false;
+            setState(State.Chase);
+        }
         if (other.gameObject.tag == "Prota" && currentStateName == State.Patroll)
         {
             _deepsleep = false;
