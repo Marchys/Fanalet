@@ -22,24 +22,24 @@ public class Cheat : MonoBehaviourEx {
 
 	void Update () {
         //dev cheats
-        if (Input.GetKeyDown(KeyCode.Keypad7))
-        {
-            if (ProtaStats == null)
-            {
-                ProtaStats = GameObject.FindWithTag("Prota").GetComponent<Protas>().Character;
-            }
-             ProtaStats.UpdateStats(_MaterialStats,Messenger);
+        //if (Input.GetKeyDown(KeyCode.Keypad7))
+        //{
+        //    if (ProtaStats == null)
+        //    {
+        //        ProtaStats = GameObject.FindWithTag("Prota").GetComponent<Protas>().Character;
+        //    }
+        //     ProtaStats.UpdateStats(_MaterialStats,Messenger);
             
-        }
-        if (Input.GetKeyDown(KeyCode.Keypad8))
-        {
-            if (ProtaStats == null)
-            {
-                ProtaStats = GameObject.FindWithTag("Prota").GetComponent<Protas>().Character;
-            }
-            ProtaStats.UpdateStats(_BaseStats, Messenger);
+        //}
+        //if (Input.GetKeyDown(KeyCode.Keypad8))
+        //{
+        //    if (ProtaStats == null)
+        //    {
+        //        ProtaStats = GameObject.FindWithTag("Prota").GetComponent<Protas>().Character;
+        //    }
+        //    ProtaStats.UpdateStats(_BaseStats, Messenger);
             
-        }
+        //}
 
 	}
 }
