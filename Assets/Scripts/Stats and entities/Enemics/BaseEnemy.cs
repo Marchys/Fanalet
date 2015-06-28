@@ -47,8 +47,8 @@ public abstract class BaseEnemy : MonoBehaviourEx, IVulnerable<int>, IMort, IDoA
     {
         if (!character.Immortal)
         {
-            //StopCoroutine("Flash_red");
-            //StartCoroutine("Flash_red");
+            StopCoroutine("Flash_red");
+            StartCoroutine("Flash_red");
             character.Life -= mal;
             if (character.Life <= 0) Mort();
         }
