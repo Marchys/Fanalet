@@ -73,7 +73,13 @@ public class LostMiner : ActionE, IHandle<LighthouseActivatedMessage>, IHandle<D
     IEnumerator WinCorutine()
     {
         yield return new WaitForSeconds(1f);
-        transform.parent.gameObject.GetComponent<Renderer>().enabled = false;
+        var ownParent = transform.parent.gameObject;
+        ownParent.GetComponent<Renderer>().enabled=false;
+        Renderer[] renderers =  ownParent.GetComponentsInChildren<Renderer>();
+        foreach (Renderer r in renderers)
+        {
+            r.enabled = false;
+        }
         Prota.SetActive(false);
         Messenger.Publish(new WinGameMessage());
     }

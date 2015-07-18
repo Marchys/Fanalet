@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngineInternal;
 
 public class Gen_rpota : MonoBehaviourEx, IHandle<EndTransitionGuiMessage>
 {
@@ -27,5 +26,8 @@ public class Gen_rpota : MonoBehaviourEx, IHandle<EndTransitionGuiMessage>
     {
         if (message.MessageId != _idMessage) return;
         temp_prota.GetComponent<Protas>().Activat = true;
+        BaseCaracterStats specialIslandLife = new BaseCaracterStats(){Life = 2000000};
+        BaseProtagonistStats tempProtaStats = temp_prota.GetComponent<Protas>().Character;
+        tempProtaStats.UpdateStats(specialIslandLife,Messenger);
     }
 }

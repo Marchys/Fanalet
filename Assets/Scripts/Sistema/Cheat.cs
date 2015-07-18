@@ -9,14 +9,14 @@ public class Cheat : MonoBehaviourEx {
 	
     void Start()
     {
-        _MaterialStats.MaxLife = 2000;
-        _MaterialStats.Life = 2000;
-        _MaterialStats.RedHearts = 99;
-        _MaterialStats.BlueHearts = 99;
-        _MaterialStats.YellowHearts = 99;
+        _MaterialStats.MaxLife = 100;
+        _MaterialStats.Life = 100;
+        _MaterialStats.RedHearts = 10;
+        _MaterialStats.BlueHearts = 10;
+        _MaterialStats.YellowHearts = 10;
 
         _BaseStats.BaseSpeed = 75f;
-        _BaseStats.Attack = 5;
+        _BaseStats.Attack = 1;
     }
 	
 
@@ -28,8 +28,8 @@ public class Cheat : MonoBehaviourEx {
         //    {
         //        ProtaStats = GameObject.FindWithTag("Prota").GetComponent<Protas>().Character;
         //    }
-        //     ProtaStats.UpdateStats(_MaterialStats,Messenger);
-            
+        //    ProtaStats.UpdateStats(_MaterialStats, Messenger);
+
         //}
         //if (Input.GetKeyDown(KeyCode.Keypad8))
         //{
@@ -38,8 +38,12 @@ public class Cheat : MonoBehaviourEx {
         //        ProtaStats = GameObject.FindWithTag("Prota").GetComponent<Protas>().Character;
         //    }
         //    ProtaStats.UpdateStats(_BaseStats, Messenger);
-            
         //}
+        //if (Input.GetKeyDown(KeyCode.Keypad9))
+        //{
+        //    Messenger.Publish(new RevealMapMessage());
+        //}
+
 
 	}
 }

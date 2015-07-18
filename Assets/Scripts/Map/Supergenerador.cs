@@ -572,8 +572,8 @@ public class Supergenerador : MonoBehaviourEx
         int[] possibleRooms = new[]
         {
             Constants.RandomGeneration.StandardEnemyRoomId,Constants.RandomGeneration.BlueEnemyRoomId, 
-            Constants.RandomGeneration.YellowEnemyRoomId,Constants.RandomGeneration.AllEnemyRoomId, 
-            Constants.RandomGeneration.BossEnemyRoomId, Constants.RandomGeneration.EmptyRoomId
+           Constants.RandomGeneration.AllEnemyRoomId,Constants.RandomGeneration.BossEnemyRoomId,
+           Constants.RandomGeneration.EmptyRoomId
         };
         SetRoomsInQuadrant(allEmptyRooms[_quadrantProta], possibleRooms, Constants.RandomGeneration.RedEnemyRoomId, 60);
 

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Gen_mapa;
 using UnityEngine.UI;
 
-public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
+public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>, IHandle<RevealMapMessage>
 {
     public GameObject VerticalCorridorGameObject;
     public GameObject HorizontalCorridorGameObject;
@@ -123,6 +123,16 @@ public class MiniMapLayout : MonoBehaviourEx, IHandle<EnterAreaMessage>
             if (miniMapLayout[xCoor, yCoor].activeInHierarchy) continue;
             miniMapLayout[xCoor, yCoor].SetActive(true);
             miniMapLayout[xCoor, yCoor].GetComponent<Image>().color = new Color32(255, 255, 255, 50);
+        }
+    }
+
+    public void Handle(RevealMapMessage message)
+    {
+        foreach (GameObject mapComponent in miniMapLayout)
+        {
+            if (mapComponent == null) continue;
+            mapComponent.SetActive(true);
+            mapComponent.GetComponent<Image>().color = new Color32(255, 255, 255, 255);
         }
     }
 }

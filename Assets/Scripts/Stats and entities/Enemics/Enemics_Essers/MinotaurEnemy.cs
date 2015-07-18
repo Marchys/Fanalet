@@ -31,6 +31,7 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
     public GameObject crashGround;
     private bool _deepsleep = false;
     public TextAsset MinotaurWakeUpMessage;
+    private bool _isChasing;
     //definir variables maquina d'estats    
     public enum State
     {
@@ -59,6 +60,7 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
                 character.CurrentSpeed = character.BaseSpeed;
                 ha_llis = false;
                 variableSpeed = 0;
+                _isChasing = false;
                 currentState = Patroll;
                 break;
             case State.Sleep:
@@ -70,11 +72,12 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
                 currentState = Attack;
                 break;
             case State.Chase:
-                Messenger.Publish(new GameEventsGuiMessage(new string[2] {"The Minotaur has found you!","hide inside a lighthouse!" }));
+                if(!_isChasing)Messenger.Publish(new GameEventsGuiMessage(new string[2] { "The Minotaur has found you!", "hide inside a lighthouse!" }));
                 character.CurrentSpeed = character.AgroSpeed;
                 Messenger.Publish(new MinotaurChaseMessage());
                 gestor = 0;
                 variableSpeed = 0;
+                _isChasing = true;
                 currentState = Chase;
                 break;
             default:
@@ -414,6 +417,7 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
 
     public void Handle(ProtaEntersStructureMessage message)
     {
+        if(_isChasing) Messenger.Publish(new GameEventsGuiMessage(new string[2] { "The Minotaur has lost you", "Wait a bit and he'll go" }));
         setState(State.Patroll);
     }
 
