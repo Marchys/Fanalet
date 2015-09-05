@@ -417,7 +417,7 @@ public class MinotaurEnemy : BaseEnemy, IHandle<ContinueMessage>, IHandle<ProtaE
 
     public void Handle(ProtaEntersStructureMessage message)
     {
-        if(_isChasing) Messenger.Publish(new GameEventsGuiMessage(new string[2] { "The Minotaur has lost you", "Wait a bit and he'll go" }));
+        if(_isChasing) Messenger.Publish(new GameEventsGuiMessage(new string[2] { "The Minotaur has lost you", "Wait a bit and he'll go away" }));
         setState(State.Patroll);
     }
 
