@@ -12853,7 +12853,7 @@ RectTransform:
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
   m_AnchoredPosition: {x: -2.28881836e-05, y: 65}
-  m_SizeDelta: {x: 577, y: 130}
+  m_SizeDelta: {x: 955, y: 130}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1784681382
 MonoBehaviour:
@@ -12880,7 +12880,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'And one again the maze rests
+  m_Text: 'And once again the maze rests
 
 '
 --- !u!222 &1784681383
